@@ -1,4 +1,4 @@
-# web_serverver_gymkhana_bot
+# Gymkhana bot webserver
 Web server for setting gymkhana bot.
 
 ### What does this project do?
