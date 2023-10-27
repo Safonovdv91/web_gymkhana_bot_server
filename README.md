@@ -1,5 +1,13 @@
 # web_serverver_gymkhana_bot
 Web server for setting gymkhana bot.
+## Tech:
+- FastApi
+- pydantic
+- postgresql
+- alembic
+- celery
+- flower
+- redis
 
 ### What does this project do?
   Создание веб-сервиса (сайта) с настройками и управлением уведомлений через телеграмм-бота.
