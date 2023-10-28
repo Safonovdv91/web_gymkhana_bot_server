@@ -1,0 +1,17 @@
+version: "3.0"
+services:
+  db:
+    container_name: "local-db"
+    image: postgres:15.4-alpine
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=postgres
+    ports:
+      - "5434:5432"
+    networks:
+      - custom
+networks:
+  custom:
+    driver: bridge
