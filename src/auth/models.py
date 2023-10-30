@@ -1,8 +1,8 @@
 from datetime import datetime
 from typing import Optional
 
-from sqlalchemy import (JSON, TIMESTAMP, Boolean, Column, ForeignKey, Integer,
-                        String, Table, MetaData)
+from fastapi_users_db_sqlalchemy import SQLAlchemyBaseUserTable
+from sqlalchemy import Boolean, MetaData
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import Mapped, mapped_column
 
@@ -10,7 +10,8 @@ from src.database import Base
 
 metadata = MetaData()
 
-class User(Base):
+
+class User(SQLAlchemyBaseUserTable[int],Base):
     __tablename__ = "users"
 
     id: Mapped[int] = mapped_column(primary_key=True)
@@ -26,13 +27,17 @@ class User(Base):
     email: Mapped[Optional[str]] = mapped_column(unique=True)
     registered_at: Mapped[datetime] = mapped_column(default=datetime.utcnow)
 
+    is_active: Mapped[bool] = mapped_column(Boolean, default=True, )
+    is_superuser: Mapped[bool] = mapped_column(Boolean, default=False)
+    is_verified: Mapped[bool] = mapped_column(Boolean, default=False)
+
 
 class UserDAL:
     def __init__(self, db_session: AsyncSession):
         self.db_session = db_session
 
     async def create_user(
-            self, login: str, password: str, email:str
+            self, login: str, password: str, email: str
     ) -> User:
         new_user = User(
             hashed_password=password,
