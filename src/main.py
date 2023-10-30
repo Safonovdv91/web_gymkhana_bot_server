@@ -37,9 +37,15 @@ async def _create_new_user(body: UserCreate) -> ShowUser:
             )
 
 
-@user_router.post("/", response_model=ShowUser)
-async def create_user(body: UserCreate) -> ShowUser:
-    return await _create_new_user(body)
+
+@user_router.post("/")
+async def create_user(body: UserCreate):
+    result = await _create_new_user(body)
+    return {
+            "status": "success",
+            "data": result,
+            "details": None
+        }
 
 # Создание главного роутера
 main_api_router = APIRouter()
