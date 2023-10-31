@@ -4,3 +4,8 @@ fastapi[all]
 fastapi-users[sqlalchemy]
 python-dotenv
 sqlalchemy
+
+flake8
+black
+isort
+pre-commit
