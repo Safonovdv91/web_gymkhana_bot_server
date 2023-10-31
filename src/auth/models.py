@@ -8,7 +8,6 @@ from sqlalchemy.orm import Mapped, mapped_column
 
 from src.database import Base
 import pydantic
-import itsdangerous
 
 metadata = MetaData()
 
