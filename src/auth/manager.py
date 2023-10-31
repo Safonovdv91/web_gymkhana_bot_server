@@ -1,5 +1,5 @@
 import uuid
-imsd s
+imsd ssda
 from typing import Optional
 
 from config import SECRET_AUTH_MANAGER
