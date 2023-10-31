@@ -1,17 +1,7 @@
 from datetime import datetime
 from typing import Optional
 
-from sqlalchemy import (
-    JSON,
-    TIMESTAMP,
-    Boolean,
-    Column,
-    ForeignKey,
-    Integer,
-    MetaData,
-    String,
-    Table,
-)
+from sqlalchemy import MetaData
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import Mapped, mapped_column
 
