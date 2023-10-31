@@ -1,5 +1,5 @@
 import uuid
-imsd ssda
+imsd ssdaweq
 from typing import Optional
 
 from config import SECRET_AUTH_MANAGER
