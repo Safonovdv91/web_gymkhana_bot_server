@@ -1,8 +1,11 @@
 import uvicorn
 from fastapi import APIRouter, FastAPI
+from fastapi_users import FastAPIUsers
 
-from src.auth.models import UserDAL
-from src.auth.schemas import ShowUser, UserCreate
+from src.auth.auth import auth_backend
+from src.auth.manager import get_user_manager
+from src.auth.models import UserDAL, User
+from src.auth.schemas import UserCreate, UserRead
 from src.database import async_session_maker
 
 
@@ -11,14 +14,35 @@ app = FastAPI(title="RabbitMG")
 user_router = APIRouter()
 
 
-async def _create_new_user(body: UserCreate) -> ShowUser:
+# ----------
+fastapi_users = FastAPIUsers[User, int](
+    get_user_manager,
+    [auth_backend],
+)
+
+app.include_router(
+    fastapi_users.get_auth_router(auth_backend),
+    prefix="/auth/jwt",
+    tags=["auth"],
+)
+
+app.include_router(
+    fastapi_users.get_register_router(UserRead, UserCreate),
+    prefix="/auth",
+    tags=["auth"],
+)
+# -------
+
+
+
+async def _create_new_user(body: UserCreate) -> UserRead:
     async with async_session_maker() as session:
         async with session.begin():
             user_dal = UserDAL(session)
             user = await user_dal.create_user(
                 login=body.login, password=body.password, email=body.email
             )
-            return ShowUser(
+            return UserRead(
                 id=user.id,
                 ggp_percent_begin=user.ggp_percent_begin,
                 ggp_percent_end=user.ggp_percent_end,
