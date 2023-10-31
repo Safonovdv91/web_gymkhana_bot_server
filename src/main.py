@@ -1,5 +1,6 @@
 import uvicorn
 from fastapi import APIRouter, FastAPI
+
 from src.auth.models import UserDAL
 from src.auth.schemas import ShowUser, UserCreate
 from src.database import async_session_maker
