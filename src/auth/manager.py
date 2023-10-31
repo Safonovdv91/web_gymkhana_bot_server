@@ -1,11 +1,10 @@
 import uuid
 from typing import Optional
 
+from config import SECRET_AUTH_MANAGER
 from fastapi import Depends, Request
 from fastapi_users import BaseUserManager, IntegerIDMixin
 from models import User
-
-from config import SECRET_AUTH_MANAGER
 
 from ..database import get_user_db
 

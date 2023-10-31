@@ -1,12 +1,11 @@
 from typing import TYPE_CHECKING, AsyncGenerator, Optional
 
+from config import DB_HOST, DB_NAME, DB_PASS, DB_PORT, DB_USER
 from fastapi import Depends
 from fastapi_users_db_sqlalchemy import SQLAlchemyUserDatabase
 from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
 from sqlalchemy.ext.declarative import DeclarativeMeta, declarative_base
 from sqlalchemy.orm import sessionmaker
-
-from config import DB_HOST, DB_NAME, DB_PASS, DB_PORT, DB_USER
 
 
 if TYPE_CHECKING:
