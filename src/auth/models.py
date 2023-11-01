@@ -37,6 +37,8 @@ class User(SQLAlchemyBaseUserTable[int], Base):
     is_superuser: Mapped[bool] = mapped_column(Boolean, default=False)
     is_verified: Mapped[bool] = mapped_column(Boolean, default=False)
 
+    is_pidor: Mapped[bool] = mapped_column(Boolean, default=False, nullable=False)
+
 
 class UserDAL:
     def __init__(self, db_session: AsyncSession):
