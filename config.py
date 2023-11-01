@@ -2,6 +2,7 @@ import os
 
 from dotenv import load_dotenv
 
+
 load_dotenv()
 
 DB_HOST = os.environ.get("DB_HOST")
@@ -20,4 +21,6 @@ REDIS_HOST = os.environ.get("REDIS_HOST")
 REDIS_PORT = os.environ.get("REDIS_PORT")
 
 SECRET_AUTH = os.environ.get("SECRET_AUTH")
+
 SECRET_AUTH_MANAGER = os.environ.get("SECRET_AUTH_MANAGER")
+

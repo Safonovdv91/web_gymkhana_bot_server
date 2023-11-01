@@ -1,4 +1,5 @@
 import uvicorn
+
 from fastapi import APIRouter, Depends, FastAPI
 from fastapi_users import FastAPIUsers
 
@@ -55,6 +56,7 @@ async def _create_new_user(body: UserCreate) -> UserRead:
                 login=user.login,
                 email=user.email,
                 registered_at=user.registered_at,
+                is_active=user.is_active,
             )
 
 
@@ -64,6 +66,7 @@ async def create_user(body: UserCreate):
     return {"status": "success", "data": result, "details": None}
 
 
+
 # # Создание главного роутера
 # main_api_router = APIRouter()
 # # настройка роутеров для
@@ -71,6 +74,7 @@ async def create_user(body: UserCreate):
 #     user_router, prefix="/user", tags=["user2", "login"]
 # )
 # app.include_router(main_api_router)
+
 
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=8000)

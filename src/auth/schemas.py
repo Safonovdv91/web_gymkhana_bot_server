@@ -2,8 +2,9 @@ import re
 from datetime import datetime
 
 from fastapi import HTTPException
+
 from fastapi_users import schemas
-from pydantic import BaseModel, EmailStr, field_validator
+
 
 
 LETTER_MATCH_PATTERN = re.compile(r"^[а-яА-Яa-zA-Z\-]+$")
