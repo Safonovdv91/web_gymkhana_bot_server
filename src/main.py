@@ -10,11 +10,8 @@ from src.database import async_session_maker
 
 
 app = FastAPI(title="RabbitMG")
-
 user_router = APIRouter()
 
-
-# ----------
 fastapi_users = FastAPIUsers[User, int](
     get_user_manager,
     [auth_backend],
@@ -31,8 +28,12 @@ app.include_router(
     prefix="/auth",
     tags=["auth"],
 )
-# -------
 
+app.include_router(
+    fastapi_users.get_verify_router(UserRead),
+    prefix="/auth",
+    tags=["auth"],
+)
 
 
 async def _create_new_user(body: UserCreate) -> UserRead:
@@ -63,13 +64,13 @@ async def create_user(body: UserCreate):
     return {"status": "success", "data": result, "details": None}
 
 
-# Создание главного роутера
+# # Создание главного роутера
 main_api_router = APIRouter()
-# настройка роутеров для
-main_api_router.include_router(
-    user_router, prefix="/user", tags=["user", "login"]
-)
-app.include_router(main_api_router)
+# # настройка роутеров для
+# main_api_router.include_router(
+#     user_router, prefix="/user", tags=["user2", "login"]
+# )
+# app.include_router(main_api_router)
 
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=8000)

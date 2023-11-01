@@ -1,7 +1,7 @@
 from datetime import datetime
 from typing import Optional
 
-from fastapi_users_db_sqlalchemy import SQLAlchemyBaseUserTable
+from fastapi_users.db import SQLAlchemyBaseUserTable
 from sqlalchemy import Boolean, MetaData
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import Mapped, mapped_column

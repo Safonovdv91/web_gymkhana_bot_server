@@ -2,11 +2,12 @@ from typing import Optional
 
 from fastapi import Depends, Request
 from fastapi_users import BaseUserManager, IntegerIDMixin
-from models import User
+
 
 from config import SECRET_AUTH_MANAGER
+from .models import User
 
-from ..database import get_user_db
+from src.auth.utils import get_user_db
 
 
 SECRET = SECRET_AUTH_MANAGER
