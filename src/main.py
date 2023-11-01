@@ -1,5 +1,4 @@
 import uvicorn
-
 from fastapi import APIRouter, Depends, FastAPI
 from fastapi_users import FastAPIUsers
 
@@ -64,7 +63,6 @@ async def _create_new_user(body: UserCreate) -> UserRead:
 async def create_user(body: UserCreate):
     result = await _create_new_user(body)
     return {"status": "success", "data": result, "details": None}
-
 
 
 # # Создание главного роутера

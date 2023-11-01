@@ -1,10 +1,8 @@
 import re
 from datetime import datetime
 
-from fastapi import HTTPException
-
 from fastapi_users import schemas
-
+from pydantic import EmailStr
 
 
 LETTER_MATCH_PATTERN = re.compile(r"^[а-яА-Яa-zA-Z\-]+$")
@@ -25,18 +23,5 @@ class UserRead(schemas.BaseUser[int]):
 
 class UserCreate(schemas.BaseUserCreate):
     login: str
-    email: EmailStr
-    password: str
-
-    @field_validator("login")
-    def validate_login(cls, value):
-        if not LETTER_MATCH_PATTERN.match(value):
-            raise HTTPException(
-                status_code=422, detail="Login should contains only latters"
-            )
-        return value
-
-
-class UserLogin(BaseModel):
     email: EmailStr
     password: str

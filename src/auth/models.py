@@ -1,9 +1,7 @@
 from datetime import datetime
 from typing import Optional
 
-
 from fastapi_users.db import SQLAlchemyBaseUserTable
-
 from sqlalchemy import Boolean, MetaData
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import Mapped, mapped_column
@@ -12,7 +10,6 @@ from src.database import Base
 
 
 metadata = MetaData()
-
 
 
 class User(SQLAlchemyBaseUserTable[int], Base):
@@ -57,7 +54,6 @@ class UserDAL:
         self.db_session = db_session
 
     async def create_user(self, login: str, password: str, email: str) -> User:
-
         new_user = User(hashed_password=password, login=login, email=email)
 
         self.db_session.add(new_user)
