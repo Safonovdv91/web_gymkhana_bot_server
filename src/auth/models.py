@@ -1,6 +1,7 @@
 from datetime import datetime
 from typing import Optional
 
+
 from sqlalchemy import Boolean, MetaData
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import Mapped, mapped_column
@@ -19,6 +20,7 @@ class User(Base):
     ggp_percent_begin: Mapped[int] = mapped_column(
         default=100,
     )
+
     ggp_percent_end: Mapped[int] = mapped_column(default=160)
     sub_ggp_percent: Mapped[int] = mapped_column(default=False)
     sub_offline: Mapped[bool] = mapped_column(default=False)
