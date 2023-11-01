@@ -1,0 +1,139 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+}
+
+main {
+    background-image: url(assets/ilya-andreev-iYp1cRQSiAg-unsplash.jpg);
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+input {
+    color: rgb(92, 88, 88);
+    height: 41px;
+    width: 100%;
+    border-radius: 5px;
+    border: 1px solid #000;
+    font-style: normal;
+    line-height: normal;
+    padding-left: 51px;
+}
+
+input:focus {
+    outline: none;
+    border: #4446bb;
+
+}
+
+.register-form-container {
+    opacity: 0;
+    max-width: 394px;
+    height: 394px;
+    flex-shrink: 0;
+    border-radius: 10px;
+    background: #CACACA;
+    padding: 16px 53px 50px 53px;
+    animation-name: fadeForm;
+    animation-duration: 1s;
+    animation-timing-function: ease-in-out;
+    animation-delay: 0s;
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
+}
+
+@keyframes fadeForm {
+    0% {
+        opacity: 0;
+    }
+    25% {
+        opacity: .25;
+    }
+    50% {
+        opacity: .5;
+    }
+    75% {
+        opacity: .75;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+.form-title {
+    text-align: center;
+    color: #333;
+    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    font-size: 24px;
+    font-weight: 400;
+    line-height: 23px;
+    margin-bottom: 12px;
+}
+
+.form-field {
+    margin-bottom: 5px;
+}
+
+.button {
+    font-weight: 400;
+    font-size: 20px;
+    text-align: center;
+    display: block;
+    width: 281px;
+    height: 50px;
+    flex-shrink: 0;
+    color: white;
+    border-radius: 20px;
+    background: #474747;
+    line-height: 45px;
+    cursor: pointer;
+}
+
+.button:hover {
+    background-color: grey;
+}
+
+a.button {
+    text-decoration: none;
+}
+
+.divider {
+    display: inline;
+    color: #686868;
+    font-size: 13px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    padding-top: 24px;
+    padding-bottom: 50px;
+}
+
+.button-here {
+    display: inline;
+    border-radius: 10px;
+    background: #474747;
+    width: 44px;
+    height: 20px;
+    flex-shrink: 0;
+    color: #FFF;
+    font-size: 13px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    text-align: center;
+    text-transform: lowercase;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+.button-here:hover {
+    background-color: grey;
+}

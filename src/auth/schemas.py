@@ -2,23 +2,17 @@ import re
 from datetime import datetime
 
 from fastapi import HTTPException
-from pydantic import BaseModel, EmailStr, field_validator
+
+from fastapi_users import schemas
+
 
 
 LETTER_MATCH_PATTERN = re.compile(r"^[а-яА-Яa-zA-Z\-]+$")
 
 
-class TuneModel(BaseModel):
-    """
-    Модель конвертирующая любой объект в json
-    """
-
-    class Config:
-        orm_mode = True
-
-
-class ShowUser(TuneModel):
+class UserRead(schemas.BaseUser[int]):
     id: int
+    email: EmailStr
     ggp_percent_begin: int
     ggp_percent_end: int
     sub_ggp_percent: bool
@@ -29,10 +23,10 @@ class ShowUser(TuneModel):
     registered_at: datetime
 
 
-class UserCreate(BaseModel):
+class UserCreate(schemas.BaseUserCreate):
     login: str
-    password: str
     email: EmailStr
+    password: str
 
     @field_validator("login")
     def validate_login(cls, value):

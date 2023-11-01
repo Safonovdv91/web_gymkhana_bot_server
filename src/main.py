@@ -1,24 +1,50 @@
 import uvicorn
-from fastapi import APIRouter, FastAPI
 
-from src.auth.models import UserDAL
-from src.auth.schemas import ShowUser, UserCreate
+from fastapi import APIRouter, Depends, FastAPI
+from fastapi_users import FastAPIUsers
+
+from src.auth.auth import auth_backend
+from src.auth.manager import get_user_manager
+from src.auth.models import User, UserDAL
+from src.auth.schemas import UserCreate, UserRead
 from src.database import async_session_maker
 
 
 app = FastAPI(title="RabbitMG")
-
 user_router = APIRouter()
 
+fastapi_users = FastAPIUsers[User, int](
+    get_user_manager,
+    [auth_backend],
+)
+current_user = fastapi_users.current_user()
 
-async def _create_new_user(body: UserCreate) -> ShowUser:
+app.include_router(
+    fastapi_users.get_auth_router(auth_backend),
+    prefix="/auth/jwt",
+    tags=["auth"],
+)
+
+app.include_router(
+    fastapi_users.get_register_router(UserRead, UserCreate),
+    prefix="/auth",
+    tags=["auth"],
+)
+
+
+@app.get("/protected-route")
+def protected_route(user: User = Depends(current_user)):
+    return f"Hello, {user.login} you are {user.email}"
+
+
+async def _create_new_user(body: UserCreate) -> UserRead:
     async with async_session_maker() as session:
         async with session.begin():
             user_dal = UserDAL(session)
             user = await user_dal.create_user(
                 login=body.login, password=body.password, email=body.email
             )
-            return ShowUser(
+            return UserRead(
                 id=user.id,
                 ggp_percent_begin=user.ggp_percent_begin,
                 ggp_percent_end=user.ggp_percent_end,
@@ -40,13 +66,15 @@ async def create_user(body: UserCreate):
     return {"status": "success", "data": result, "details": None}
 
 
-# Создание главного роутера
-main_api_router = APIRouter()
-# настройка роутеров для
-main_api_router.include_router(
-    user_router, prefix="/user", tags=["user", "login"]
-)
-app.include_router(main_api_router)
+
+# # Создание главного роутера
+# main_api_router = APIRouter()
+# # настройка роутеров для
+# main_api_router.include_router(
+#     user_router, prefix="/user", tags=["user2", "login"]
+# )
+# app.include_router(main_api_router)
+
 
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=8000)
