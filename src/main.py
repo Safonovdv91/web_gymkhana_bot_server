@@ -30,6 +30,7 @@ async def _create_new_user(body: UserCreate) -> ShowUser:
                 login=user.login,
                 email=user.email,
                 registered_at=user.registered_at,
+                is_active=user.is_active,
             )
 
 
