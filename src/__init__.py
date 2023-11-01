@@ -1,6 +1,4 @@
-__all__ = (
-    "User"
-)
+__all__ = "User"
 
 from .auth.models import User
 from .database import Base
