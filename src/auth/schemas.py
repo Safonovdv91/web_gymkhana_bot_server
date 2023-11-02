@@ -2,7 +2,7 @@ import re
 from datetime import datetime
 
 from fastapi_users import schemas
-from pydantic import EmailStr
+from pydantic import BaseModel, EmailStr
 
 
 LETTER_MATCH_PATTERN = re.compile(r"^[а-яА-Яa-zA-Z\-]+$")
@@ -26,3 +26,14 @@ class UserCreate(schemas.BaseUserCreate):
     login: str
     email: EmailStr
     password: str
+
+
+class RoleCreate(BaseModel):
+    name: str
+    description: str
+
+
+class RoleRead(BaseModel):
+    id: str
+    name: str
+    description: str
