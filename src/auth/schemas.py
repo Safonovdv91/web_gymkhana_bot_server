@@ -19,6 +19,7 @@ class UserRead(schemas.BaseUser[int]):
     sub_world_record: bool
     telegram_id: str | None
     registered_at: datetime
+    role_id: int
 
 
 class UserCreate(schemas.BaseUserCreate):

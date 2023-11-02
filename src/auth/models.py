@@ -1,10 +1,10 @@
 from datetime import datetime
-from typing import Optional
+from typing import Optional, List
 
 from fastapi_users.db import SQLAlchemyBaseUserTable
-from sqlalchemy import Boolean, MetaData, false
+from sqlalchemy import Boolean, MetaData, false, String, ForeignKey
 from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from src.database import Base
 
@@ -57,6 +57,21 @@ class User(SQLAlchemyBaseUserTable[int], Base):
         Boolean, default=False, nullable=False, server_default=false()
     )
 
+    role_id: Mapped[int] = mapped_column(ForeignKey("roles.id"), default=1)
+
+    role: Mapped["Role"] = relationship(back_populates="users")
+
+
+class Role(Base):
+    __tablename__ = "roles"
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    name: Mapped[str] = mapped_column(String(10), unique=True)
+    description: Mapped[str | None] = mapped_column()
+
+    users: Mapped[List["User"]] = relationship(
+        back_populates="role"
+    )
 
 class UserDAL:
     def __init__(self, db_session: AsyncSession):
