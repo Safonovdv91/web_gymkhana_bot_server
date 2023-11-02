@@ -1,26 +1,26 @@
 import uvicorn
 from fastapi import Depends, FastAPI
 
-from src.auth.auth_config import auth_backend, fastapi_users
+from src.auth.auth_config import auth_backend, current_user, fastapi_users
 from src.auth.models import User, UserDAL
+from src.auth.routers import router as auth_router
+from src.auth.routers import router_role
 from src.auth.schemas import UserCreate, UserRead
 from src.database import async_session_maker
 
 
 app = FastAPI(title="RabbitMG")
 
-current_user = fastapi_users.current_user()
-
 app.include_router(
     fastapi_users.get_auth_router(auth_backend),
     prefix="/auth/jwt",
-    tags=["auth"],
+    tags=["auth", "user"],
 )
 
 app.include_router(
     fastapi_users.get_register_router(UserRead, UserCreate),
     prefix="/auth",
-    tags=["auth"],
+    tags=["auth", "user"],
 )
 
 
@@ -29,18 +29,8 @@ def protected_route(user: User = Depends(current_user)):
     return f"Hello, {user.login} you are {user.email} and your role is {user.role_id}"
 
 
-fake_user = [{"user1": 1}, {"user2": 2}]
-
-
-@app.get("/users")
-async def get_user():
-    result = [*fake_user]
-    return {"status": "success", "data": result, "details": None}
-
-
-@app.get("/roles/{role_id}")
-async def get_role(role_id):
-    return {"status": "success", "data": role_id, "details": None}
+app.include_router(auth_router)
+app.include_router(router_role)
 
 
 async def _create_new_user(body: UserCreate) -> UserRead:
