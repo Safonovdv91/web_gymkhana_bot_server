@@ -2,6 +2,7 @@ from fastapi import APIRouter, Depends, HTTPException
 from fastapi_users.schemas import model_dump
 from sqlalchemy import delete, insert, select
 from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy.orm import selectinload
 
 from src.auth.auth_config import current_user
 from src.auth.models import Role, User
@@ -20,12 +21,14 @@ async def get_users(
     session: AsyncSession = Depends(get_async_session),
     user: User = Depends(current_user),
 ):
-    stmt = select(User)
+    stmt = select(User).options(selectinload(User.role))
+    result = await session.execute(stmt)
     users = []
-    for user in await session.scalars(stmt):
-        users.append(user)
-    result = users
-    return {"status": "success", "data": result, "details": None}
+    for row in result.scalars():
+        user = row
+        users.append({"name": user.id, "role": user.role.name})
+
+    return {"status": "success", "data": users, "details": None}
 
 
 @router_role.post("/role")
