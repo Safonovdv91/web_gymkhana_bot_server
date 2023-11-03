@@ -37,3 +37,15 @@ class RoleRead(BaseModel):
     id: str
     name: str
     description: str
+
+
+class OkResponse(BaseModel):
+    status: int
+    data: dict
+    details: str
+
+
+class CreatedResponse(BaseModel):
+    status: int
+    data: dict
+    details: str
