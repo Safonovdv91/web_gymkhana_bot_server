@@ -1,3 +1,5 @@
+from typing import Optional
+
 from fastapi import APIRouter, Depends, HTTPException
 from fastapi_users.schemas import model_dump
 from sqlalchemy import delete, insert, select
@@ -7,17 +9,30 @@ from starlette import status
 
 from src.auth.auth_config import current_user
 from src.auth.models import Role, User
-from src.auth.schemas import CreatedResponse, OkResponse, RoleCreate
+from src.auth.schemas import (
+    CreatedResponse,
+    OkResponse,
+    OkResponseUser,
+    RoleCreate,
+)
 from src.database import get_async_session
 
 
 fake_user = [{"user1": 1}, {"user2": 2}]
-router = APIRouter(prefix="/user", tags=["user"])
+router = APIRouter(prefix="/users", tags=["user"])
 
-router_role = APIRouter(prefix="/role", tags=["user", "role"])
+router_role = APIRouter(prefix="/roles", tags=["user", "role"])
 
 
-@router.get("/get")
+@router.get(
+    "/get",
+    responses={
+        status.HTTP_200_OK: {
+            "model": OkResponseUser,  # custom pydantic model for 200 response
+            "description": "Ok Response",
+        },
+    },
+)
 async def get_users(
     session: AsyncSession = Depends(get_async_session),
     user: User = Depends(current_user),
@@ -30,7 +45,14 @@ async def get_users(
         users.append(
             {
                 "id": user.id,
+                "login": user.login,
                 "email": user.email,
+                "sub_ggp_percent": user.sub_ggp_percent,
+                "ggp_percent_begin": user.ggp_percent_begin,
+                "ggp_percent_end": user.ggp_percent_end,
+                "sub_offline": user.sub_offline,
+                "sub_ggp": user.sub_ggp,
+                "sub_world_record": user.sub_world_record,
                 "registered_at": user.registered_at,
                 "telegram_id": user.telegram_id,
                 "role": user.role.name,
@@ -77,7 +99,14 @@ async def add_role(
         await session.commit()
     except Exception as e:
         print(e)
-        raise HTTPException(status_code=500)
+        raise HTTPException(
+            status_code=500,
+            detail={
+                "status": "success",
+                "data": model_dump(new_role),
+                "details": f"some information about error",
+            },
+        )
     return {
         "status": "success",
         "data": new_role,
