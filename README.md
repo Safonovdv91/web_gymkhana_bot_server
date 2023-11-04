@@ -1,4 +1,4 @@
-# Gymkhana bot webserver(serv)
+# Gymkhana bot webserver.
 Web server for setting gymkhana bot.
 ## Tech:
 - FastApi
