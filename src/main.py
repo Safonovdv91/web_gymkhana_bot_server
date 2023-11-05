@@ -1,22 +1,15 @@
 import uvicorn
-from fastapi import APIRouter, Depends, FastAPI
-from fastapi_users import FastAPIUsers
+from fastapi import Depends, FastAPI
 
-from src.auth.auth import auth_backend
-from src.auth.manager import get_user_manager
-from src.auth.models import User, UserDAL
-from src.auth.schemas import UserCreate, UserRead
-from src.database import async_session_maker
+from src.auth.auth_config import auth_backend, current_user, fastapi_users
+from src.auth.models import User
+from src.users.routers import router as auth_router
+from src.users.routers import router_role
+from src.users.schemas import UserCreate, UserRead
 
 
 app = FastAPI(title="RabbitMG")
-user_router = APIRouter()
 
-fastapi_users = FastAPIUsers[User, int](
-    get_user_manager,
-    [auth_backend],
-)
-current_user = fastapi_users.current_user()
 
 app.include_router(
     fastapi_users.get_auth_router(auth_backend),
@@ -27,42 +20,16 @@ app.include_router(
 app.include_router(
     fastapi_users.get_register_router(UserRead, UserCreate),
     prefix="/auth",
-    tags=["auth"],
+    tags=["auth", "user"],
 )
+
+app.include_router(auth_router)
+app.include_router(router_role)
 
 
 @app.get("/protected-route")
 def protected_route(user: User = Depends(current_user)):
-    return f"Hello, {user.login} you are {user.email}"
-
-
-async def _create_new_user(body: UserCreate) -> UserRead:
-    async with async_session_maker() as session:
-        async with session.begin():
-            user_dal = UserDAL(session)
-            user = await user_dal.create_user(
-                login=body.login, password=body.password, email=body.email
-            )
-            return UserRead(
-                id=user.id,
-                ggp_percent_begin=user.ggp_percent_begin,
-                ggp_percent_end=user.ggp_percent_end,
-                sub_ggp_percent=user.sub_ggp_percent,
-                sub_offline=user.sub_offline,
-                sub_ggp=user.sub_ggp,
-                sub_world_record=user.sub_world_record,
-                telegram_id=user.telegram_id,
-                login=user.login,
-                email=user.email,
-                registered_at=user.registered_at,
-                is_active=user.is_active,
-            )
-
-
-@user_router.post("/")
-async def create_user(body: UserCreate):
-    result = await _create_new_user(body)
-    return {"status": "success", "data": result, "details": None}
+    return f"Hello, {user.login} you are {user.email} and your role is {user.role_id}"
 
 
 # # Создание главного роутера
