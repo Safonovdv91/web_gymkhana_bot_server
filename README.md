@@ -1,5 +1,5 @@
-# Gymkhana bot webserver.
-Web server for setting gymkhana bot.
+# Gymkhana bot webserver!
+Web server for setting gymkhana bot!!!
 ## Tech:
 - FastApi
 - pydantic
