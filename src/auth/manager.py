@@ -9,7 +9,7 @@ from fastapi_users import (
     schemas,
 )
 
-from config import SECRET_AUTH_MANAGER
+from src.config import SECRET_AUTH_MANAGER
 from src.auth.utils import get_user_db
 
 from .models import User

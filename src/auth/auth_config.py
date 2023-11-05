@@ -5,7 +5,7 @@ from fastapi_users.authentication import (
     JWTStrategy,
 )
 
-from config import SECRET_AUTH
+from src.config import SECRET_AUTH
 from src.auth.manager import get_user_manager
 from src.auth.models import User
 

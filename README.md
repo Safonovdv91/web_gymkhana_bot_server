@@ -21,6 +21,43 @@ Web server for setting gymkhana bot!!!
 ### Where can I get more help, if I need it?
   tg: @SoftikMy1
   Открыт для общения/предложений новых фич в проекте
+
+### Project Structure
+```
+fastapi-project  
+├── alembic/  
+├──  src  
+│   ├── auth  
+│   │   ├── auth_config.py # authentication config
+│   │   ├── routers.py  
+│   │   ├── schemas.py  # pydantic models  
+│   │   ├── models.py  # db models User & Role  
+│   │   └── utils.py  
+│   ├── pages  
+│   │   ├── assets/  
+│   │   ├── icons/  
+│   │   ├── register.css  
+│   │   ├── register.html  
+│   └── users  
+│   │   ├── routers.py  
+│   │   ├── schemas.py  # pydantic models  
+│   │   ├── models.py  
+│   ├── config.py  # global configs  
+│   ├── models.py  # global models  
+│   ├── exceptions.py  # global exceptions  
+│   ├── database.py  # db connection related stuff  
+│   └── main.py  
+├── tests/  
+│   ├── auth  
+│   └── posts  
+├── templates/  
+├── .env  
+├── env # example of .env   
+├── .gitignore  
+├── logging.ini  
+├── docker-compose.yml # docker command for start Docker-conteiners  
+└── alembic.ini
+```
 ***
 ## Этап разработки
 - [ ] Авторизация пользователя
