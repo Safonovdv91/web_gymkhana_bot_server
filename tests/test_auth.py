@@ -39,25 +39,34 @@ def test_register_post():
     assert response.status_code == 201, "User not add"
 
 
-async def test_register_get(ac: AsyncClient):
-    response = await ac.post("/auth/register", json={
-        "email": "user5@example.com",
-        "password": "string",
-        "is_active": True,
-        "is_superuser": False,
-        "is_verified": False,
-        "login": "string"
-    })
-    assert response.status_code == 201, "User add register"
+def test_register_post_duplicate():
+    response = client.post(
+        url="/auth/register",
+        json={
+            "email": "user3@example.com",
+            "password": "string",
+            "is_active": True,
+            "is_superuser": False,
+            "is_verified": False,
+            "login": "string"
+        }
+    )
+
+    assert response.status_code == 400, "Duplicat was added"
 
 
-async def test_register_get_(ac: AsyncClient):
-    response = await ac.post("/auth/register", json={
-        "email": "user5@example.com",
-        "password": "string",
-        "is_active": True,
-        "is_superuser": False,
-        "is_verified": False,
-        "login": "string"
-    })
-    assert response.status_code == 201, "User add register"
+def test_register_post_not_all_data():
+    response = client.post(
+        url="/auth/register",
+        json={
+            "email": "user_valid@example.com",
+            "password": "string",
+            "login": "Loh"
+        }
+    )
+    assert response.status_code == 201, "Duplicat was added"
+
+
+async def test_register_get_not_all_data(ac: AsyncClient):
+    response = await ac.get("/users/get/user_id=2")
+    assert response.json()["data"]["email"] == "user_valid@example.com", "User is not valid"
