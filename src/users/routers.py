@@ -6,7 +6,7 @@ from sqlalchemy.orm import selectinload
 from starlette import status
 
 from src.auth.auth_config import current_user
-from src.auth.models import Role, User
+from src.users.models import Role, User
 from src.database import get_async_session
 from src.schemas import OkResponse
 from src.users.schemas import CreatedResponse, RoleCreate

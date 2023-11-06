@@ -12,7 +12,7 @@ from fastapi_users import (
 from src.auth.utils import get_user_db
 from src.config import SECRET_AUTH_MANAGER
 
-from .models import User
+from src.users.models import User
 
 
 SECRET = SECRET_AUTH_MANAGER
