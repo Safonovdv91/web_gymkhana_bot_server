@@ -18,7 +18,7 @@ DATABASE_URL = (
 
 Base: DeclarativeMeta = declarative_base()
 
-metadata = MetaData()
+metadata = Base.metadata
 
 engine = create_async_engine(DATABASE_URL, echo=True)
 async_session_maker = async_sessionmaker(
