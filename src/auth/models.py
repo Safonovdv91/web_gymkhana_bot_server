@@ -3,7 +3,6 @@ from typing import List, Optional
 
 from fastapi_users.db import SQLAlchemyBaseUserTable
 from sqlalchemy import Boolean, ForeignKey, MetaData, String, false
-from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from src.database import Base

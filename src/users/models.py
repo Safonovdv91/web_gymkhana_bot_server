@@ -61,7 +61,6 @@ class User(SQLAlchemyBaseUserTable[int], Base):
         }
 
 
-
 class Role(Base):
     __tablename__ = "roles"
 
