@@ -1,3 +1,4 @@
+from httpx import AsyncClient
 from sqlalchemy import insert, select
 
 from src.users.models import Role
@@ -22,7 +23,7 @@ async def test_add_role():
         await session.commit()
 
 
-def test_register():
+def test_register_post():
     response = client.post(
         url="/auth/register",
         json={
@@ -36,3 +37,27 @@ def test_register():
     )
 
     assert response.status_code == 201, "User not add"
+
+
+async def test_register_get(ac: AsyncClient):
+    response = await ac.post("/auth/register", json={
+        "email": "user5@example.com",
+        "password": "string",
+        "is_active": True,
+        "is_superuser": False,
+        "is_verified": False,
+        "login": "string"
+    })
+    assert response.status_code == 201, "User add register"
+
+
+async def test_register_get_(ac: AsyncClient):
+    response = await ac.post("/auth/register", json={
+        "email": "user5@example.com",
+        "password": "string",
+        "is_active": True,
+        "is_superuser": False,
+        "is_verified": False,
+        "login": "string"
+    })
+    assert response.status_code == 201, "User add register"
