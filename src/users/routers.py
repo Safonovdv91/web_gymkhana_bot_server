@@ -54,6 +54,110 @@ async def get_users(
     return {"status": "success", "data": users, "details": None}
 
 
+@router.get("/get/user_id={user_id}")
+async def get_user_id(
+    user_id: int, session: AsyncSession = Depends(get_async_session)
+):
+    stmt = select(User).where(User.id == user_id)
+    result = await session.scalar(stmt)
+    if result is None:
+        raise HTTPException(
+            status_code=404,
+            detail={
+                "status": "success",
+                "data": user_id,
+                "details": f"User email={user_id} not exist",
+            },
+        )
+    return {"status": "success", "data": result.__str__(), "details": None}
+
+
+@router.get("/get/email={email}")
+async def get_user_email(
+    email: str, session: AsyncSession = Depends(get_async_session)
+):
+    stmt = select(User).where(User.email == email)
+    result = await session.scalar(stmt)
+    if result is None:
+        raise HTTPException(
+            status_code=404,
+            detail={
+                "status": "success",
+                "data": email,
+                "details": f"User email={email} not exist",
+            },
+        )
+    return {"status": "success", "data": result.__str__(), "details": None}
+
+
+@router.delete(
+    "/delete/email={email}",
+    responses={
+        status.HTTP_200_OK: {
+            "model": OkResponse,  # custom pydantic model for 200 response
+            "description": "Deleting user by id",
+        },
+    },
+)
+async def del_user_email(
+    email: str,
+    session: AsyncSession = Depends(get_async_session),
+    # user: User = Depends(current_user),
+):
+    stmt = select(User).where(User.email == email)
+    result = await session.scalar(stmt)
+    if result is None:
+        raise HTTPException(
+            status_code=404,
+            detail={
+                "status": "success",
+                "data": email,
+                "details": f"User email={email} not exist",
+            },
+        )
+    stmt = delete(User).where(User.email == email)
+    await session.execute(stmt)
+    await session.commit()
+
+    return {
+        "status": "success",
+        "data": None,
+        "details": f"{email} Was deleted",
+    }
+
+
+@router.delete(
+    "/delete/id={user_id}",
+    responses={
+        status.HTTP_200_OK: {
+            "model": OkResponse,  # custom pydantic model for 200 response
+            "description": "Deleting user by id",
+        },
+    },
+)
+async def del_user_id(
+    user_id: int,
+    session: AsyncSession = Depends(get_async_session),
+    # user: User = Depends(current_user),
+):
+    stmt = select(User).where(User.id == user_id)
+    result = await session.scalar(stmt)
+    if result is None:
+        raise HTTPException(
+            status_code=404,
+            detail={
+                "status": "success",
+                "data": user_id,
+                "details": f"User id={user_id} not exist",
+            },
+        )
+    stmt = delete(User).where(User.id == user_id)
+    await session.execute(stmt)
+    await session.commit()
+
+    return {"status": "success", "data": result, "details": "Was deleted"}
+
+
 @router_role.post(
     "/add",
     # response_model=**,
@@ -71,7 +175,7 @@ async def get_users(
             "description": "Creates role from user request ",
         },
         status.HTTP_401_UNAUTHORIZED: {
-            "model": CreatedResponse,  # custom pydantic model for 201 response
+            "model": CreatedResponse,  # custom pydantic model for 401 response
             "description": "UNAUTHORIZED",
         },
         # status.HTTP_202_ACCEPTED: {
