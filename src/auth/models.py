@@ -3,7 +3,6 @@ from typing import List, Optional
 
 from fastapi_users.db import SQLAlchemyBaseUserTable
 from sqlalchemy import Boolean, ForeignKey, MetaData, String, false
-from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from src.database import Base
@@ -74,13 +73,13 @@ class Role(Base):
     users: Mapped[List["User"]] = relationship(back_populates="role")
 
 
-class UserDAL:
-    def __init__(self, db_session: AsyncSession):
-        self.db_session = db_session
-
-    async def create_user(self, login: str, password: str, email: str) -> User:
-        new_user = User(hashed_password=password, login=login, email=email)
-
-        self.db_session.add(new_user)
-        await self.db_session.flush()
-        return new_user
+# class UserDAL:
+#     def __init__(self, db_session: AsyncSession):
+#         self.db_session = db_session
+#
+#     async def create_user(self, login: str, password: str, email: str) -> User:
+#         new_user = User(hashed_password=password, login=login, email=email)
+#
+#         self.db_session.add(new_user)
+#         await self.db_session.flush()
+#         return new_user

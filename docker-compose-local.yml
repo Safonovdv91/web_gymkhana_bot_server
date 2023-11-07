@@ -12,6 +12,24 @@ services:
       - "5434:5432"
     networks:
       - custom
+  db-test:
+    container_name: "test_db"
+    image: postgres:15.4-alpine
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=test_db
+    ports:
+      - "6000:5432"
+    networks:
+      - custom
+
+
 networks:
   custom:
     driver: bridge
+
+
+
+
