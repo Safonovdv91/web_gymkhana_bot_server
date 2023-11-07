@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, Request
 from starlette.templating import Jinja2Templates
 
-from src.users.routers import get_users
+from src.users.routers import get_user_id, get_users
 
 
 router = APIRouter(prefix="/pages", tags=["Pages"])
@@ -21,6 +21,9 @@ def get_users_page(request: Request, usr=Depends(get_users)):
     )
 
 
-@router.get("/register")
-def get_base_page(request: Request):
-    return templates.TemplateResponse("register.html", {"request": request})
+@router.get("/get_users/{user_id}")
+def get_users_page_id(request: Request, usr=Depends(get_user_id)):
+    print(usr["data"])
+    return templates.TemplateResponse(
+        "getusers.html", {"request": request, "users": usr["data"]}
+    )

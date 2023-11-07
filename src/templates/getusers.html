@@ -11,16 +11,20 @@
 
 {% block content %}
 <div class="flex justify-center flex-col items-center">
-    {% for operation in users %}
+     <div class="flex my-3 gap-5">
+        <input id="id_user_search" type="text" placeholder="id пользователя" class="text-xl">
+        <button onclick="searchUserById()" class="border-2 rounded-3xl bg-gray-300 p-3">Поиск по ID</button>
+    </div>
+    {% for user in users %}
         <div class="flex rounded-3 border-2 p-4 mt-5">
             <div class="flex flex-col">
-                <div class="text-2xl font-bold"> User # {{ operation["id"] }}</div>
-                <span class="text-lg">{{ operation["email"] }}</span>
-                <span class="text-lg">{{ operation["registered_at"] }}</span>
-                <span class="text-lg"><text font-weight="bold">sub GGP</text>: {{ operation["sub_ggp_percent"] }}</span>
-                <span class="text-lg">sub off-line: {{ operation["sub_offline"] }}</span>
-                <span class="text-lg">sub off-line: {{ operation["sub_offline"] }}</span>
-                <span class="text-lg">sub world record: {{ operation["sub_world_record"] }}</span>
+                <div class="text-2xl font-bold"> User # {{ user["id"] }}</div>
+                <span class="text-lg">{{ user["email"] }}</span>
+                <span class="text-lg">{{ user["registered_at"] }}</span>
+                <span class="text-lg"><text font-weight="bold">sub GGP</text>: {{ user["sub_ggp_percent"] }}</span>
+                <span class="text-lg">sub off-line: {{ user["sub_offline"] }}</span>
+                <span class="text-lg">sub off-line: {{ user["sub_offline"] }}</span>
+                <span class="text-lg">sub world record: {{ user["sub_world_record"] }}</span>
             </div>
         </div>
     {% endfor %}
