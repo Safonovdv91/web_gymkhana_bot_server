@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block head %}
+<script>
+    const searchForOperation = () => {
+        const searchInputValue = document.getElementById("operation_search").value;
+        window.location.href = `/pages/get_users/${searchInputValue}`;
+    }
+</script>
+{% endblock %}
+
+{% block content %}
+<div class="flex justify-center flex-col items-center">
+    {% for operation in users %}
+        <div class="flex rounded-3 border-2 p-4 mt-5">
+            <div class="flex flex-col">
+                <div class="text-2xl font-bold"> User # {{ operation["id"] }}</div>
+                <span class="text-lg">{{ operation["email"] }}</span>
+                <span class="text-lg">{{ operation["registered_at"] }}</span>
+                <span class="text-lg"><text font-weight="bold">sub GGP</text>: {{ operation["sub_ggp_percent"] }}</span>
+                <span class="text-lg">sub off-line: {{ operation["sub_offline"] }}</span>
+                <span class="text-lg">sub off-line: {{ operation["sub_offline"] }}</span>
+                <span class="text-lg">sub world record: {{ operation["sub_world_record"] }}</span>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}

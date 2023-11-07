@@ -27,7 +27,7 @@ router_role = APIRouter(prefix="/roles", tags=["role"])
 )
 async def get_users(
     session: AsyncSession = Depends(get_async_session),
-    user: User = Depends(current_user),
+    # user: User = Depends(current_user),
 ):
     stmt = select(User).options(selectinload(User.role))
     result = await session.execute(stmt)
