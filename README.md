@@ -28,10 +28,10 @@ fastapi-project
 ├── alembic/  
 ├──  src  
 │   ├── auth  
-│   │   ├── auth_config.py # authentication config
+│   │   ├── auth_config.py  # authentication config
 │   │   ├── routers.py  
-│   │   ├── schemas.py  # pydantic models  
-│   │   ├── models.py  # db models User & Role  
+│   │   ├── schemas.py      # pydantic models  
+│   │   ├── models.py       # db models User & Role  
 │   │   └── utils.py  
 │   ├── pages  
 │   │   ├── assets/  
@@ -42,14 +42,15 @@ fastapi-project
 │   │   ├── routers.py  
 │   │   ├── schemas.py  # pydantic models  
 │   │   ├── models.py  
-│   ├── config.py  # global configs  
-│   ├── models.py  # global models  
-│   ├── exceptions.py  # global exceptions  
-│   ├── database.py  # db connection related stuff  
+│   ├── config.py       # global configs  
+│   ├── models.py       # global models  
+│   ├── exceptions.py   # global exceptions  
+│   ├── database.py     # db connection related stuff  
 │   └── main.py  
 ├── tests/  
-│   ├── auth  
-│   └── posts  
+│   ├── conftest
+│   ├── test_auth   # test "auth" endpoints
+│   └── test_user   # test "users" endpoints
 ├── templates/  
 ├── .env  
 ├── env # example of .env   
