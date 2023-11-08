@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block head %}
+<script>
+    const searchUserById = () => {
+        const searchInputValue = document.getElementById("id_user_search").value;
+        window.location.href = `/pages/get_users/${searchInputValue}`;
+    }
+</script>
+
+{% endblock %}
+
+{% block content %}
+<div class="flex justify-center flex-col items-center">
+     <div class="flex my-3 gap-5">
+        <input id="id_user_search" type="text" placeholder="id пользователя" class="text-xl">
+        <button onclick="searchUserById()" class="border-2 rounded-3xl bg-gray-300 p-3">Поиск по ID</button>
+     </div>
+    <div>
+        <div class="text-2xl font-bold"> Пользователя не существует </div>
+    </div>
+</div>
+{% endblock %}

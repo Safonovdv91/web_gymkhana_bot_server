@@ -10,6 +10,15 @@
     <title>Форма регистрации</title>
     <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
   </head>
+<script>
+    const registrationNewUser = () => {
+        const login = document.getElementById("user_login").value;
+        const email = document.getElementById("operation_search").value;
+        const password = document.getElementById("operation_search").value;
+
+        window.location.href = `/pages/register/login=${login}email=${email}pass=${password}`;
+    }
+</script>
   <body>
     <main>
         <div class="circle"></div>
@@ -17,23 +26,21 @@
             <h1 class="form-title">Регистрация</h1>
             <div class="form-fields">
                 <div class="form-field">
-                    <input type="text" placeholder="Ваш логин">
+                    <input id="user_login" type="text" placeholder="Ваш логин">
                 </div>
                 <div class="form-field">
-                    <input type="text" placeholder="E-Mail">
+                    <input id="user_email" type="text" placeholder="E-Mail">
                 </div>
                 <div class="form-field">
                     <input type="password" placeholder="Пароль">
                 </div>
                 <div class="form-field">
-                    <input type="password" placeholder="Повторите пароль">
+                    <input id="user_password" type="password" placeholder="Повторите пароль">
                 </div>
             </div>
         <div class="form-buttons">
-            <button class="button">Зарегистрироваться</button>
+            <button class="button" onclick="registrationNewUser()">Зарегистрироваться</button>
             <div class="divider">Если у вас уже есть аккаунт, нажмите</div>
-            <!--<a hrev="https://myaccount.google.com" class="button button-here">Сюда</a>-->
-            <a href="https://myaccount.google.com" target="_blank"class="button button-here">Сюда</a>
         </div>
         </div>
     </main>

@@ -34,14 +34,15 @@ fastapi-project
 │   │   ├── models.py       # db models User & Role  
 │   │   └── utils.py  
 │   ├── pages  
-│   │   ├── assets/  
-│   │   ├── icons/  
-│   │   ├── register.css  
-│   │   ├── register.html  
-│   └── users  
+│   │   └──  routers.py     #file with routers pages
+│   ├── templatese/     # html pages
+│   │   ├──  base.html      # common part of html
+│   │   ├──  getusers.html  # page get users & get users by id
+│   │   ├──  not_exist.html # page error 404
+│   ├── users  
 │   │   ├── routers.py  
 │   │   ├── schemas.py  # pydantic models  
-│   │   ├── models.py  
+│   │   └── models.py  
 │   ├── config.py       # global configs  
 │   ├── models.py       # global models  
 │   ├── exceptions.py   # global exceptions  
