@@ -11,7 +11,6 @@ from src.database import Base
 
 class User(SQLAlchemyBaseUserTable[int], Base):
     __tablename__ = "users"
-
     id: Mapped[int] = mapped_column(primary_key=True)
     hashed_password: Mapped[str] = mapped_column(nullable=False)
     ggp_percent_begin: Mapped[int] = mapped_column(
@@ -38,9 +37,7 @@ class User(SQLAlchemyBaseUserTable[int], Base):
     is_verified: Mapped[bool] = mapped_column(
         Boolean, default=False, nullable=False, server_default=false()
     )
-
     role_id: Mapped[int] = mapped_column(ForeignKey("roles.id"), default=1)
-
     role: Mapped["Role"] = relationship(back_populates="users")
 
     def __repr__(self):
@@ -48,9 +45,9 @@ class User(SQLAlchemyBaseUserTable[int], Base):
 
     def __str__(self):
         return {
-            "User": self.id,
-            "email": self.email,
+            "id": self.id,
             "login": self.login,
+            "email": self.email,
             "sub_ggp_percent": self.sub_ggp_percent,
             "ggp_percent_begin": self.ggp_percent_begin,
             "ggp_percent_end": self.ggp_percent_end,
@@ -58,6 +55,8 @@ class User(SQLAlchemyBaseUserTable[int], Base):
             "sub_ggp": self.sub_ggp,
             "sub_world_record": self.sub_world_record,
             "registered_at": self.registered_at,
+            "telegram_id": self.telegram_id,
+            # "role": self.role.name,
         }
 
 
