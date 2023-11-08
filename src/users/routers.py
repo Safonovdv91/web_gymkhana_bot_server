@@ -51,43 +51,79 @@ async def get_users(
             }
         )
 
-    return {"status": "success", "data": users, "details": None}
+    return {"status": "Success", "data": users, "details": None}
 
 
 @router.get("/get/user_id={user_id}")
 async def get_user_id(
     user_id: int, session: AsyncSession = Depends(get_async_session)
 ):
-    stmt = select(User).where(User.id == user_id)
+    stmt = (
+        select(User).options(selectinload(User.role)).where(User.id == user_id)
+    )
     result = await session.scalar(stmt)
     if result is None:
         raise HTTPException(
             status_code=404,
             detail={
-                "status": "success",
+                "status": "Not exist",
                 "data": user_id,
                 "details": f"User email={user_id} not exist",
             },
         )
-    return {"status": "success", "data": result.__str__(), "details": None}
+    result = {
+        "id": result.id,
+        "login": result.login,
+        "email": result.email,
+        "sub_ggp_percent": result.sub_ggp_percent,
+        "ggp_percent_begin": result.ggp_percent_begin,
+        "ggp_percent_end": result.ggp_percent_end,
+        "sub_offline": result.sub_offline,
+        "sub_ggp": result.sub_ggp,
+        "sub_world_record": result.sub_world_record,
+        "registered_at": result.registered_at,
+        "telegram_id": result.telegram_id,
+        "role": result.role.name,
+    }
+
+    return {"status": "Success", "data": result, "details": None}
 
 
 @router.get("/get/email={email}")
 async def get_user_email(
     email: str, session: AsyncSession = Depends(get_async_session)
 ):
-    stmt = select(User).where(User.email == email)
+    stmt = (
+        select(User)
+        .options(selectinload(User.role))
+        .where(User.email == email)
+    )
     result = await session.scalar(stmt)
     if result is None:
         raise HTTPException(
             status_code=404,
             detail={
-                "status": "success",
+                "status": "Not exist",
                 "data": email,
                 "details": f"User email={email} not exist",
             },
         )
-    return {"status": "success", "data": result.__str__(), "details": None}
+    result = {
+        "id": result.id,
+        "login": result.login,
+        "email": result.email,
+        "sub_ggp_percent": result.sub_ggp_percent,
+        "ggp_percent_begin": result.ggp_percent_begin,
+        "ggp_percent_end": result.ggp_percent_end,
+        "sub_offline": result.sub_offline,
+        "sub_ggp": result.sub_ggp,
+        "sub_world_record": result.sub_world_record,
+        "registered_at": result.registered_at,
+        "telegram_id": result.telegram_id,
+        "role": result.role.name,
+    }
+
+    return {"status": "Success", "data": result, "details": None}
 
 
 @router.delete(
@@ -110,7 +146,7 @@ async def del_user_email(
         raise HTTPException(
             status_code=404,
             detail={
-                "status": "success",
+                "status": "Success",
                 "data": email,
                 "details": f"User email={email} not exist",
             },
@@ -120,7 +156,7 @@ async def del_user_email(
     await session.commit()
 
     return {
-        "status": "success",
+        "status": "Success",
         "data": None,
         "details": f"{email} Was deleted",
     }
@@ -146,7 +182,7 @@ async def del_user_id(
         raise HTTPException(
             status_code=404,
             detail={
-                "status": "success",
+                "status": "Success",
                 "data": user_id,
                 "details": f"User id={user_id} not exist",
             },
@@ -155,7 +191,7 @@ async def del_user_id(
     await session.execute(stmt)
     await session.commit()
 
-    return {"status": "success", "data": result, "details": "Was deleted"}
+    return {"status": "Success", "data": result, "details": "Was deleted"}
 
 
 @router_role.post(
@@ -198,13 +234,13 @@ async def add_role(
         raise HTTPException(
             status_code=500,
             detail={
-                "status": "success",
+                "status": "Success",
                 "data": model_dump(new_role),
                 "details": "some information about error",
             },
         )
     return {
-        "status": "success",
+        "status": "Success",
         "data": new_role,
         "details": f"{user.email} add role",
     }
@@ -217,7 +253,7 @@ async def get_roles(session: AsyncSession = Depends(get_async_session)):
     for role in await session.scalars(stmt):
         roles.append(role)
     result = roles
-    return {"status": "success", "data": result, "details": None}
+    return {"status": "Success", "data": result, "details": None}
 
 
 @router_role.get("/get/{role_id}")
@@ -226,7 +262,7 @@ async def get_role(
 ):
     stmt = select(Role).where(Role.id == int(role_id))
     result = await session.scalar(stmt)
-    return {"status": "success", "data": result, "details": None}
+    return {"status": "Success", "data": result, "details": None}
 
 
 @router_role.delete("/del/{role_id}")
@@ -236,4 +272,4 @@ async def delete_role(
     stmt = delete(Role).where(Role.id == int(role_id))
     await session.execute(stmt)
     await session.commit()
-    return {"status": "success", "data": role_id, "details": "Was deleted!"}
+    return {"status": "Success", "data": role_id, "details": "Was deleted!"}
