@@ -68,5 +68,5 @@ def test_register_post_not_all_data():
 
 
 async def test_register_get_not_all_data(ac: AsyncClient):
-    response = await ac.get("/users/get/user_id=2")
+    response = await ac.get("/users/2")
     assert response.json()["data"]["email"] == "user_valid@example.com", "User is not valid"

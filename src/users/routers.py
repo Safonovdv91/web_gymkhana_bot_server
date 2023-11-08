@@ -54,8 +54,8 @@ async def get_users(
     return {"status": "Success", "data": users, "details": None}
 
 
-@router.get("/get/user_id={user_id}")
-async def get_user_id(
+@router.get("/{user_id}")
+async def get_user_by_id(
     user_id: int, session: AsyncSession = Depends(get_async_session)
 ):
     stmt = (
