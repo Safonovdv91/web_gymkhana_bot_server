@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, Request
+from fastapi import APIRouter, Depends, HTTPException, Request
 from starlette.templating import Jinja2Templates
 
 from src.users.routers import get_user_id, get_users
@@ -23,7 +23,10 @@ def get_users_page(request: Request, usr=Depends(get_users)):
 
 @router.get("/get_users/{user_id}")
 def get_users_page_id(request: Request, usr=Depends(get_user_id)):
-    print(usr["data"])
-    return templates.TemplateResponse(
-        "getusers.html", {"request": request, "users": usr["data"]}
-    )
+    try:
+        user_data = usr["data"]
+        return templates.TemplateResponse(
+            "getusers.html", {"request": request, "users": [user_data]}
+        )
+    except KeyError:
+        raise HTTPException(status_code=404, detail="User not found")

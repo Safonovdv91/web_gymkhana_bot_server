@@ -2,8 +2,14 @@
 
 {% block head %}
 <script>
-    const searchForOperation = () => {
-        const searchInputValue = document.getElementById("operation_search").value;
+    const searchUserById = () => {
+        const searchInputValue = document.getElementById("id_user_search").value;
+        window.location.href = `/pages/get_users/${searchInputValue}`;
+    }
+</script>
+<script>
+    const searchUserById = () => {
+        const searchInputValue = document.getElementById("id_user_search").value;
         window.location.href = `/pages/get_users/${searchInputValue}`;
     }
 </script>
@@ -18,12 +24,15 @@
     {% for user in users %}
         <div class="flex rounded-3 border-2 p-4 mt-5">
             <div class="flex flex-col">
-                <div class="text-2xl font-bold"> User # {{ user["id"] }}</div>
+                <div class="text-2xl font-bold"> # {{ user["id"] }} - {{ user["login"] }} - {{ user["role"] }} (role):</div>
+                <div class="text-2xl font-bold"> tg: {{ user["telegram_id"] }}</div>
                 <span class="text-lg">{{ user["email"] }}</span>
-                <span class="text-lg">{{ user["registered_at"] }}</span>
-                <span class="text-lg"><text font-weight="bold">sub GGP</text>: {{ user["sub_ggp_percent"] }}</span>
-                <span class="text-lg">sub off-line: {{ user["sub_offline"] }}</span>
-                <span class="text-lg">sub off-line: {{ user["sub_offline"] }}</span>
+                <span class="text-lg">register at: {{ user["registered_at"] }}</span>
+                <span class="text-lg"><text font-weight="bold">sub GGP percent</text>: {{ user["sub_ggp_percent"] }}</span>
+                <span class="text-lg">ggp percent begin: {{ user["ggp_percent_begin"] }}</span>
+                <span class="text-lg">ggp percent end: {{ user["ggp_percent_end"] }}</span>
+                <span class="text-lg">sub GGP: {{ user["sub_ggp"] }}</span>
+                <span class="text-lg">sub world record: {{ user["sub_world_record"] }}</span>
                 <span class="text-lg">sub world record: {{ user["sub_world_record"] }}</span>
             </div>
         </div>
