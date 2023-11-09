@@ -21,11 +21,10 @@ class TestApiAuthentification:
 
             stmt = insert(Role).values(id=2, name="User", description="Test of user")
             await session.execute(stmt)
-            await session.commit()
-
             stmt = insert(Role).values(id=3, name="Guest", description="Test of guest")
             await session.execute(stmt)
             await session.commit()
+
     def test_register_post(self, ):
         response = client.post(
             url="/auth/register",

@@ -138,7 +138,7 @@ async def get_user_email(
     },
 )
 async def del_user_email(
-    email: str,
+    email: EmailStr,
     session: AsyncSession = Depends(get_async_session),
     # user: User = Depends(current_user),
 ):
@@ -160,7 +160,7 @@ async def del_user_email(
     return {
         "status": "Success",
         "data": None,
-        "details": f"{email} Was deleted",
+        "details": f"{email} was deleted",
     }
 
 
