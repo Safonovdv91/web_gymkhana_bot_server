@@ -1,16 +1,17 @@
 version: "3.0"
 services:
-  db:
+  db_prod:
     container_name: "rabbit_mg_Postgres"
     image: postgres:15.4-alpine
     restart: always
-    env_file:
-      - .env-non-dev
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=myuniquepassword
+      - POSTGRES_DB=postgres
     ports:
-      - "5555:5432"
+      - "9001:5432"
     networks:
-      - custom
-
+      - custom2
   app:
     build:
       context: .
@@ -21,13 +22,12 @@ services:
     ports:
       - "9000:8000"
     depends_on:
-      - db
+      - db_prod
     networks:
-      - custom
-
+      - custom2
 
 networks:
-  custom:
+  custom2:
     driver: bridge
 
 
