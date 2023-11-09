@@ -1,6 +1,6 @@
 version: "3.0"
 services:
-  db_prod:
+  db_dev:
     container_name: "rabbit_mg_Postgres"
     image: postgres:15.4-alpine
     restart: always
@@ -13,8 +13,7 @@ services:
     networks:
       - custom2
   app:
-    build:
-      context: .
+    image: "softikdimon/rabbitmg-backend-server:v1"
     env_file:
       - .env-non-dev
     container_name: "fastapi_app"
@@ -22,7 +21,7 @@ services:
     ports:
       - "9000:8000"
     depends_on:
-      - db_prod
+      - db_dev
     networks:
       - custom2
 
