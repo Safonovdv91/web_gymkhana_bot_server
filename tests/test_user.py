@@ -30,7 +30,7 @@ class TestApiUser:
     #     return response.cookies
 
 
-class TestUserApi:
+class TestUserApiGetByEmail:
     common_url = "/api/v1/users"
 
     emails = [
@@ -48,6 +48,14 @@ class TestUserApi:
         if email == "user3@example.com":
             assert response.status_code == 200
             assert response.json()["data"]["email"] == "user3@example.com"
+            assert response.json()["data"]["role"] == "User"
+            assert response.json()["data"]["sub_ggp_percent"] == False, "Bad data"
+            assert response.json()["data"]["ggp_percent_begin"] == 100, "Bad data"
+            assert response.json()["data"]["ggp_percent_end"] == 150, "Bad data"
+            assert response.json()["data"]["sub_offline"] == False, "Bad data"
+            assert response.json()["data"]["sub_ggp"] == False, "Bad data"
+            assert response.json()["data"]["sub_world_record"] == False, "Bad data"
+
         elif email in ("@@@", "123"):
             assert response.status_code == 422
         else:

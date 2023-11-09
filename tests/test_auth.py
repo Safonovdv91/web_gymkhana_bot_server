@@ -8,7 +8,7 @@ class TestApiAuthentification:
 
     async def test_add_role(self, ):
         async with async_session_maker() as session:
-            stmt = insert(Role).values(id=1, name="test_admin", description="Test of admin")
+            stmt = insert(Role).values(id=1, name="Admin", description="Test of admin")
             await session.execute(stmt)
             await session.commit()
 
@@ -16,13 +16,16 @@ class TestApiAuthentification:
             result = await session.scalar(query)
 
             assert result.id == 1, "Проблема с добавлением роли"
-            assert result.name == "test_admin"
+            assert result.name == "Admin"
             assert result.description == "Test of admin"
 
-            stmt = insert(Role).values(id=2, name="test_user", description="Test of user")
+            stmt = insert(Role).values(id=2, name="User", description="Test of user")
             await session.execute(stmt)
             await session.commit()
 
+            stmt = insert(Role).values(id=3, name="Guest", description="Test of guest")
+            await session.execute(stmt)
+            await session.commit()
     def test_register_post(self, ):
         response = client.post(
             url="/auth/register",
