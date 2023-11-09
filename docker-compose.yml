@@ -8,10 +8,12 @@ services:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=myuniquepassword
       - POSTGRES_DB=postgres
+    ports:
+      - "9001:5432"
     networks:
       - custom2
   app:
-    image: "softikdimon/rabbitmg-backend-server:v1"
+    image: "softikdimon/rabbitmg-backend-server:v2"
     env_file:
       - .env-non-dev
     container_name: "fastapi_app"
