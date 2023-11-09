@@ -12,8 +12,8 @@ from src.users.models import Role, User
 from src.users.schemas import CreatedResponse, RoleCreate
 
 
-router = APIRouter(prefix="/users", tags=["user"])
-router_role = APIRouter(prefix="/roles", tags=["role"])
+router = APIRouter(prefix="/api/v1/users", tags=["user"])
+router_role = APIRouter(prefix="/api/v1/roles", tags=["role"])
 
 
 @router.get(
@@ -223,7 +223,7 @@ async def del_user_id(
 async def add_role(
     new_role: RoleCreate,
     session: AsyncSession = Depends(get_async_session),
-    user: User = Depends(current_user),
+    # user: User = Depends(current_user),
 ):
     try:
         stmt = insert(Role).values(**model_dump(new_role))
@@ -242,7 +242,7 @@ async def add_role(
     return {
         "status": "Success",
         "data": new_role,
-        "details": f"{user.email} add role",
+        "details": f"add role",
     }
 
 
