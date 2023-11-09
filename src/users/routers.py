@@ -1,11 +1,11 @@
 from fastapi import APIRouter, Depends, HTTPException
 from fastapi_users.schemas import model_dump
+from pydantic import EmailStr
 from sqlalchemy import delete, insert, select
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
 from starlette import status
 
-from src.auth.auth_config import current_user
 from src.database import get_async_session
 from src.schemas import OkResponse
 from src.users.models import Role, User
@@ -89,9 +89,11 @@ async def get_user_by_id(
     return {"status": "Success", "data": result, "details": None}
 
 
-@router.get("/get/email={email}")
+@router.get(
+    "/get/email={email}",
+)
 async def get_user_email(
-    email: str, session: AsyncSession = Depends(get_async_session)
+    email: EmailStr, session: AsyncSession = Depends(get_async_session)
 ):
     stmt = (
         select(User)
@@ -136,7 +138,7 @@ async def get_user_email(
     },
 )
 async def del_user_email(
-    email: str,
+    email: EmailStr,
     session: AsyncSession = Depends(get_async_session),
     # user: User = Depends(current_user),
 ):
@@ -158,7 +160,7 @@ async def del_user_email(
     return {
         "status": "Success",
         "data": None,
-        "details": f"{email} Was deleted",
+        "details": f"{email} was deleted",
     }
 
 
@@ -242,7 +244,7 @@ async def add_role(
     return {
         "status": "Success",
         "data": new_role,
-        "details": f"add role",
+        "details": "add role",
     }
 
 

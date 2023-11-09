@@ -1,7 +1,9 @@
 #!/bin/bash
 
-echo "my location is"
+echo "Ждём запуск БД"
+sleep 5
 echo "Накатываем миграции в БД"
+
 alembic upgrade head
 echo "******"
 echo "******"
