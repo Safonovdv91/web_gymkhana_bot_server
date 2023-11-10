@@ -30,9 +30,8 @@ async def get_users(
     session: AsyncSession = Depends(get_async_session),
     # user: User = Depends(current_user),
 ):
-    users = await UserRepository.get_users(session)
-
-    return {"status": "Success", "data": users, "details": None}
+    data = await UserService.lst(session)
+    return {"status": "Success", "data": data, "details": None}
 
 
 @router.get("/{user_id}")
