@@ -1,27 +1,28 @@
 version: "3.0"
 services:
-  db_dev:
-    container_name: "rabbit_mg_Postgres"
+  db:
+    container_name: "rabbit_mg_DB"
     image: postgres:15.4-alpine
     restart: always
     environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=myuniquepassword
-      - POSTGRES_DB=postgres
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASS}
+      - POSTGRES_DB=${DB_NAME}
+      - POSTGRES_PORT=${DB_PORT}
     ports:
       - "9001:5432"
     networks:
       - custom2
   app:
-    image: "softikdimon/rabbitmg-backend-server:v2"
-    env_file:
-      - .env-non-dev
+#    build:
+#      context: .
+    image: softikdimon/rabbitmg-backend-server:${TAG}
     container_name: "fastapi_app"
     command: ["/fastapi_app/app.sh"]
     ports:
       - "9000:8000"
     depends_on:
-      - db_dev
+      - db
     networks:
       - custom2
 
