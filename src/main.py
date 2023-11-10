@@ -1,7 +1,7 @@
 import uvicorn
 from fastapi import Depends, FastAPI, HTTPException
+from starlette.middleware.cors import CORSMiddleware
 from starlette.responses import JSONResponse
-from starlette.staticfiles import StaticFiles
 
 from src.auth.auth_config import auth_backend, current_user, fastapi_users
 from src.pages.routers import router as page_router
@@ -14,9 +14,23 @@ from src.users.schemas import UserCreate, UserRead
 
 app = FastAPI(title="RabbitMG")
 
-app.mount("/static", StaticFiles(directory="src/static"), name="static")
+# app.mount("/static", StaticFiles(directory="src/static"), name="static")
 
+origins = [
+    "http://localhost:5500",
+    "https://localhost:5500",
+    "http://127.0.0.1:5500",
+    "https://127.0.0.1:5500",
+]
 
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["GET", "POST", "OPTIONS", "DELETE", "PATCH", "PUT"],
+    allow_headers=["Content-Type", "Set-Cookie", "Access-Control-Allow-Headers", "Access-Control-Allow-Origin",
+                   "Authorization"],
+)
 @app.exception_handler(HTTPException)
 async def http_exception_handler(request, exc):
     if exc.status_code == 404:
