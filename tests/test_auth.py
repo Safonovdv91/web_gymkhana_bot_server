@@ -67,5 +67,5 @@ class TestApiAuthentification:
         assert response.status_code == 201, "Duplicat was added"
 
     async def test_register_get_not_all_data(self, ac: AsyncClient):
-        response = await ac.get("/api/v1/users/2")
+        response = await ac.get("/api/v1/users/id=2")
         assert response.json()["data"]["email"] == "user_valid@example.com", "User is not valid"
