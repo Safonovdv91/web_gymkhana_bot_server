@@ -6,6 +6,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
 from starlette import status
 
+from src.auth.auth_config import current_user
 from src.database import get_async_session
 from src.schemas import OkResponse
 from src.users.models import Role, User
@@ -34,7 +35,7 @@ async def get_users(
     return {"status": "Success", "data": data, "details": None}
 
 
-@router.get("/{user_id}")
+@router.get("/id={user_id}")
 async def get_user_by_id(
     user_id: int, session: AsyncSession = Depends(get_async_session)
 ):
@@ -46,6 +47,24 @@ async def get_user_by_id(
                 "status": "Not exist",
                 "data": user_id,
                 "details": f"User with id={user_id} not exist",
+            },
+        )
+    return {"status": "Success", "data": user, "details": None}
+
+
+@router.get("/current")
+async def get_current_user(
+    session: AsyncSession = Depends(get_async_session),
+    curr_user: User = Depends(current_user),
+):
+    user = await UserService.get_user_by_id(session, int(curr_user.id))
+    if user is None:
+        raise HTTPException(
+            status_code=404,
+            detail={
+                "status": "Not exist",
+                "data": None,
+                "details": "Sorry, but you was deleted",
             },
         )
     return {"status": "Success", "data": user, "details": None}
