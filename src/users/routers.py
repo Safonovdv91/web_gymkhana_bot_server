@@ -3,7 +3,6 @@ from fastapi_users.schemas import model_dump
 from pydantic import EmailStr
 from sqlalchemy import delete, insert, select
 from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy.orm import selectinload
 from starlette import status
 
 from src.auth.auth_config import current_user
@@ -76,37 +75,17 @@ async def get_current_user(
 async def get_user_email(
     email: EmailStr, session: AsyncSession = Depends(get_async_session)
 ):
-    stmt = (
-        select(User)
-        .options(selectinload(User.role))
-        .where(User.email == email)
-    )
-    result = await session.scalar(stmt)
-    if result is None:
+    user = await UserService.get_user_by_email(session, email)
+    if user is None:
         raise HTTPException(
             status_code=404,
             detail={
                 "status": "Not exist",
                 "data": email,
-                "details": f"User email={email} not exist",
+                "details": f"User with email={email} not exist",
             },
         )
-    result = {
-        "id": result.id,
-        "login": result.login,
-        "email": result.email,
-        "sub_ggp_percent": result.sub_ggp_percent,
-        "ggp_percent_begin": result.ggp_percent_begin,
-        "ggp_percent_end": result.ggp_percent_end,
-        "sub_offline": result.sub_offline,
-        "sub_ggp": result.sub_ggp,
-        "sub_world_record": result.sub_world_record,
-        "registered_at": result.registered_at,
-        "telegram_id": result.telegram_id,
-        "role": result.role.name,
-    }
-
-    return {"status": "Success", "data": result, "details": None}
+    return {"status": "Success", "data": user, "details": None}
 
 
 @router.delete(

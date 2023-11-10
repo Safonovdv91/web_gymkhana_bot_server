@@ -31,5 +31,19 @@ class UserRepository:
         # result: Result = await session.execute(query)
         # user: User | None = result.scalar_one_or_none()
         user = await session.scalar(query)  # Сокращение кода
+        return user
+
+    @classmethod
+    async def get_user_by_email(
+        cls,
+        session: AsyncSession,
+        email: str,
+    ):
+        query = (
+            select(User)
+            .options(selectinload(User.role))
+            .where(User.email == email)
+        )
+        user = await session.scalar(query)
         print(f"Found user {user}")
         return user

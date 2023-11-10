@@ -31,6 +31,17 @@ class UserService:
         return output
 
     @classmethod
+    async def get_user_by_email(cls, session: AsyncSession, email: str):
+        user: User | None = await UserRepository.get_user_by_email(
+            session, email
+        )
+        if user is None:
+            return None
+        output = cls.user_to_dict(user)
+
+        return output
+
+    @classmethod
     def user_to_dict(cls, user: User):
         output = {
             "id": user.id,
