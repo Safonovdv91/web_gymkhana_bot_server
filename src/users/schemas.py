@@ -2,6 +2,7 @@ import re
 from datetime import datetime
 
 from fastapi_users import schemas
+from fastapi_users.schemas import CreateUpdateDictModel
 from pydantic import BaseModel, EmailStr
 
 
@@ -22,7 +23,12 @@ class UserRead(schemas.BaseUser[int]):
     role_id: int
 
 
-class UserCreate(schemas.BaseUserCreate):
+class BaseUserCreate(CreateUpdateDictModel):
+    email: EmailStr
+    password: str
+
+
+class UserCreate(BaseUserCreate):
     login: str
     email: EmailStr
     password: str
