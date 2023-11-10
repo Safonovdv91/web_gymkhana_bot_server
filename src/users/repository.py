@@ -1,4 +1,5 @@
-from sqlalchemy import select
+from fastapi import HTTPException
+from sqlalchemy import delete, select
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
 
@@ -31,6 +32,15 @@ class UserRepository:
         # result: Result = await session.execute(query)
         # user: User | None = result.scalar_one_or_none()
         user = await session.scalar(query)  # Сокращение кода
+        if user is None:
+            raise HTTPException(
+                status_code=404,
+                detail={
+                    "status": "Not exist",
+                    "data": None,
+                    "details": "Sorry, but you was deleted",
+                },
+            )
         return user
 
     @classmethod
@@ -45,5 +55,65 @@ class UserRepository:
             .where(User.email == email)
         )
         user = await session.scalar(query)
-        print(f"Found user {user}")
+        if user is None:
+            raise HTTPException(
+                status_code=404,
+                detail={
+                    "status": "Not exist",
+                    "data": email,
+                    "details": f"User with email={email} not exist",
+                },
+            )
+        return user
+
+    @classmethod
+    async def delete_user_by_email(
+        cls,
+        session: AsyncSession,
+        email: str,
+    ):
+        query = (
+            select(User)
+            .options(selectinload(User.role))
+            .where(User.email == email)
+        )
+        user = await session.scalar(query)
+        if user is None:
+            raise HTTPException(
+                status_code=404,
+                detail={
+                    "status": "Success",
+                    "data": email,
+                    "details": f"User email={email} not exist",
+                },
+            )
+        stmt = delete(User).where(User.email == email)
+        await session.execute(stmt)
+        await session.commit()
+        return user
+
+    @classmethod
+    async def delete_user_by_id(
+        cls,
+        session: AsyncSession,
+        user_id: int,
+    ):
+        query = (
+            select(User)
+            .options(selectinload(User.role))
+            .where(User.id == user_id)
+        )
+        user = await session.scalar(query)
+        if user is None:
+            raise HTTPException(
+                status_code=404,
+                detail={
+                    "status": "Success",
+                    "data": None,
+                    "details": f"User id={user_id} not exist",
+                },
+            )
+        stmt = delete(User).where(User.id == user_id)
+        await session.execute(stmt)
+        await session.commit()
         return user

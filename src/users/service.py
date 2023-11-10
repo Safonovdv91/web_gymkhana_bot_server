@@ -21,11 +21,7 @@ class UserService:
 
     @classmethod
     async def get_user_by_id(cls, session: AsyncSession, user_id: int):
-        user: User | None = await UserRepository.get_user_by_id(
-            session, user_id
-        )
-        if user is None:
-            return None
+        user: User = await UserRepository.get_user_by_id(session, user_id)
         output = cls.user_to_dict(user)
 
         return output
@@ -39,6 +35,18 @@ class UserService:
             return None
         output = cls.user_to_dict(user)
 
+        return output
+
+    @classmethod
+    async def delete_user_by_email(cls, session: AsyncSession, email: str):
+        user: User = await UserRepository.delete_user_by_email(session, email)
+        output = cls.user_to_dict(user)
+        return output
+
+    @classmethod
+    async def delete_user_by_id(cls, session: AsyncSession, user_id: int):
+        user: User = await UserRepository.delete_user_by_id(session, user_id)
+        output = cls.user_to_dict(user)
         return output
 
     @classmethod

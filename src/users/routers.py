@@ -39,15 +39,7 @@ async def get_user_by_id(
     user_id: int, session: AsyncSession = Depends(get_async_session)
 ):
     user = await UserService.get_user_by_id(session, user_id)
-    if user is None:
-        raise HTTPException(
-            status_code=404,
-            detail={
-                "status": "Not exist",
-                "data": user_id,
-                "details": f"User with id={user_id} not exist",
-            },
-        )
+
     return {"status": "Success", "data": user, "details": None}
 
 
@@ -57,15 +49,6 @@ async def get_current_user(
     curr_user: User = Depends(current_user),
 ):
     user = await UserService.get_user_by_id(session, int(curr_user.id))
-    if user is None:
-        raise HTTPException(
-            status_code=404,
-            detail={
-                "status": "Not exist",
-                "data": None,
-                "details": "Sorry, but you was deleted",
-            },
-        )
     return {"status": "Success", "data": user, "details": None}
 
 
@@ -76,15 +59,7 @@ async def get_user_email(
     email: EmailStr, session: AsyncSession = Depends(get_async_session)
 ):
     user = await UserService.get_user_by_email(session, email)
-    if user is None:
-        raise HTTPException(
-            status_code=404,
-            detail={
-                "status": "Not exist",
-                "data": email,
-                "details": f"User with email={email} not exist",
-            },
-        )
+
     return {"status": "Success", "data": user, "details": None}
 
 
@@ -102,25 +77,12 @@ async def del_user_email(
     session: AsyncSession = Depends(get_async_session),
     # user: User = Depends(current_user),
 ):
-    stmt = select(User).where(User.email == email)
-    result = await session.scalar(stmt)
-    if result is None:
-        raise HTTPException(
-            status_code=404,
-            detail={
-                "status": "Success",
-                "data": email,
-                "details": f"User email={email} not exist",
-            },
-        )
-    stmt = delete(User).where(User.email == email)
-    await session.execute(stmt)
-    await session.commit()
+    user = await UserService.delete_user_by_email(session, email)
 
     return {
         "status": "Success",
-        "data": None,
-        "details": f"{email} was deleted",
+        "data": user,
+        "details": "Was deleted!",
     }
 
 
@@ -138,22 +100,9 @@ async def del_user_id(
     session: AsyncSession = Depends(get_async_session),
     # user: User = Depends(current_user),
 ):
-    stmt = select(User).where(User.id == user_id)
-    result = await session.scalar(stmt)
-    if result is None:
-        raise HTTPException(
-            status_code=404,
-            detail={
-                "status": "Success",
-                "data": user_id,
-                "details": f"User id={user_id} not exist",
-            },
-        )
-    stmt = delete(User).where(User.id == user_id)
-    await session.execute(stmt)
-    await session.commit()
+    user = await UserService.delete_user_by_id(session, user_id)
 
-    return {"status": "Success", "data": result, "details": "Was deleted"}
+    return {"status": "Success", "data": user, "details": "Was deleted"}
 
 
 @router_role.post(

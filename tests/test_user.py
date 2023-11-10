@@ -91,7 +91,7 @@ class TestUserApiDeleteByEmail:
         if email == "user_for_delete@example.com":
             assert response.status_code == 200, "delete exist user not status 200"
             assert response.json()["status"] == "Success", "delete exist user not status 200"
-            assert response.json()["details"] == f"{email} was deleted", "delete exist user not status 200"
+            assert response.json()["details"] == "Was deleted!", "delete exist user not status 200"
         elif email == "usernoexist@example.com":
             assert response.status_code == 404
         else:
