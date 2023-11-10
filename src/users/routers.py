@@ -9,9 +9,9 @@ from starlette import status
 from src.database import get_async_session
 from src.schemas import OkResponse
 from src.users.models import Role, User
-from src.users.repository import UserRepository
 from src.users.schemas import CreatedResponse, RoleCreate
 from src.users.service import UserService
+
 
 router = APIRouter(prefix="/api/v1/users", tags=["user"])
 router_role = APIRouter(prefix="/api/v1/roles", tags=["role"])
@@ -38,35 +38,17 @@ async def get_users(
 async def get_user_by_id(
     user_id: int, session: AsyncSession = Depends(get_async_session)
 ):
-    stmt = (
-        select(User).options(selectinload(User.role)).where(User.id == user_id)
-    )
-    result = await session.scalar(stmt)
-    if result is None:
+    user = await UserService.get_user_by_id(session, user_id)
+    if user is None:
         raise HTTPException(
             status_code=404,
             detail={
                 "status": "Not exist",
                 "data": user_id,
-                "details": f"User email={user_id} not exist",
+                "details": f"User with id={user_id} not exist",
             },
         )
-    result = {
-        "id": result.id,
-        "login": result.login,
-        "email": result.email,
-        "sub_ggp_percent": result.sub_ggp_percent,
-        "ggp_percent_begin": result.ggp_percent_begin,
-        "ggp_percent_end": result.ggp_percent_end,
-        "sub_offline": result.sub_offline,
-        "sub_ggp": result.sub_ggp,
-        "sub_world_record": result.sub_world_record,
-        "registered_at": result.registered_at,
-        "telegram_id": result.telegram_id,
-        "role": result.role.name,
-    }
-
-    return {"status": "Success", "data": result, "details": None}
+    return {"status": "Success", "data": user, "details": None}
 
 
 @router.get(
