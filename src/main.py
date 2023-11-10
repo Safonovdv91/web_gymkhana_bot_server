@@ -28,9 +28,16 @@ app.add_middleware(
     allow_origins=origins,
     allow_credentials=True,
     allow_methods=["GET", "POST", "OPTIONS", "DELETE", "PATCH", "PUT"],
-    allow_headers=["Content-Type", "Set-Cookie", "Access-Control-Allow-Headers", "Access-Control-Allow-Origin",
-                   "Authorization"],
+    allow_headers=[
+        "Content-Type",
+        "Set-Cookie",
+        "Access-Control-Allow-Headers",
+        "Access-Control-Allow-Origin",
+        "Authorization",
+    ],
 )
+
+
 @app.exception_handler(HTTPException)
 async def http_exception_handler(request, exc):
     if exc.status_code == 404:
@@ -60,15 +67,6 @@ app.include_router(page_router)
 @app.get("/protected-route")
 def protected_route(user: User = Depends(current_user)):
     return f"Hello, {user.login} you are {user.email} and your role is {user.role_id}"
-
-
-# # Создание главного роутера
-# main_api_router = APIRouter()
-# # настройка роутеров для
-# main_api_router.include_router(
-#     user_router, prefix="/user", tags=["user2", "login"]
-# )
-# app.include_router(main_api_router)
 
 
 if __name__ == "__main__":
