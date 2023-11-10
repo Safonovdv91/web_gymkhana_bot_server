@@ -41,23 +41,16 @@ class User(SQLAlchemyBaseUserTable[int], Base):
     role: Mapped["Role"] = relationship(back_populates="users")
 
     def __repr__(self):
-        return {"User": self.id, "email": self.email, "login": self.login}
+        return str(self)
 
     def __str__(self):
-        return {
-            "id": self.id,
-            "login": self.login,
-            "email": self.email,
-            "sub_ggp_percent": self.sub_ggp_percent,
-            "ggp_percent_begin": self.ggp_percent_begin,
-            "ggp_percent_end": self.ggp_percent_end,
-            "sub_offline": self.sub_offline,
-            "sub_ggp": self.sub_ggp,
-            "sub_world_record": self.sub_world_record,
-            "registered_at": self.registered_at,
-            "telegram_id": self.telegram_id,
-            # "role": self.role.name,
-        }
+        return (
+            f" id: {self.id}"
+            f" login: {self.login},"
+            f" email: {self.email} "
+            f"registered_at: {self.registered_at} "
+            f"telegram_id: {self.telegram_id}"
+        )
 
 
 class Role(Base):
