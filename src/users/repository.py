@@ -1,5 +1,4 @@
 from sqlalchemy import select
-from sqlalchemy.engine import Result
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
 
@@ -29,7 +28,8 @@ class UserRepository:
             .options(selectinload(User.role))
             .where(User.id == user_id)
         )
-        result: Result = await session.execute(query)
-        user: User | None = result.scalar_one_or_none()
+        # result: Result = await session.execute(query)
+        # user: User | None = result.scalar_one_or_none()
+        user = await session.scalar(query)  # Сокращение кода
         print(f"Found user {user}")
         return user

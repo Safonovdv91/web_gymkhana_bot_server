@@ -21,7 +21,9 @@ class UserService:
 
     @classmethod
     async def get_user_by_id(cls, session: AsyncSession, user_id: int):
-        user = await UserRepository.get_user_by_id(session, user_id)
+        user: User | None = await UserRepository.get_user_by_id(
+            session, user_id
+        )
         if user is None:
             return None
         output = cls.user_to_dict(user)
