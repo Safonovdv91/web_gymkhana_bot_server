@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException, Request
 from starlette.templating import Jinja2Templates
 
-from src.users.routers import get_user_by_id, get_users
+from src.users.router_user import get_user_by_id, get_users
 
 
 router = APIRouter(prefix="/pages", tags=["Pages"])
