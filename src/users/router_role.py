@@ -1,6 +1,5 @@
-from fastapi import APIRouter, Depends, HTTPException
-from fastapi_users.schemas import model_dump
-from sqlalchemy import delete, insert, select
+from fastapi import APIRouter, Depends
+from sqlalchemy import delete, select
 from sqlalchemy.ext.asyncio import AsyncSession
 from starlette import status
 
@@ -8,6 +7,7 @@ from src.database import get_async_session
 from src.schemas import OkResponse
 from src.users.models import Role
 from src.users.schemas import CreatedResponse, RoleCreate
+from src.users.service import RoleService
 
 
 router_role = APIRouter(prefix="/api/v1/roles", tags=["role"])
@@ -44,24 +44,12 @@ async def add_role(
     session: AsyncSession = Depends(get_async_session),
     # user: User = Depends(current_user),
 ):
-    try:
-        stmt = insert(Role).values(**model_dump(new_role))
-        await session.execute(stmt)
-        await session.commit()
-    except Exception as e:
-        print(e)
-        raise HTTPException(
-            status_code=500,
-            detail={
-                "status": "Success",
-                "data": model_dump(new_role),
-                "details": "some information about error",
-            },
-        )
+    role = await RoleService.add_new_role(session, new_role)
+
     return {
         "status": "Success",
-        "data": new_role,
-        "details": "add role",
+        "data": role,
+        "details": "Additing role success",
     }
 
 

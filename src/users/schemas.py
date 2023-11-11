@@ -6,6 +6,7 @@ from annotated_types import MaxLen, MinLen
 from fastapi_users import schemas
 from fastapi_users.schemas import CreateUpdateDictModel
 from pydantic import BaseModel, EmailStr
+from pydantic.v1 import validator
 
 
 LETTER_MATCH_PATTERN = re.compile(r"^[а-яА-Яa-zA-Z\-]+$")
@@ -37,12 +38,24 @@ class UserCreate(BaseUserCreate):
 
 
 class RoleCreate(BaseModel):
-    name: Annotated[str, MinLen(3), MaxLen(14)]
+    name: Annotated[
+        str,
+        MinLen(3),
+        MaxLen(25),
+    ]
     description: Annotated[str, MinLen(3)]
+
+    @validator("name")
+    def name_regex(cls, v):
+        if not re.match(r"^[a-zA-Z]+$", v):
+            raise ValueError(
+                "Only letters, numbers, and underscore are allowed in the name"
+            )
+        return v
 
 
 class RoleRead(BaseModel):
-    id: str
+    id: int
     name: str
     description: str
 
