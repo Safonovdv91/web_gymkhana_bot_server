@@ -14,8 +14,6 @@ from src.users.schemas import UserCreate, UserRead
 
 app = FastAPI(title="RabbitMG")
 
-# app.mount("/static", StaticFiles(directory="src/static"), name="static")
-
 origins = [
     "http://localhost:5500",
     "https://localhost:5500",
