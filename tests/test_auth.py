@@ -5,8 +5,9 @@ from tests.conftest import client, async_session_maker
 
 
 class TestApiAuthentification:
-
-    async def test_add_role(self, ):
+    async def test_add_role(
+        self,
+    ):
         async with async_session_maker() as session:
             stmt = insert(Role).values(id=1, name="Admin", description="Test of admin")
             await session.execute(stmt)
@@ -25,7 +26,9 @@ class TestApiAuthentification:
             await session.execute(stmt)
             await session.commit()
 
-    def test_register_post(self, ):
+    def test_register_post(
+        self,
+    ):
         response = client.post(
             url="/auth/register",
             json={
@@ -34,13 +37,15 @@ class TestApiAuthentification:
                 "is_active": True,
                 "is_superuser": False,
                 "is_verified": False,
-                "login": "string"
-            }
+                "login": "string",
+            },
         )
 
         assert response.status_code == 201, "User not add"
 
-    def test_register_post_duplicate(self, ):
+    def test_register_post_duplicate(
+        self,
+    ):
         response = client.post(
             url="/auth/register",
             json={
@@ -49,23 +54,27 @@ class TestApiAuthentification:
                 "is_active": True,
                 "is_superuser": False,
                 "is_verified": False,
-                "login": "string"
-            }
+                "login": "string",
+            },
         )
 
         assert response.status_code == 400, "Duplicat was added"
 
-    def test_register_post_not_all_data(self, ):
+    def test_register_post_not_all_data(
+        self,
+    ):
         response = client.post(
             url="/auth/register",
             json={
                 "email": "user_valid@example.com",
                 "password": "string",
-                "login": "Loh"
-            }
+                "login": "Loh",
+            },
         )
         assert response.status_code == 201, "Duplicat was added"
 
     async def test_register_get_not_all_data(self, ac: AsyncClient):
         response = await ac.get("/api/v1/users/id=2")
-        assert response.json()["data"]["email"] == "user_valid@example.com", "User is not valid"
+        assert (
+            response.json()["data"]["email"] == "user_valid@example.com"
+        ), "User is not valid"
