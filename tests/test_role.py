@@ -2,38 +2,15 @@ import pytest
 from httpx import AsyncClient
 
 
-@pytest.fixture
-async def jwt_token(ac: AsyncClient):
-    login_url = "/auth/jwt/login"  # Замените на реальный URL
-    test_username = "for_login@example.com"
-    test_password = "string"
-    headers = {
-        "accept": "application/json",
-        "Content-Type": "application/x-www-form-urlencoded",
-    }
-    data = {
-        "grant_type": "",
-        "username": f"{test_username}",
-        "password": f"{test_password}",
-        "scope": "",
-        "client_id": "",
-        "client_secret": "",
-    }
-    response = await ac.post(login_url, headers=headers, data=data)
-    assert response.status_code == 204
-    print(response.cookies["rabbitmg"])
-    return response.cookies["rabbitmg"]
-
-
 @pytest.mark.asyncio
-async def test_authenticated_endpoint(jwt_token, ac: AsyncClient):
+async def test_get_current_user(jwt_token, ac: AsyncClient):
     # Пример тестирования другого эндпоинта, требующего аутентификации через cookies
     test_url = "http://127.0.0.1:8000/api/v1/users/current"  # Замените на реальный URL
     cookies = {"rabbitmg": jwt_token}
     response = await ac.get(test_url, cookies=cookies)
 
     assert response.status_code == 200
-    print(response.json())
+    assert response.json()["data"]["email"] == "for_login@example.com"
     # Добавьте дополнительные проверки для ответа, если необходимо
 
 
@@ -52,14 +29,16 @@ class TestRole:
     ]
 
     @pytest.mark.parametrize("adding_role", roles)
-    async def test_add_role(self, ac: AsyncClient, adding_role):
+    async def test_add_role(self, ac: AsyncClient, adding_role, jwt_token):
         url = f"{self.url_prefix}/add"
+        cookies = {"rabbitmg": jwt_token}
         response = await ac.post(
             url,
             json={
                 "name": adding_role,
                 "description": "Good description",
             },
+            cookies=cookies,
         )
         if adding_role == "Admin":
             assert response.status_code == 200
@@ -69,13 +48,15 @@ class TestRole:
         else:
             assert response.status_code == 422
 
-    async def test_add_role_duplicate(self, ac: AsyncClient):
+    async def test_add_role_duplicate(self, ac: AsyncClient, jwt_token):
         url = f"{self.url_prefix}/add"
+        cookies = {"rabbitmg": jwt_token}
         response = await ac.post(
             url,
             json={
                 "name": "Admin2",
                 "description": "Good description",
             },
+            cookies=cookies,
         )
         assert response.status_code == 400

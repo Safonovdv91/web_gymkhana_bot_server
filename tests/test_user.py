@@ -29,7 +29,7 @@ class TestUserApiGetByEmail:
         ("123"),
     ]
 
-    @pytest.mark.parametrize('email', emails)
+    @pytest.mark.parametrize("email", emails)
     async def test_user_get_by_email(self, ac: AsyncClient, email):
         # url = f"{self.common_url}/get/email=user3@example.com"
         url = f"{self.common_url}/get/email={email}"
@@ -61,6 +61,19 @@ class TestUserApiGetByEmail:
     #     assert response.status_code == 200
     #     assert response.json()["data"]["email"] == "user3@example.com"
 
+    @pytest.mark.asyncio
+    async def test_get_current_user(self, jwt_token, ac: AsyncClient):
+        # Пример тестирования другого эндпоинта, требующего аутентификации через cookies
+        test_url = (
+            "http://127.0.0.1:8000/api/v1/users/current"  # Замените на реальный URL
+        )
+        cookies = {"rabbitmg": jwt_token}
+        response = await ac.get(test_url, cookies=cookies)
+
+        assert response.status_code == 200
+        assert response.json()["data"]["email"] == "for_login@example.com"
+        # Добавьте дополнительные проверки для ответа, если необходимо
+
 
 class TestUserApiDeleteByEmail:
     common_url = "/api/v1/users"
@@ -73,14 +86,17 @@ class TestUserApiDeleteByEmail:
     ]
 
     async def test_register_post(self, ac: AsyncClient):
-        response = await ac.post("/auth/register", json={
-            "email": "user_for_delete@example.com",
-            "password": "string",
-            "is_active": True,
-            "is_superuser": False,
-            "is_verified": False,
-            "login": "string"
-        })
+        response = await ac.post(
+            "/auth/register",
+            json={
+                "email": "user_for_delete@example.com",
+                "password": "string",
+                "is_active": True,
+                "is_superuser": False,
+                "is_verified": False,
+                "login": "string",
+            },
+        )
         assert response.status_code == 201, "User add register"
 
     @pytest.mark.parametrize("email", emails)
@@ -90,8 +106,12 @@ class TestUserApiDeleteByEmail:
 
         if email == "user_for_delete@example.com":
             assert response.status_code == 200, "delete exist user not status 200"
-            assert response.json()["status"] == "Success", "delete exist user not status 200"
-            assert response.json()["details"] == "Was deleted!", "delete exist user not status 200"
+            assert (
+                response.json()["status"] == "Success"
+            ), "delete exist user not status 200"
+            assert (
+                response.json()["details"] == "Was deleted!"
+            ), "delete exist user not status 200"
         elif email == "usernoexist@example.com":
             assert response.status_code == 404
         else:

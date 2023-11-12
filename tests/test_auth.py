@@ -109,5 +109,3 @@ class TestApiAuthentification:
         }
         response = await ac.post(login_url, headers=headers, data=data)
         assert response.status_code == 204
-        print(response.cookies["rabbitmg"])
-        return response.cookies["rabbitmg"]

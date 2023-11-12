@@ -53,6 +53,29 @@ def event_loop(request):
     loop.close()
 
 
+@pytest.fixture(scope="session")
+async def jwt_token(ac: AsyncClient):
+    """
+    Фикстура получения jwt куки для авторизации пользователя
+    """
+    login_url = "/auth/jwt/login"
+    test_username = "for_login@example.com"
+    test_password = "string"
+    headers = {
+        "accept": "application/json",
+        "Content-Type": "application/x-www-form-urlencoded",
+    }
+    data = {
+        "username": f"{test_username}",
+        "password": f"{test_password}",
+    }
+    response = await ac.post(login_url, headers=headers, data=data)
+    assert (
+        response.status_code == 204
+    ), f"fixture: Problem with login user: [{test_username}]"
+    return response.cookies["rabbitmg"]
+
+
 client = TestClient(app)
 
 
