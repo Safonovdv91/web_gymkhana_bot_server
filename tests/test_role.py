@@ -2,8 +2,39 @@ import pytest
 from httpx import AsyncClient
 
 
-class TestApiUserPost:
-    pass
+@pytest.fixture
+async def jwt_token(ac: AsyncClient):
+    login_url = "/auth/jwt/login"  # Замените на реальный URL
+    test_username = "for_login@example.com"
+    test_password = "string"
+    headers = {
+        "accept": "application/json",
+        "Content-Type": "application/x-www-form-urlencoded",
+    }
+    data = {
+        "grant_type": "",
+        "username": f"{test_username}",
+        "password": f"{test_password}",
+        "scope": "",
+        "client_id": "",
+        "client_secret": "",
+    }
+    response = await ac.post(login_url, headers=headers, data=data)
+    assert response.status_code == 204
+    print(response.cookies["rabbitmg"])
+    return response.cookies["rabbitmg"]
+
+
+@pytest.mark.asyncio
+async def test_authenticated_endpoint(jwt_token, ac: AsyncClient):
+    # Пример тестирования другого эндпоинта, требующего аутентификации через cookies
+    test_url = "http://127.0.0.1:8000/api/v1/users/current"  # Замените на реальный URL
+    cookies = {"rabbitmg": jwt_token}
+    response = await ac.get(test_url, cookies=cookies)
+
+    assert response.status_code == 200
+    print(response.json())
+    # Добавьте дополнительные проверки для ответа, если необходимо
 
 
 class TestRole:
