@@ -2,19 +2,37 @@ import re
 from typing import Annotated
 
 from annotated_types import MaxLen, MinLen
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 from pydantic.v1 import validator
 
 
-class RoleRead(BaseModel):
-    id: int
+class RoleBase(BaseModel):
     name: str
     description: str
 
 
+class Role(RoleBase):
+    model_config = ConfigDict(from_attributes=True)
+    id: int
+
+
+class RoleResponseOne(BaseModel):
+    # model_config = ConfigDict(from_attributes=True)
+    status: str
+    data: Role
+    details: str | None
+
+
+class RoleResponseMany(BaseModel):
+    # model_config = ConfigDict(from_attributes=True)
+    status: str
+    data: list[RoleBase]
+    details: str | None
+
+
 class CreatedResponse(BaseModel):
     status: int
-    data: dict
+    data: RoleBase
     details: str
 
 

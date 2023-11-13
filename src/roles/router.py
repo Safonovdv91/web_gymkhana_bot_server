@@ -1,13 +1,13 @@
-from fastapi import APIRouter, Depends
-from sqlalchemy import delete, select
+from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.ext.asyncio import AsyncSession
 from starlette import status
 
 from src.database import get_async_session
-from src.roles.models import Role
-from src.roles.schemas import CreatedResponse, RoleCreate
-from src.roles.service import RoleService
+from src.roles.schemas import CreatedResponse, RoleCreate, RoleResponseMany
 from src.schemas import OkResponse
+
+from . import crud
+from .schemas import RoleResponseOne
 
 
 router_role = APIRouter(prefix="/api/v1/roles", tags=["role"])
@@ -44,8 +44,7 @@ async def add_role(
     session: AsyncSession = Depends(get_async_session),
     # user: User = Depends(current_user),
 ):
-    role = await RoleService.add_new_role(session, new_role)
-
+    role = await crud.add_new_role(session, new_role)
     return {
         "status": "Success",
         "data": role,
@@ -53,22 +52,22 @@ async def add_role(
     }
 
 
-@router_role.get("/get")
+@router_role.get("/get", response_model=RoleResponseMany)
 async def get_roles(session: AsyncSession = Depends(get_async_session)):
-    stmt = select(Role)
-    roles = []
-    for role in await session.scalars(stmt):
-        roles.append(role)
-    result = roles
+    result = await crud.get_roles(session)
     return {"status": "Success", "data": result, "details": None}
 
 
-@router_role.get("/get/{role_id}")
+@router_role.get("/get/id={role_id}", response_model=RoleResponseOne)
 async def get_role(
-    role_id: str, session: AsyncSession = Depends(get_async_session)
+    role_id: int, session: AsyncSession = Depends(get_async_session)
 ):
-    stmt = select(Role).where(Role.id == int(role_id))
-    result = await session.scalar(stmt)
+    result = await crud.get_role_by_id(session=session, role_id=role_id)
+
+    if result is None:
+        raise HTTPException(
+            status_code=404, detail=f"Role id={role_id} not found!"
+        )
     return {"status": "Success", "data": result, "details": None}
 
 
@@ -76,7 +75,4 @@ async def get_role(
 async def delete_role(
     role_id, session: AsyncSession = Depends(get_async_session)
 ):
-    stmt = delete(Role).where(Role.id == int(role_id))
-    await session.execute(stmt)
-    await session.commit()
     return {"status": "Success", "data": role_id, "details": "Was deleted!"}
