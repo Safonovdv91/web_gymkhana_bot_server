@@ -4,10 +4,10 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from starlette import status
 
 from src.database import get_async_session
+from src.roles.models import Role
+from src.roles.schemas import CreatedResponse, RoleCreate
+from src.roles.service import RoleService
 from src.schemas import OkResponse
-from src.users.models import Role
-from src.users.schemas import CreatedResponse, RoleCreate
-from src.users.service import RoleService
 
 
 router_role = APIRouter(prefix="/api/v1/roles", tags=["role"])

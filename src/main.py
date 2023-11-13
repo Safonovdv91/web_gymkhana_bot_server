@@ -6,8 +6,8 @@ from starlette.responses import JSONResponse
 from src.auth.auth_config import auth_backend, current_user, fastapi_users
 from src.pages.routers import router as page_router
 from src.pages.routers import templates
+from src.roles.router import router_role
 from src.users.models import User
-from src.users.router_role import router_role
 from src.users.router_user import router as auth_router
 from src.users.schemas import UserCreate, UserRead
 

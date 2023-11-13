@@ -1,7 +1,7 @@
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from src.users.crud import RoleRepository, UserRepository
-from src.users.models import Role, User
+from src.users.crud import UserRepository
+from src.users.models import User
 
 
 class UserService:
@@ -60,25 +60,5 @@ class UserService:
             "sub_world_record": user.sub_world_record,
             "registered_at": user.registered_at,
             "telegram_id": user.telegram_id,
-        }
-        return output
-
-
-class RoleService:
-    @classmethod
-    async def add_new_role(
-        cls,
-        session: AsyncSession,
-        new_role,
-    ):
-        role: Role = await RoleRepository.add_new_role(session, new_role)
-
-        return cls.role_to_dict(role)
-
-    @classmethod
-    def role_to_dict(cls, role: Role):
-        output = {
-            "role": role.name,
-            "description": role.description,
         }
         return output

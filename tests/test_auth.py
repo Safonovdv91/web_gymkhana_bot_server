@@ -1,6 +1,6 @@
 from httpx import AsyncClient
 from sqlalchemy import insert, select
-from src.users.models import Role
+from src.roles.models import Role
 from tests.conftest import client, async_session_maker
 
 

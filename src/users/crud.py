@@ -1,11 +1,9 @@
 from fastapi import HTTPException
-from fastapi_users.schemas import model_dump
-from sqlalchemy import delete, insert, select
+from sqlalchemy import delete, select
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
 
-from src.users.models import Role, User
-from src.users.schemas import RoleCreate
+from src.users.models import User
 
 
 class UserRepository:
@@ -119,22 +117,3 @@ class UserRepository:
         await session.execute(stmt)
         await session.commit()
         return user
-
-
-class RoleRepository:
-    @classmethod
-    async def add_new_role(self, session: AsyncSession, new_role: RoleCreate):
-        try:
-            stmt = insert(Role).values(**model_dump(new_role))
-            await session.execute(stmt)
-            await session.commit()
-        except Exception:
-            raise HTTPException(
-                status_code=400,
-                detail={
-                    "status": "Error",
-                    "data": model_dump(new_role),
-                    "details": "Role already exist in DB",
-                },
-            )
-        return new_role

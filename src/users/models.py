@@ -1,8 +1,8 @@
 from datetime import datetime
-from typing import List, Optional
+from typing import Optional
 
 from fastapi_users.db import SQLAlchemyBaseUserTable
-from sqlalchemy import Boolean, ForeignKey, String, false
+from sqlalchemy import Boolean, ForeignKey, false
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
@@ -51,16 +51,6 @@ class User(SQLAlchemyBaseUserTable[int], Base):
             f"registered_at: {self.registered_at} "
             f"telegram_id: {self.telegram_id}"
         )
-
-
-class Role(Base):
-    __tablename__ = "roles"
-
-    id: Mapped[int] = mapped_column(primary_key=True)
-    name: Mapped[str] = mapped_column(String(10), unique=True)
-    description: Mapped[str | None] = mapped_column()
-
-    users: Mapped[List["User"]] = relationship(back_populates="role")
 
 
 class UserDAL:
