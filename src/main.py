@@ -8,7 +8,7 @@ from src.pages.routers import router as page_router
 from src.pages.routers import templates
 from src.roles.router import router_role
 from src.users.models import User
-from src.users.router_user import router as auth_router
+from src.users.router import router as auth_router
 from src.users.schemas import UserCreate, UserRead
 
 
