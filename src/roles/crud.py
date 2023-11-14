@@ -50,3 +50,14 @@ async def create_role(session: AsyncSession, role_in: RoleCreate) -> Role:
     await session.commit()
     # await session.refresh(role)
     return role
+
+
+async def delete_role_by_id(
+    session: AsyncSession, role_id: int
+) -> Role | None:
+    role_for_delete: Role = await session.get(Role, role_id)
+    if role_for_delete is not None:
+        await session.delete(role_for_delete)
+        await session.commit()
+        return role_for_delete
+    return None

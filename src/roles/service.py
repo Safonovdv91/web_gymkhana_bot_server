@@ -2,17 +2,14 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from src.roles.models import Role
 
-from . import crud
 from ..users.models import User
+from . import crud
 
 
 class RoleService:
     @classmethod
     async def add_new_role(
-        cls,
-        session: AsyncSession,
-        new_role,
-        current_user: User
+        cls, session: AsyncSession, new_role, current_user: User
     ) -> Role:
         role: Role = await crud.add_new_role(session, new_role)
         print(f"{current_user.email} add new role: {role}")
@@ -38,5 +35,9 @@ class RoleService:
         return result
 
     @classmethod
-    async def delete_role_by_id(cls, session: AsyncSession, role_id: int):
-        pass
+    async def delete_role_by_id(
+        cls, session: AsyncSession, role_id: int
+    ) -> Role:
+        result: Role = await crud.delete_role_by_id(session, role_id=role_id)
+        print(f"{result.name} was deleted")
+        return result

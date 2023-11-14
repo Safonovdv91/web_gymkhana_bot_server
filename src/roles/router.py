@@ -95,8 +95,11 @@ async def get_role_by_name(
     return {"status": "Success", "data": result, "details": None}
 
 
-@router_role.delete("/del/{role_id}")
+@router_role.delete("/del/id={role_id}")
 async def delete_role(
-    role_id, session: AsyncSession = Depends(get_async_session)
+    role_id: int, session: AsyncSession = Depends(get_async_session)
 ):
-    return {"status": "Success", "data": role_id, "details": "Was deleted!"}
+    result = await RoleService.delete_role_by_id(
+        session=session, role_id=role_id
+    )
+    return {"status": "Success", "data": result, "details": "Was deleted!"}
