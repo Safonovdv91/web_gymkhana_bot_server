@@ -1,7 +1,8 @@
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from src.users.crud import UserRepository
 from src.users.models import User
+
+from . import crud
 
 
 class UserService:
@@ -11,7 +12,7 @@ class UserService:
         session: AsyncSession,
         # user: User = Depends(current_user),
     ):
-        result = await UserRepository.get_users(session)
+        result = await crud.get_users(session)
         output = []
         for row in result.scalars().all():
             user = row
@@ -21,29 +22,36 @@ class UserService:
 
     @classmethod
     async def get_user_by_id(cls, session: AsyncSession, user_id: int):
-        user: User = await UserRepository.get_user_by_id(session, user_id)
+        user: User = await crud.get_user_by_id(session, user_id)
 
         return cls.user_to_dict(user)
 
     @classmethod
     async def get_user_by_email(cls, session: AsyncSession, email: str):
-        user: User | None = await UserRepository.get_user_by_email(
-            session, email
-        )
+        user: User | None = await crud.get_user_by_email(session, email)
 
         return cls.user_to_dict(user)
 
     @classmethod
     async def delete_user_by_email(cls, session: AsyncSession, email: str):
-        user: User = await UserRepository.delete_user_by_email(session, email)
+        user: User = await crud.delete_user_by_email(session, email)
 
         return cls.user_to_dict(user)
 
     @classmethod
     async def delete_user_by_id(cls, session: AsyncSession, user_id: int):
-        user: User = await UserRepository.delete_user_by_id(session, user_id)
+        user: User = await crud.delete_user_by_id(session, user_id)
 
         return cls.user_to_dict(user)
+
+    @classmethod
+    async def get_users_by_role(
+        cls, session: AsyncSession, user_role_id: int
+    ) -> list[User]:
+        users: list[User] = await crud.get_users_by_role(
+            session=session, role_id=user_role_id
+        )
+        return users
 
     @classmethod
     def user_to_dict(cls, user: User):
