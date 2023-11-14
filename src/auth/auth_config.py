@@ -10,7 +10,9 @@ from src.config import SECRET_AUTH
 from src.users.models import User
 
 
-cookie_transport = CookieTransport(cookie_name="rabbitmg", cookie_max_age=3600)
+cookie_transport = CookieTransport(
+    cookie_name="rabbitmg", cookie_max_age=36000
+)
 SECRET = SECRET_AUTH
 
 
