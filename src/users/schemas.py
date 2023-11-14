@@ -5,7 +5,7 @@ from typing import Annotated
 from annotated_types import MaxLen, MinLen
 from fastapi_users import schemas
 from fastapi_users.schemas import CreateUpdateDictModel
-from pydantic import EmailStr
+from pydantic import BaseModel, EmailStr
 
 
 LETTER_MATCH_PATTERN = re.compile(r"^[а-яА-Яa-zA-Z\-]+$")
@@ -34,3 +34,15 @@ class UserCreate(BaseUserCreate):
     login: Annotated[str, MinLen(3), MaxLen(14)]
     email: EmailStr
     password: Annotated[str, MinLen(4)]
+
+
+class UserResponseMany(BaseModel):
+    status: str
+    data: list[UserRead]
+    details: str | None
+
+
+class UserResponseOne(BaseModel):
+    status: str
+    data: list[UserRead]
+    details: str | None
