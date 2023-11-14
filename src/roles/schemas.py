@@ -26,7 +26,7 @@ class RoleResponseOne(BaseModel):
 class RoleResponseMany(BaseModel):
     # model_config = ConfigDict(from_attributes=True)
     status: str
-    data: list[RoleBase]
+    data: list[Role]
     details: str | None
 
 
