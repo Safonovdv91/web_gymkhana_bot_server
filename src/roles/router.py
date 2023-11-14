@@ -6,8 +6,10 @@ from src.database import get_async_session
 from src.roles.schemas import CreatedResponse, RoleCreate, RoleResponseMany
 from src.schemas import OkResponse
 
-from . import crud
+from ..auth.auth_config import current_user
+from ..users.models import User
 from .schemas import RoleResponseOne
+from .service import RoleService
 
 
 router_role = APIRouter(prefix="/api/v1/roles", tags=["role"])
@@ -42,9 +44,9 @@ router_role = APIRouter(prefix="/api/v1/roles", tags=["role"])
 async def add_role(
     new_role: RoleCreate,
     session: AsyncSession = Depends(get_async_session),
-    # user: User = Depends(current_user),
+    user: User = Depends(current_user),
 ):
-    role = await crud.add_new_role(session, new_role)
+    role = await RoleService.add_new_role(session, new_role, current_user=user)
     return {
         "status": "Success",
         "data": role,
@@ -53,20 +55,42 @@ async def add_role(
 
 
 @router_role.get("/get", response_model=RoleResponseMany)
-async def get_roles(session: AsyncSession = Depends(get_async_session)):
-    result = await crud.get_roles(session)
+async def get_roles(
+    session: AsyncSession = Depends(get_async_session),
+    user: User = Depends(current_user),
+):
+    result = await RoleService.get_roles(session)
     return {"status": "Success", "data": result, "details": None}
 
 
 @router_role.get("/get/id={role_id}", response_model=RoleResponseOne)
-async def get_role(
-    role_id: int, session: AsyncSession = Depends(get_async_session)
+async def get_role_by_id(
+    role_id: int,
+    session: AsyncSession = Depends(get_async_session),
+    user: User = Depends(current_user),
 ):
-    result = await crud.get_role_by_id(session=session, role_id=role_id)
+    result = await RoleService.get_role_by_id(session=session, role_id=role_id)
 
     if result is None:
         raise HTTPException(
             status_code=404, detail=f"Role id={role_id} not found!"
+        )
+    return {"status": "Success", "data": result, "details": None}
+
+
+@router_role.get("/get/name={role_name}", response_model=RoleResponseOne)
+async def get_role_by_name(
+    role_name: str,
+    session: AsyncSession = Depends(get_async_session),
+    user: User = Depends(current_user),
+):
+    result = await RoleService.get_role_by_name(
+        session=session, role_name=role_name
+    )
+
+    if result is None:
+        raise HTTPException(
+            status_code=404, detail=f"Role name: {role_name} not found!"
         )
     return {"status": "Success", "data": result, "details": None}
 

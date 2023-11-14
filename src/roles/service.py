@@ -3,6 +3,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from src.roles.models import Role
 
 from . import crud
+from ..users.models import User
 
 
 class RoleService:
@@ -11,16 +12,31 @@ class RoleService:
         cls,
         session: AsyncSession,
         new_role,
-    ):
+        current_user: User
+    ) -> Role:
         role: Role = await crud.add_new_role(session, new_role)
-
+        print(f"{current_user.email} add new role: {role}")
         return role
-        # return cls.role_to_dict(role)
 
     @classmethod
-    def role_to_dict(cls, role: Role):
-        output = {
-            "role2": role.name,
-            "description": role.description,
-        }
-        return output
+    async def get_roles(cls, session: AsyncSession) -> list[Role]:
+        result: list[Role] = await crud.get_roles(session)
+        return result
+
+    @classmethod
+    async def get_role_by_id(cls, session: AsyncSession, role_id: int) -> Role:
+        result = await crud.get_role_by_id(session=session, role_id=role_id)
+        return result
+
+    @classmethod
+    async def get_role_by_name(
+        cls, session: AsyncSession, role_name: str
+    ) -> Role:
+        result = await crud.get_role_by_name(
+            session=session, role_name=role_name
+        )
+        return result
+
+    @classmethod
+    async def delete_role_by_id(cls, session: AsyncSession, role_id: int):
+        pass
