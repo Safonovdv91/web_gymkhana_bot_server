@@ -69,17 +69,6 @@ async def update_role(
     return role
 
 
-async def update_role_partial(
-    session: AsyncSession,
-    role: Role,
-    role_update: RoleUpdatePartial,
-) -> Role:
-    for name, value in role_update.model_dump(exclude_unset=True).items():
-        setattr(role, name, value)
-    await session.commit()
-    return role
-
-
 async def delete_role(session: AsyncSession, role: Role) -> Role | None:
     await session.delete(role)
     await session.commit()

@@ -4,7 +4,7 @@ from src.roles.models import Role
 
 from ..users.models import User
 from . import crud
-from .schemas import RoleUpdate
+from .schemas import RoleUpdate, RoleUpdatePartial
 
 
 class RoleService:
@@ -48,4 +48,12 @@ class RoleService:
     ):
         return await crud.update_role(
             session=session, role=role, role_update=role_update
+        )
+
+    @classmethod
+    async def update_role_partial(
+        cls, session: AsyncSession, role: Role, role_update: RoleUpdatePartial
+    ):
+        return await crud.update_role(
+            session=session, role=role, role_update=role_update, partial=True
         )
