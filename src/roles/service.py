@@ -26,18 +26,14 @@ class RoleService:
         return await crud.get_role_by_id(session=session, role_id=role_id)
 
     @classmethod
-    async def get_role_by_name(
-        cls, session: AsyncSession, role_name: str
-    ) -> Role:
+    async def get_role_by_name(cls, session: AsyncSession, role_name: str) -> Role:
         result = await crud.get_role_by_mask(
             session=session, mask=Role.name, mask_name=role_name
         )
         return result
 
     @classmethod
-    async def delete_role_by_id(
-        cls, session: AsyncSession, role: Role
-    ) -> Role:
+    async def delete_role_by_id(cls, session: AsyncSession, role: Role) -> Role:
         result: Role = await crud.delete_role(session, role=role)
         print(f"{result.name} was deleted")
         return result

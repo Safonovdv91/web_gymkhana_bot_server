@@ -84,9 +84,7 @@ async def get_role_by_name(
     session: AsyncSession = Depends(get_async_session),
     # user: User = Depends(current_user),
 ):
-    result = await RoleService.get_role_by_name(
-        session=session, role_name=role_name
-    )
+    result = await RoleService.get_role_by_name(session=session, role_name=role_name)
 
     if result is None:
         raise HTTPException(
