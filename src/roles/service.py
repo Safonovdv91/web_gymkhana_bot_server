@@ -29,8 +29,8 @@ class RoleService:
     async def get_role_by_name(
         cls, session: AsyncSession, role_name: str
     ) -> Role:
-        result = await crud.get_role_by_name(
-            session=session, role_name=role_name
+        result = await crud.get_role_by_mask(
+            session=session, mask=Role.name, mask_name=role_name
         )
         return result
 

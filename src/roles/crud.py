@@ -35,14 +35,16 @@ async def get_role_by_id(session: AsyncSession, role_id: int) -> Role | None:
     return await session.get(Role, role_id)
 
 
-async def get_role_by_name(
-    session: AsyncSession, role_name: str
+async def get_role_by_mask(
+    session: AsyncSession, mask, mask_name: str,
 ) -> Role | None:
-    query = select(Role).where(Role.name == role_name)
+    """
+    Осуществляет поиск роли по маске
+    """
+    query = select(Role).where(mask == mask_name)
     result: Result = await session.execute(query)
     role = result.scalar_one_or_none()
     return role
-
 
 async def create_role(session: AsyncSession, role_in: RoleCreate) -> Role:
     role = Role(**role_in.model_dump())
