@@ -51,3 +51,16 @@ class RoleCreate(BaseModel):
                 "Only letters, numbers, and underscore are allowed in the name"
             )
         return v
+
+
+class RoleUpdate(RoleCreate):
+    pass
+
+
+class RoleUpdatePartial(RoleCreate):
+    name: Annotated[
+        str,
+        MinLen(3),
+        MaxLen(25),
+    ] | None = None
+    description: Annotated[str, MinLen(3)] | None = None

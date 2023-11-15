@@ -4,6 +4,7 @@ from src.roles.models import Role
 
 from ..users.models import User
 from . import crud
+from .schemas import RoleUpdate
 
 
 class RoleService:
@@ -22,8 +23,7 @@ class RoleService:
 
     @classmethod
     async def get_role_by_id(cls, session: AsyncSession, role_id: int) -> Role:
-        result = await crud.get_role_by_id(session=session, role_id=role_id)
-        return result
+        return await crud.get_role_by_id(session=session, role_id=role_id)
 
     @classmethod
     async def get_role_by_name(
@@ -36,8 +36,16 @@ class RoleService:
 
     @classmethod
     async def delete_role_by_id(
-        cls, session: AsyncSession, role_id: int
+        cls, session: AsyncSession, role: Role
     ) -> Role:
-        result: Role = await crud.delete_role_by_id(session, role_id=role_id)
+        result: Role = await crud.delete_role(session, role=role)
         print(f"{result.name} was deleted")
         return result
+
+    @classmethod
+    async def update_role(
+        cls, session: AsyncSession, role: Role, role_update: RoleUpdate
+    ):
+        return await crud.update_role(
+            session=session, role=role, role_update=role_update
+        )

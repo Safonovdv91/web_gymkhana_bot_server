@@ -3,8 +3,8 @@ from fastapi_users.schemas import model_dump
 from sqlalchemy import Result, insert, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from src.roles.models import Role
-from src.roles.schemas import RoleCreate
+from .models import Role
+from .schemas import RoleCreate, RoleUpdate, RoleUpdatePartial
 
 
 async def add_new_role(session: AsyncSession, new_role: RoleCreate):
@@ -36,7 +36,9 @@ async def get_role_by_id(session: AsyncSession, role_id: int) -> Role | None:
 
 
 async def get_role_by_mask(
-    session: AsyncSession, mask, mask_name: str,
+    session: AsyncSession,
+    mask,
+    mask_name: str,
 ) -> Role | None:
     """
     Осуществляет поиск роли по маске
@@ -46,6 +48,7 @@ async def get_role_by_mask(
     role = result.scalar_one_or_none()
     return role
 
+
 async def create_role(session: AsyncSession, role_in: RoleCreate) -> Role:
     role = Role(**role_in.model_dump())
     session.add(role)
@@ -54,12 +57,30 @@ async def create_role(session: AsyncSession, role_in: RoleCreate) -> Role:
     return role
 
 
-async def delete_role_by_id(
-    session: AsyncSession, role_id: int
-) -> Role | None:
-    role_for_delete: Role = await session.get(Role, role_id)
-    if role_for_delete is not None:
-        await session.delete(role_for_delete)
-        await session.commit()
-        return role_for_delete
-    return None
+async def update_role(
+    session: AsyncSession,
+    role: Role,
+    role_update: RoleUpdate | RoleUpdatePartial,
+    partial: bool = False,
+) -> Role:
+    for name, value in role_update.model_dump(exclude_unset=partial).items():
+        setattr(role, name, value)
+    await session.commit()
+    return role
+
+
+async def update_role_partial(
+    session: AsyncSession,
+    role: Role,
+    role_update: RoleUpdatePartial,
+) -> Role:
+    for name, value in role_update.model_dump(exclude_unset=True).items():
+        setattr(role, name, value)
+    await session.commit()
+    return role
+
+
+async def delete_role(session: AsyncSession, role: Role) -> Role | None:
+    await session.delete(role)
+    await session.commit()
+    return role
