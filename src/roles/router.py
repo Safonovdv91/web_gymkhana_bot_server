@@ -15,6 +15,7 @@ from .schemas import (
     RoleResponseMany,
     RoleResponseOne,
     RoleUpdate,
+    RoleUpdatePartial,
 )
 from .service import RoleService
 
@@ -70,22 +71,20 @@ async def get_roles(
     return {"status": "Success", "data": result, "details": None}
 
 
-@router_role.get("/get/id={role_id}", response_model=RoleResponseOne)
+@router_role.get("/id={role_id}/get", response_model=RoleResponseOne)
 async def get_role_by_id(
     role: Role = Depends(role_by_id),
 ):
     return {"status": "Success", "data": role, "details": None}
 
 
-@router_role.get("/get/name={role_name}", response_model=RoleResponseOne)
+@router_role.get("/name={role_name}/get", response_model=RoleResponseOne)
 async def get_role_by_name(
     role_name: str,
     session: AsyncSession = Depends(get_async_session),
     # user: User = Depends(current_user),
 ):
-    result = await RoleService.get_role_by_name(
-        session=session, role_name=role_name
-    )
+    result = await RoleService.get_role_by_name(session=session, role_name=role_name)
 
     if result is None:
         raise HTTPException(
@@ -94,7 +93,7 @@ async def get_role_by_name(
     return {"status": "Success", "data": result, "details": None}
 
 
-@router_role.delete("/del/id={role_id}")
+@router_role.delete("/id={role_id}/del")
 async def delete_role(
     role: Role = Depends(role_by_id),
     session: AsyncSession = Depends(get_async_session),
@@ -103,13 +102,25 @@ async def delete_role(
     return {"status": "Success", "data": result, "details": "Was deleted!"}
 
 
-@router_role.put("/put/id={role_id}")
+@router_role.put("/id={role_id}/update")
 async def update_role(
     role_update: RoleUpdate,
     role: Role = Depends(role_by_id),
     session: AsyncSession = Depends(get_async_session),
 ):
     result = await RoleService.update_role(
+        session=session, role=role, role_update=role_update
+    )
+    return {"status": "Success", "data": result, "details": "Update success"}
+
+
+@router_role.patch("/id={role_id}/update")
+async def update_role_partial(
+    role_update: RoleUpdatePartial,
+    role: Role = Depends(role_by_id),
+    session: AsyncSession = Depends(get_async_session),
+):
+    result = await RoleService.update_role_partial(
         session=session, role=role, role_update=role_update
     )
     return {"status": "Success", "data": result, "details": "Update success"}
