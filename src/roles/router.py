@@ -3,12 +3,19 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from starlette import status
 
 from src.database import get_async_session
-from src.roles.schemas import CreatedResponse, RoleCreate, RoleResponseMany
 from src.schemas import OkResponse
 
 from ..auth.auth_config import current_user
 from ..users.models import User
-from .schemas import RoleResponseOne
+from .dependecies import role_by_id
+from .schemas import (
+    CreatedResponse,
+    Role,
+    RoleCreate,
+    RoleResponseMany,
+    RoleResponseOne,
+    RoleUpdate,
+)
 from .service import RoleService
 
 
@@ -65,24 +72,16 @@ async def get_roles(
 
 @router_role.get("/get/id={role_id}", response_model=RoleResponseOne)
 async def get_role_by_id(
-    role_id: int,
-    session: AsyncSession = Depends(get_async_session),
-    user: User = Depends(current_user),
+    role: Role = Depends(role_by_id),
 ):
-    result = await RoleService.get_role_by_id(session=session, role_id=role_id)
-
-    if result is None:
-        raise HTTPException(
-            status_code=404, detail=f"Role id={role_id} not found!"
-        )
-    return {"status": "Success", "data": result, "details": None}
+    return {"status": "Success", "data": role, "details": None}
 
 
 @router_role.get("/get/name={role_name}", response_model=RoleResponseOne)
 async def get_role_by_name(
     role_name: str,
     session: AsyncSession = Depends(get_async_session),
-    user: User = Depends(current_user),
+    # user: User = Depends(current_user),
 ):
     result = await RoleService.get_role_by_name(
         session=session, role_name=role_name
@@ -97,9 +96,20 @@ async def get_role_by_name(
 
 @router_role.delete("/del/id={role_id}")
 async def delete_role(
-    role_id: int, session: AsyncSession = Depends(get_async_session)
+    role: Role = Depends(role_by_id),
+    session: AsyncSession = Depends(get_async_session),
 ):
-    result = await RoleService.delete_role_by_id(
-        session=session, role_id=role_id
-    )
+    result = await RoleService.delete_role_by_id(session=session, role=role)
     return {"status": "Success", "data": result, "details": "Was deleted!"}
+
+
+@router_role.put("/put/id={role_id}")
+async def update_role(
+    role_update: RoleUpdate,
+    role: Role = Depends(role_by_id),
+    session: AsyncSession = Depends(get_async_session),
+):
+    result = await RoleService.update_role(
+        session=session, role=role, role_update=role_update
+    )
+    return {"status": "Success", "data": result, "details": "Update success"}
