@@ -58,7 +58,7 @@ async def add_role(
     return {
         "status": "Success",
         "data": role,
-        "details": "Additing role success",
+        "details": f"Adding role: [{role.name} - {role.description}] SUCCESS",
     }
 
 

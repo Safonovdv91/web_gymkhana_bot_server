@@ -9,7 +9,7 @@ class TestApiAuthentification:
         self,
     ):
         async with async_session_maker() as session:
-            stmt = insert(Role).values(id=1, name="Admin", description="Test of admin")
+            stmt = insert(Role).values(name="Admin", description="Test of admin")
             await session.execute(stmt)
             await session.commit()
 
@@ -20,9 +20,9 @@ class TestApiAuthentification:
             assert result.name == "Admin"
             assert result.description == "Test of admin"
 
-            stmt = insert(Role).values(id=2, name="User", description="Test of user")
+            stmt = insert(Role).values(name="User", description="Test of user")
             await session.execute(stmt)
-            stmt = insert(Role).values(id=3, name="Guest", description="Test of guest")
+            stmt = insert(Role).values(name="Guest", description="Test of guest")
             await session.execute(stmt)
             await session.commit()
 
