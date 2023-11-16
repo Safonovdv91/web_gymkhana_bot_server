@@ -185,23 +185,118 @@ class TestRoleDelete(TestRole):
         response = await ac.get(url=url_get, cookies=cookies)
         assert response.status_code == 404, "Deleting not work, user exist"
 
+    async def test_delete_role_by_name_unauthorized(self, ac: AsyncClient):
+        url_del = f"{self.URL_PREFIX}/name={self.ROLE_FOR_DELETE_NAME}/delete"
+        response = await ac.delete(url=url_del)
+
+        assert response.status_code == 401, "Unauthorized not work"
+
     async def test_delete_role_by_name_ok(self, ac: AsyncClient, jwt_token):
         url_get = f"{self.URL_PREFIX}/name={self.ROLE_FOR_DELETE_NAME}"
         url_del = f"{url_get}/delete"
         cookies: dict = {"rabbitmg": jwt_token}
-        response = await ac.get(
-            url=url_get,
-            cookies=cookies
-        )
+        response = await ac.get(url=url_get, cookies=cookies)
         assert response.status_code == 200, "Role doesn't exist"
-        response = await ac.delete(
-            url=url_del,
-            cookies=cookies
-        )
+        response = await ac.delete(url=url_del, cookies=cookies)
 
         assert response.status_code == 200, "Deleting bad"
+        response = await ac.get(url=url_get, cookies=cookies)
+        assert response.status_code == 404, "Deleting not work, user exist"
+
+    async def test_delete_role_by_id_unauthorized(self, ac: AsyncClient):
+        url_del = f"{self.URL_PREFIX}/id={self.ROLE_FOR_DELETE_ID}/delete"
+        response = await ac.delete(url=url_del)
+
+        assert response.status_code == 401, "Unauthorized not work"
+
+
+class TestRoleUpdate(TestRole):
+    ROLE_FOR_PUT_NAME = "Admin_put"
+    ROLE_FOR_PATCH_NAME = "Admin_patch"
+
+    async def test_role_put(self, ac: AsyncClient, jwt_token):
+        url_get = f"{self.URL_PREFIX}/name={self.ROLE_FOR_PUT_NAME}"
+        cookies: dict = {"rabbitmg": jwt_token}
         response = await ac.get(
             url=url_get,
-            cookies=cookies
+            cookies=cookies,
         )
-        assert response.status_code == 404, "Deleting not work, user exist"
+
+        id_role = response.json()["data"]["id"]
+
+        url_put = f"{self.URL_PREFIX}/id={id_role}/update"
+        assert response.status_code == 200, "Role doesn't exist"
+        assert response.json()["data"]["name"] == "Admin_put"
+        response = await ac.put(
+            url=url_put,
+            cookies=cookies,
+            json={
+                "name": "Admin_up",
+                "description": "UPGRADED",
+            },
+        )
+
+        assert response.status_code == 200, "Put bad"
+        response = await ac.get(url=f"{self.URL_PREFIX}/id={id_role}", cookies=cookies)
+        assert response.status_code == 200, "Updateing not work, user exist"
+        assert response.json()["data"]["name"] == "Admin_up", "PUT name not work"
+        assert (
+            response.json()["data"]["description"] == "UPGRADED"
+        ), "Put discription not work"
+
+    async def test_role_put_unauthorized(self, ac: AsyncClient, jwt_token):
+        url_get = f"{self.URL_PREFIX}/name={self.ROLE_FOR_PATCH_NAME}"
+        cookies: dict = {"rabbitmg": jwt_token}
+        response = await ac.get(
+            url=url_get,
+            cookies=cookies,
+        )
+
+        id_role = response.json()["data"]["id"]
+
+        url_put = f"{self.URL_PREFIX}/id={id_role}/update"
+        assert response.status_code == 200, "Role doesn't exist"
+        assert response.json()["data"]["name"] == "Admin_patch"
+        response = await ac.put(
+            url=url_put,
+            json={
+                "name": "Admin_up",
+                "description": "UPGRADED",
+            },
+        )
+        assert response.status_code == 401, "Unauthorized problem"
+
+        response = await ac.get(url=f"{self.URL_PREFIX}/id={id_role}", cookies=cookies)
+        assert response.status_code == 200, "Updateing not work, user exist"
+        assert response.json()["data"]["name"] == "Admin_patch", "PUT name not work"
+        assert (
+            response.json()["data"]["description"] == "Admin for patch"
+        ), "Put discription not work"
+
+    async def test_role_patch(self, ac: AsyncClient, jwt_token):
+        url_get = f"{self.URL_PREFIX}/name={self.ROLE_FOR_PATCH_NAME}"
+        cookies: dict = {"rabbitmg": jwt_token}
+        response = await ac.get(
+            url=url_get,
+            cookies=cookies,
+        )
+
+        id_role = response.json()["data"]["id"]
+
+        url_put = f"{self.URL_PREFIX}/id={id_role}/update"
+        assert response.status_code == 200, "Role doesn't exist"
+        assert response.json()["data"]["name"] == "Admin_patch"
+        response = await ac.patch(
+            url=url_put,
+            cookies=cookies,
+            json={
+                "description": "UPGRADED",
+            },
+        )
+        assert response.status_code == 200, "PATCH BAD"
+        response = await ac.get(url=f"{self.URL_PREFIX}/id={id_role}", cookies=cookies)
+        assert response.status_code == 200, "Updateing not work, user exist"
+        assert response.json()["data"]["name"] == "Admin_patch", "PUT name not work"
+        assert (
+            response.json()["data"]["description"] == "UPGRADED"
+        ), "Put discription not work"

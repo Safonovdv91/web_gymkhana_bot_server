@@ -29,7 +29,9 @@ async def role_by_name(
     session: AsyncSession = Depends(get_async_session),
     user: User = Depends(current_user),
 ) -> Role:
-    role = await RoleService.get_role_by_name(session=session, role_name=role_name)
+    role = await RoleService.get_role_by_name(
+        session=session, role_name=role_name
+    )
     if role is None:
         raise HTTPException(
             status_code=404, detail=f"Role id={role_name} not found!"

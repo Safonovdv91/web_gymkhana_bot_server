@@ -35,9 +35,7 @@ class RoleService:
         return result
 
     @classmethod
-    async def delete_role(
-        cls, session: AsyncSession, role: Role
-    ) -> Role:
+    async def delete_role(cls, session: AsyncSession, role: Role) -> Role:
         result: Role = await crud.delete_role(session, role=role)
         print(f"{result.name} was deleted")
         return result
