@@ -7,7 +7,7 @@ from src.schemas import OkResponse
 
 from ..auth.auth_config import current_user
 from ..users.models import User
-from .dependecies import role_by_id
+from .dependecies import role_by_id, role_by_name
 from .schemas import (
     CreatedResponse,
     Role,
@@ -68,7 +68,11 @@ async def get_roles(
     user: User = Depends(current_user),
 ):
     result = await RoleService.get_roles(session)
-    return {"status": "Success", "data": result, "details": None}
+    return {
+        "status": "Success",
+        "data": result,
+        "details": {"count": len(result)},
+    }
 
 
 @router_role.get("/id={role_id}", response_model=RoleResponseOne)
@@ -80,27 +84,26 @@ async def get_role_by_id(
 
 @router_role.get("/name={role_name}", response_model=RoleResponseOne)
 async def get_role_by_name(
-    role_name: str,
-    session: AsyncSession = Depends(get_async_session),
-    # user: User = Depends(current_user),
+    role: Role = Depends(role_by_name),
 ):
-    result = await RoleService.get_role_by_name(
-        session=session, role_name=role_name
-    )
-
-    if result is None:
-        raise HTTPException(
-            status_code=404, detail=f"Role name: {role_name} not found!"
-        )
-    return {"status": "Success", "data": result, "details": None}
+    return {"status": "Success", "data": role, "details": None}
 
 
-@router_role.delete("/id={role_id}/del")
-async def delete_role(
+@router_role.delete("/id={role_id}/delete")
+async def delete_role_id(
     role: Role = Depends(role_by_id),
     session: AsyncSession = Depends(get_async_session),
 ):
-    result = await RoleService.delete_role_by_id(session=session, role=role)
+    result = await RoleService.delete_role(session=session, role=role)
+    return {"status": "Success", "data": result, "details": "Was deleted!"}
+
+
+@router_role.delete("/name={role_name}/delete")
+async def delete_role_name(
+    role: Role = Depends(role_by_name),
+    session: AsyncSession = Depends(get_async_session),
+):
+    result = await RoleService.delete_role(session=session, role=role)
     return {"status": "Success", "data": result, "details": "Was deleted!"}
 
 

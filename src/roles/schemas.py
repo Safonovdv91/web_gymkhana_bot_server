@@ -25,7 +25,7 @@ class RoleResponseOne(BaseModel):
 class RoleResponseMany(BaseModel):
     status: str
     data: list[Role]
-    details: str | None
+    details: str | dict | None
 
 
 class CreatedResponse(BaseModel):
