@@ -17,14 +17,12 @@ class Role(RoleBase):
 
 
 class RoleResponseOne(BaseModel):
-    # model_config = ConfigDict(from_attributes=True)
     status: str
     data: Role
     details: str | None
 
 
 class RoleResponseMany(BaseModel):
-    # model_config = ConfigDict(from_attributes=True)
     status: str
     data: list[Role]
     details: str | None
@@ -40,7 +38,7 @@ class RoleCreate(BaseModel):
     name: Annotated[
         str,
         MinLen(3),
-        MaxLen(25),
+        MaxLen(20),
     ]
     description: Annotated[str, MinLen(3)]
 
@@ -61,6 +59,6 @@ class RoleUpdatePartial(RoleCreate):
     name: Annotated[
         str,
         MinLen(3),
-        MaxLen(25),
+        MaxLen(20),
     ] | None = None
     description: Annotated[str, MinLen(3)] | None = None

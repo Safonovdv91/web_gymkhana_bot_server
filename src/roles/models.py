@@ -10,7 +10,7 @@ class Role(Base):
     __tablename__ = "roles"
 
     id: Mapped[int] = mapped_column(primary_key=True)
-    name: Mapped[str] = mapped_column(String(10), unique=True)
+    name: Mapped[str] = mapped_column(String(20), unique=True)
     description: Mapped[str | None] = mapped_column()
 
     users: Mapped[List["User"]] = relationship(back_populates="role")
