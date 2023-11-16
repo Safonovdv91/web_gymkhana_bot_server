@@ -68,7 +68,7 @@ async def get_current_user(
 
 
 @router.get(
-    "/get/email={email}",
+    "/email={email}",
     responses={
         status.HTTP_200_OK: {
             "model": UserResponseOne,  # custom pydantic model for 200 response
@@ -85,7 +85,7 @@ async def get_user_by_email(
 
 
 @router.get(
-    "/get/role={role}",
+    "/role={role}/get",
     responses={
         status.HTTP_200_OK: {
             "model": UserResponseMany,  # custom pydantic model for 200 response
@@ -104,7 +104,7 @@ async def get_users_by_role_id(
 
 
 @router.delete(
-    "/delete/email={email}",
+    "/email={email}/delete",
     responses={
         status.HTTP_200_OK: {
             "model": UserResponseOne,  # custom pydantic model for 200 response
@@ -127,7 +127,7 @@ async def del_user_by_email(
 
 
 @router.delete(
-    "/delete/id={user_id}",
+    "/id={user_id}/delete",
     responses={
         status.HTTP_200_OK: {
             "model": UserResponseOne,  # custom pydantic model for 200 response

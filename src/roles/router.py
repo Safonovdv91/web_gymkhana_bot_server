@@ -71,20 +71,22 @@ async def get_roles(
     return {"status": "Success", "data": result, "details": None}
 
 
-@router_role.get("/id={role_id}/get", response_model=RoleResponseOne)
+@router_role.get("/id={role_id}", response_model=RoleResponseOne)
 async def get_role_by_id(
     role: Role = Depends(role_by_id),
 ):
     return {"status": "Success", "data": role, "details": None}
 
 
-@router_role.get("/name={role_name}/get", response_model=RoleResponseOne)
+@router_role.get("/name={role_name}", response_model=RoleResponseOne)
 async def get_role_by_name(
     role_name: str,
     session: AsyncSession = Depends(get_async_session),
     # user: User = Depends(current_user),
 ):
-    result = await RoleService.get_role_by_name(session=session, role_name=role_name)
+    result = await RoleService.get_role_by_name(
+        session=session, role_name=role_name
+    )
 
     if result is None:
         raise HTTPException(
