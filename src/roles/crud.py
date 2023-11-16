@@ -12,13 +12,13 @@ async def add_new_role(session: AsyncSession, new_role: RoleCreate):
         stmt = insert(Role).values(**model_dump(new_role))
         await session.execute(stmt)
         await session.commit()
-    except Exception:
+    except Exception as e:
         raise HTTPException(
             status_code=400,
             detail={
                 "status": "Error",
                 "data": model_dump(new_role),
-                "details": "Role already exist in DB",
+                "details": f"Error {e}",
             },
         )
     return new_role
