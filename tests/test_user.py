@@ -29,10 +29,10 @@ class TestUserApiGetByEmail:
         ("123"),
     ]
 
-    @pytest.mark.parametrize('email', emails)
+    @pytest.mark.parametrize("email", emails)
     async def test_user_get_by_email(self, ac: AsyncClient, email):
         # url = f"{self.common_url}/get/email=user3@example.com"
-        url = f"{self.common_url}/get/email={email}"
+        url = f"{self.common_url}/email={email}"
         response = await ac.get(url=url)
         if email == "user3@example.com":
             assert response.status_code == 200
@@ -51,7 +51,7 @@ class TestUserApiGetByEmail:
             assert response.status_code == 404
 
     async def test_user_get_by_email_not_exist(self, ac: AsyncClient):
-        url = f"{self.common_url}/get/email=usernotexist@example.com"
+        url = f"{self.common_url}/email=usernotexist@example.com/get"
         response = await ac.get(url=url)
         assert response.status_code == 404, "Not exist user -> not 404"
 
@@ -60,6 +60,19 @@ class TestUserApiGetByEmail:
     #     response = await ac.get(url=url, cookies=login_cookies)
     #     assert response.status_code == 200
     #     assert response.json()["data"]["email"] == "user3@example.com"
+
+    @pytest.mark.asyncio
+    async def test_get_current_user(self, jwt_token, ac: AsyncClient):
+        # Пример тестирования другого эндпоинта, требующего аутентификации через cookies
+        test_url = (
+            "http://127.0.0.1:8000/api/v1/users/current"  # Замените на реальный URL
+        )
+        cookies = {"rabbitmg": jwt_token}
+        response = await ac.get(test_url, cookies=cookies)
+
+        assert response.status_code == 200
+        assert response.json()["data"]["email"] == "for_login@example.com"
+        # Добавьте дополнительные проверки для ответа, если необходимо
 
 
 class TestUserApiDeleteByEmail:
@@ -73,31 +86,50 @@ class TestUserApiDeleteByEmail:
     ]
 
     async def test_register_post(self, ac: AsyncClient):
-        response = await ac.post("/auth/register", json={
-            "email": "user_for_delete@example.com",
-            "password": "string",
-            "is_active": True,
-            "is_superuser": False,
-            "is_verified": False,
-            "login": "string"
-        })
+        response = await ac.post(
+            "/auth/register",
+            json={
+                "email": "user_for_delete@example.com",
+                "password": "string",
+                "is_active": True,
+                "is_superuser": False,
+                "is_verified": False,
+                "login": "string",
+            },
+        )
         assert response.status_code == 201, "User add register"
 
     @pytest.mark.parametrize("email", emails)
     async def test_user_delete_by_email(self, ac: AsyncClient, email):
-        url = f"{self.common_url}/delete/email={email}"
+        url = f"{self.common_url}/email={email}/delete"
         response = await ac.delete(url)
 
         if email == "user_for_delete@example.com":
             assert response.status_code == 200, "delete exist user not status 200"
-            assert response.json()["status"] == "Success", "delete exist user not status 200"
-            assert response.json()["details"] == f"{email} was deleted", "delete exist user not status 200"
+            assert (
+                response.json()["status"] == "Success"
+            ), "delete exist user not status 200"
+            assert (
+                response.json()["details"] == "Was deleted!"
+            ), "delete exist user not status 200"
         elif email == "usernoexist@example.com":
             assert response.status_code == 404
         else:
             assert response.status_code == 422
 
     async def test_check_user_delete_by_email_check(self, ac: AsyncClient):
-        url = f"{self.common_url}/get/email=user_for_delete@example.com"
+        url = f"{self.common_url}/email=user_for_delete@example.com"
         response = await ac.get(url)
         assert response.status_code == 404
+
+    async def test_get_current_user(self, ac: AsyncClient, jwt_token):
+        # Пример тестирования другого эндпоинта, требующего аутентификации через cookies
+        test_url = (
+            "http://127.0.0.1:8000/api/v1/users/current"  # Замените на реальный URL
+        )
+        cookies = {"rabbitmg": jwt_token}
+        response = await ac.get(test_url, cookies=cookies)
+
+        assert response.status_code == 200
+        assert response.json()["data"]["email"] == "for_login@example.com"
+        # Добавьте дополнительные проверки для ответа, если необходимо

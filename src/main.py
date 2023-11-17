@@ -1,20 +1,20 @@
+import time
+
 import uvicorn
-from fastapi import Depends, FastAPI, HTTPException
+from fastapi import Depends, FastAPI, HTTPException, Request
 from starlette.middleware.cors import CORSMiddleware
 from starlette.responses import JSONResponse
 
 from src.auth.auth_config import auth_backend, current_user, fastapi_users
 from src.pages.routers import router as page_router
 from src.pages.routers import templates
+from src.roles.router import router_role
 from src.users.models import User
-from src.users.routers import router as auth_router
-from src.users.routers import router_role
+from src.users.router import router as auth_router
 from src.users.schemas import UserCreate, UserRead
 
 
 app = FastAPI(title="RabbitMG")
-
-# app.mount("/static", StaticFiles(directory="src/static"), name="static")
 
 origins = [
     "http://localhost:5500",
@@ -28,9 +28,25 @@ app.add_middleware(
     allow_origins=origins,
     allow_credentials=True,
     allow_methods=["GET", "POST", "OPTIONS", "DELETE", "PATCH", "PUT"],
-    allow_headers=["Content-Type", "Set-Cookie", "Access-Control-Allow-Headers", "Access-Control-Allow-Origin",
-                   "Authorization"],
+    allow_headers=[
+        "Content-Type",
+        "Set-Cookie",
+        "Access-Control-Allow-Headers",
+        "Access-Control-Allow-Origin",
+        "Authorization",
+    ],
 )
+
+
+@app.middleware("http")
+async def add_process_time_header(request: Request, call_next):
+    start_time = time.time()
+    response = await call_next(request)
+    process_time = time.time() - start_time
+    response.headers["X-Process-Time"] = str(process_time)
+    return response
+
+
 @app.exception_handler(HTTPException)
 async def http_exception_handler(request, exc):
     if exc.status_code == 404:
@@ -60,15 +76,6 @@ app.include_router(page_router)
 @app.get("/protected-route")
 def protected_route(user: User = Depends(current_user)):
     return f"Hello, {user.login} you are {user.email} and your role is {user.role_id}"
-
-
-# # Создание главного роутера
-# main_api_router = APIRouter()
-# # настройка роутеров для
-# main_api_router.include_router(
-#     user_router, prefix="/user", tags=["user2", "login"]
-# )
-# app.include_router(main_api_router)
 
 
 if __name__ == "__main__":

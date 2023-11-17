@@ -1,7 +1,10 @@
 import re
 from datetime import datetime
+from typing import Annotated
 
+from annotated_types import MaxLen, MinLen
 from fastapi_users import schemas
+from fastapi_users.schemas import CreateUpdateDictModel
 from pydantic import BaseModel, EmailStr
 
 
@@ -22,24 +25,24 @@ class UserRead(schemas.BaseUser[int]):
     role_id: int
 
 
-class UserCreate(schemas.BaseUserCreate):
-    login: str
+class BaseUserCreate(CreateUpdateDictModel):
     email: EmailStr
     password: str
 
 
-class RoleCreate(BaseModel):
-    name: str
-    description: str
+class UserCreate(BaseUserCreate):
+    login: Annotated[str, MinLen(3), MaxLen(14)]
+    email: EmailStr
+    password: Annotated[str, MinLen(4)]
 
 
-class RoleRead(BaseModel):
-    id: str
-    name: str
-    description: str
+class UserResponseMany(BaseModel):
+    status: str
+    data: list[UserRead]
+    details: str | None
 
 
-class CreatedResponse(BaseModel):
-    status: int
-    data: dict
-    details: str
+class UserResponseOne(BaseModel):
+    status: str
+    data: list[UserRead]
+    details: str | None
