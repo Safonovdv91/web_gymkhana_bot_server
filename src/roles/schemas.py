@@ -28,12 +28,6 @@ class RoleResponseMany(BaseModel):
     details: str | dict | None
 
 
-class CreatedResponse(BaseModel):
-    status: int
-    data: RoleBase
-    details: str
-
-
 class RoleCreate(BaseModel):
     name: Annotated[
         str,

@@ -39,7 +39,7 @@ class UserCreate(BaseUserCreate):
 class UserResponseMany(BaseModel):
     status: str
     data: list[UserRead]
-    details: str | None
+    details: str | dict | None
 
 
 class UserResponseOne(BaseModel):

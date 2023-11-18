@@ -19,8 +19,12 @@ router = APIRouter(prefix="/api/v1/users", tags=["user"])
     "",
     responses={
         status.HTTP_200_OK: {
-            "model": UserResponseMany,  # custom pydantic model for 200 response
-            "description": "Ok Response",
+            "model": UserResponseMany,
+            "description": "Return all users in db",
+        },
+        status.HTTP_401_UNAUTHORIZED: {
+            "model": None,
+            "description": "UNAUTHORIZED",
         },
     },
 )
@@ -28,16 +32,24 @@ async def get_users(
     session: AsyncSession = Depends(get_async_session),
     # user: User = Depends(current_user),
 ):
-    data = await UserService.lst(session)
-    return {"status": "Success", "data": data, "details": None}
+    users = await UserService.lst(session)
+    return {
+        "status": "Success",
+        "data": users,
+        "details": {"count_users": len(users)},
+    }
 
 
 @router.get(
     "/id={user_id}",
     responses={
         status.HTTP_200_OK: {
-            "model": UserResponseOne,  # custom pydantic model for 200 response
-            "description": "Deleting user by id",
+            "model": UserResponseOne,
+            "description": "Return one user data",
+        },
+        status.HTTP_401_UNAUTHORIZED: {
+            "model": None,
+            "description": "UNAUTHORIZED",
         },
     },
 )
@@ -54,8 +66,12 @@ async def get_user_by_id(
     "/current",
     responses={
         status.HTTP_200_OK: {
-            "model": UserResponseOne,  # custom pydantic model for 200 response
-            "description": "Deleting user by id",
+            "model": UserResponseOne,
+            "description": "Return current user data",
+        },
+        status.HTTP_401_UNAUTHORIZED: {
+            "model": None,
+            "description": "UNAUTHORIZED",
         },
     },
 )
@@ -71,8 +87,12 @@ async def get_current_user(
     "/email={email}",
     responses={
         status.HTTP_200_OK: {
-            "model": UserResponseOne,  # custom pydantic model for 200 response
-            "description": "Deleting user by id",
+            "model": UserResponseOne,
+            "description": "Return one user data by email",
+        },
+        status.HTTP_401_UNAUTHORIZED: {
+            "model": None,
+            "description": "UNAUTHORIZED",
         },
     },
 )
@@ -88,8 +108,12 @@ async def get_user_by_email(
     "/role={role}/get",
     responses={
         status.HTTP_200_OK: {
-            "model": UserResponseMany,  # custom pydantic model for 200 response
-            "description": "Ok Response",
+            "model": UserResponseMany,
+            "description": "Return all user's data with role",
+        },
+        status.HTTP_401_UNAUTHORIZED: {
+            "model": None,
+            "description": "UNAUTHORIZED",
         },
     },
 )
@@ -99,16 +123,23 @@ async def get_users_by_role_id(
     users = await UserService.get_users_by_role(
         session=session, user_role_id=role_id
     )
-
-    return {"status": "Success", "data": users, "details": None}
+    return {
+        "status": "Success",
+        "data": users,
+        "details": {"count_users": len(users)},
+    }
 
 
 @router.delete(
     "/email={email}/delete",
     responses={
         status.HTTP_200_OK: {
-            "model": UserResponseOne,  # custom pydantic model for 200 response
-            "description": "Deleting user by id",
+            "model": UserResponseOne,
+            "description": "Return deleting user data",
+        },
+        status.HTTP_401_UNAUTHORIZED: {
+            "model": None,
+            "description": "UNAUTHORIZED",
         },
     },
 )
@@ -122,7 +153,7 @@ async def del_user_by_email(
     return {
         "status": "Success",
         "data": user,
-        "details": "Was deleted!",
+        "details": f"User with email: [{email}] delete success!",
     }
 
 
@@ -130,12 +161,16 @@ async def del_user_by_email(
     "/id={user_id}/delete",
     responses={
         status.HTTP_200_OK: {
-            "model": UserResponseOne,  # custom pydantic model for 200 response
-            "description": "Deleting user by id",
+            "model": UserResponseOne,
+            "description": "Return deleting user data",
+        },
+        status.HTTP_401_UNAUTHORIZED: {
+            "model": None,
+            "description": "UNAUTHORIZED",
         },
     },
 )
-async def del_user_id(
+async def del_user_by_id(
     user_id: int,
     session: AsyncSession = Depends(get_async_session),
     # user: User = Depends(current_user),
@@ -144,4 +179,8 @@ async def del_user_id(
         session=session, user_id=user_id
     )
 
-    return {"status": "Success", "data": user, "details": "Was deleted"}
+    return {
+        "status": "Success",
+        "data": user,
+        "details": f"User with email: [{user_id}] delete success!",
+    }

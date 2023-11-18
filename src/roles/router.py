@@ -62,10 +62,10 @@ async def add_role(
 @router_role.get(
     "/get",
     responses={
-        # status.HTTP_200_OK: {
-        #     "model": RoleResponseMany,  # custom pydantic model for 201 response
-        #     "description": "Returm all existing roles",
-        # },
+        status.HTTP_200_OK: {
+            "model": RoleResponseMany,  # custom pydantic model for 201 response
+            "description": "Returm all existing roles",
+        },
         status.HTTP_401_UNAUTHORIZED: {
             "model": None,  # custom pydantic model for 401 response
             "description": "UNAUTHORIZED",
@@ -80,9 +80,7 @@ async def get_roles(
     return {
         "status": "Success",
         "data": result,
-        "details": {
-            "count_roles": len(result)
-        },
+        "details": {"count_roles": len(result)},
     }
 
 
@@ -149,7 +147,7 @@ async def get_role_by_name(
         },
     },
 )
-async def delete_role_id(
+async def delete_role_by_id(
     role: Role = Depends(role_by_id),
     session: AsyncSession = Depends(get_async_session),
 ):
@@ -174,7 +172,7 @@ async def delete_role_id(
         },
     },
 )
-async def delete_role_name(
+async def delete_role_by_name(
     role: Role = Depends(role_by_name),
     session: AsyncSession = Depends(get_async_session),
 ):
