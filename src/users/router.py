@@ -1,15 +1,14 @@
-from typing import Annotated
-
-from fastapi import APIRouter, Depends, Path
-from pydantic import EmailStr
+from fastapi import APIRouter, Depends
 from sqlalchemy.ext.asyncio import AsyncSession
 from starlette import status
 
 from src.auth.auth_config import current_user
 from src.database import get_async_session
-from src.users.models import User
-from src.users.schemas import UserResponseMany, UserResponseOne
-from src.users.service import UserService
+
+from .dependecies import user_by_email, user_by_id
+from .models import User
+from .schemas import UserResponseMany, UserResponseOne
+from .service import UserService
 
 
 router = APIRouter(prefix="/api/v1/users", tags=["user"])
@@ -27,12 +26,13 @@ router = APIRouter(prefix="/api/v1/users", tags=["user"])
             "description": "UNAUTHORIZED",
         },
     },
+    response_model=UserResponseMany,
 )
 async def get_users(
     session: AsyncSession = Depends(get_async_session),
-    # user: User = Depends(current_user),
+    curr_user: User = Depends(current_user),
 ):
-    users = await UserService.lst(session)
+    users = await UserService.get_users(session=session, user=curr_user)
     return {
         "status": "Success",
         "data": users,
@@ -52,13 +52,11 @@ async def get_users(
             "description": "UNAUTHORIZED",
         },
     },
+    response_model=UserResponseOne,
 )
 async def get_user_by_id(
-    user_id: Annotated[int, Path(ge=1, le=1_000_000)],
-    session: AsyncSession = Depends(get_async_session),
+    user: User = Depends(user_by_id),
 ):
-    user = await UserService.get_user_by_id(session, user_id)
-
     return {"status": "Success", "data": user, "details": None}
 
 
@@ -74,17 +72,20 @@ async def get_user_by_id(
             "description": "UNAUTHORIZED",
         },
     },
+    response_model=UserResponseOne,
 )
 async def get_current_user(
     session: AsyncSession = Depends(get_async_session),
     curr_user: User = Depends(current_user),
 ):
-    user = await UserService.get_user_by_id(session, int(curr_user.id))
+    user = await UserService.get_user_by_id(
+        session=session, user_id=curr_user.id
+    )
     return {"status": "Success", "data": user, "details": None}
 
 
 @router.get(
-    "/email={email}",
+    "/",
     responses={
         status.HTTP_200_OK: {
             "model": UserResponseOne,
@@ -95,17 +96,17 @@ async def get_current_user(
             "description": "UNAUTHORIZED",
         },
     },
+    response_model=UserResponseOne,
 )
 async def get_user_by_email(
-    email: EmailStr, session: AsyncSession = Depends(get_async_session)
+    user: User = Depends(user_by_email),
+    curr_user: User = Depends(current_user),
 ):
-    user = await UserService.get_user_by_email(session, email)
-
     return {"status": "Success", "data": user, "details": None}
 
 
 @router.get(
-    "/role={role}/get",
+    "/role={role}",
     responses={
         status.HTTP_200_OK: {
             "model": UserResponseMany,
@@ -116,9 +117,12 @@ async def get_user_by_email(
             "description": "UNAUTHORIZED",
         },
     },
+    response_model=UserResponseMany,
 )
 async def get_users_by_role_id(
-    role_id: int, session: AsyncSession = Depends(get_async_session)
+    role_id: int,
+    session: AsyncSession = Depends(get_async_session),
+    curr_user: User = Depends(current_user),
 ):
     users = await UserService.get_users_by_role(
         session=session, user_role_id=role_id
@@ -142,18 +146,19 @@ async def get_users_by_role_id(
             "description": "UNAUTHORIZED",
         },
     },
+    response_model=UserResponseOne,
 )
 async def del_user_by_email(
-    email: EmailStr,
+    user: User = Depends(user_by_email),
     session: AsyncSession = Depends(get_async_session),
-    # user: User = Depends(current_user),
+    cur_user: User = Depends(current_user),
 ):
-    user = await UserService.delete_user_by_email(session, email)
+    user = await UserService.delete_user(session, user)
 
     return {
         "status": "Success",
         "data": user,
-        "details": f"User with email: [{email}] delete success!",
+        "details": f"User with email: [{user.email}] delete success!",
     }
 
 
@@ -169,18 +174,16 @@ async def del_user_by_email(
             "description": "UNAUTHORIZED",
         },
     },
+    response_model=UserResponseOne,
 )
 async def del_user_by_id(
-    user_id: int,
     session: AsyncSession = Depends(get_async_session),
-    # user: User = Depends(current_user),
+    user: User = Depends(user_by_id),
+    curr_user: User = Depends(current_user),
 ):
-    user = await UserService.delete_user_by_id(
-        session=session, user_id=user_id
-    )
-
+    user = await UserService.delete_user(session, user)
     return {
         "status": "Success",
         "data": user,
-        "details": f"User with email: [{user_id}] delete success!",
+        "details": f"User with email: [{user.id}] delete success!",
     }
