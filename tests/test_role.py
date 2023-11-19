@@ -100,7 +100,7 @@ class TestRoleGet(TestRole):
     ]
 
     async def test_get_roles(self, ac: AsyncClient, jwt_token):
-        url = f"{self.URL_PREFIX}/get"
+        url = f"{self.URL_PREFIX}"
         cookies = {"rabbitmg": jwt_token}
         response = await ac.get(url=url, cookies=cookies)
         assert response.status_code == 200
@@ -109,7 +109,7 @@ class TestRoleGet(TestRole):
         ), "Count of role incorrect"
 
     async def test_get_roles_unauthorized(self, ac: AsyncClient):
-        url = f"{self.URL_PREFIX}/get"
+        url = f"{self.URL_PREFIX}"
         response = await ac.get(url=url)
         assert response.status_code == 401
 
