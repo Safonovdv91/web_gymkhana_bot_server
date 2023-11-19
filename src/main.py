@@ -1,15 +1,14 @@
 import time
 
 import uvicorn
-from fastapi import Depends, FastAPI, HTTPException, Request
+from fastapi import FastAPI, HTTPException, Request
 from starlette.middleware.cors import CORSMiddleware
-from starlette.responses import JSONResponse
+from starlette.responses import JSONResponse, RedirectResponse
 
-from src.auth.auth_config import auth_backend, current_user, fastapi_users
+from src.auth.auth_config import auth_backend, fastapi_users
 from src.pages.routers import router as page_router
 from src.pages.routers import templates
 from src.roles.router import router_role
-from src.users.models import User
 from src.users.router import router as auth_router
 from src.users.schemas import UserCreate, UserRead
 
@@ -21,6 +20,7 @@ origins = [
     "https://localhost:5500",
     "http://127.0.0.1:5500",
     "https://127.0.0.1:5500",
+    "*",
 ]
 
 app.add_middleware(
@@ -73,9 +73,9 @@ app.include_router(router_role)
 app.include_router(page_router)
 
 
-@app.get("/protected-route")
-def protected_route(user: User = Depends(current_user)):
-    return f"Hello, {user.login} you are {user.email} and your role is {user.role_id}"
+@app.get("/")
+async def redirect_to_docs():
+    return RedirectResponse(url="/docs")
 
 
 if __name__ == "__main__":
