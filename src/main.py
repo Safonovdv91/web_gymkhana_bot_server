@@ -9,6 +9,7 @@ from src.auth.auth_config import auth_backend, fastapi_users
 from src.pages.routers import router as page_router
 from src.pages.routers import templates
 from src.roles.router import router_role
+from src.sport_classes.router import router as router_sport_class
 from src.users.router import router as auth_router
 from src.users.schemas import UserCreate, UserRead
 
@@ -71,6 +72,7 @@ app.include_router(
 app.include_router(auth_router)
 app.include_router(router_role)
 app.include_router(page_router)
+app.include_router(router_sport_class)
 
 
 @app.get("/")
