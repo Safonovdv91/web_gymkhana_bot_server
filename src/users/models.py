@@ -1,5 +1,5 @@
 from datetime import datetime
-from typing import Optional
+from typing import TYPE_CHECKING, Optional
 
 from fastapi_users.db import SQLAlchemyBaseUserTable
 from sqlalchemy import Boolean, ForeignKey, false
@@ -7,6 +7,10 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from src.database import Base
+
+
+if TYPE_CHECKING:
+    from ..roles.models import Role
 
 
 class User(SQLAlchemyBaseUserTable[int], Base):

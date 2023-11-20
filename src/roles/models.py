@@ -1,9 +1,13 @@
-from typing import List
+from typing import TYPE_CHECKING, List
 
 from sqlalchemy import String
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from src.database import Base
+
+
+if TYPE_CHECKING:
+    from ..users.models import User
 
 
 class Role(Base):
