@@ -17,22 +17,54 @@ router = APIRouter(prefix="/api/v1/users", tags=["user"])
 @router.get(
     "",
     responses={
-        status.HTTP_200_OK: {
-            "model": UserResponseMany,
-            "description": "Return all users in db",
-        },
+        # status.HTTP_200_OK: {
+        #     "model": UserResponseMany,
+        #     "description": "Return all users in db",
+        # },
         status.HTTP_401_UNAUTHORIZED: {
             "model": None,
             "description": "UNAUTHORIZED",
         },
     },
-    response_model=UserResponseMany,
+    # response_model=UserResponseMany,
 )
 async def get_users(
     session: AsyncSession = Depends(get_async_session),
     curr_user: User = Depends(current_user),
 ):
-    users = await UserService.get_users(session=session, user=curr_user)
+    users = await UserService.get_users(
+        session=session,
+        user=curr_user
+    )
+    return {
+        "status": "Success",
+        "data": users,
+        "details": {"count_users": len(users)},
+    }
+
+
+@router.get(
+    "/ALL_INFO",
+    responses={
+        # status.HTTP_200_OK: {
+        #     "model": UserResponseMany,
+        #     "description": "Return all users in db",
+        # },
+        status.HTTP_401_UNAUTHORIZED: {
+            "model": None,
+            "description": "UNAUTHORIZED",
+        },
+    },
+    # response_model=UserResponseMany,
+)
+async def get_users_all_info(
+    session: AsyncSession = Depends(get_async_session),
+    # curr_user: User = Depends(current_user),
+):
+    users = await UserService.get_users(
+        session=session,
+        # user=curr_user
+    )
     return {
         "status": "Success",
         "data": users,

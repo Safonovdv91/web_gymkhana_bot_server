@@ -24,6 +24,7 @@ async def get_users_by_mask(
     query = (
         select(User)
         .options(selectinload(User.role))
+        .options(selectinload(User.ggp_sub_classes))
         .where(mask == mask_name)
         .order_by(User.id)
     )
