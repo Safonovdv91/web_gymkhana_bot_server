@@ -49,3 +49,8 @@ class UserService:
     async def delete_user(cls, session: AsyncSession, user: User) -> User:
         user: User = await crud.delete_user(session, user)
         return user
+
+    @classmethod
+    async def user_subscribe_ggp_class(cls, session: AsyncSession, user: User, class_name: str) -> User:
+        user: User = await crud.subscribe_ggp_class(session, user, class_name)
+        return user

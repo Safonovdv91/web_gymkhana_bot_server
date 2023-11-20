@@ -219,3 +219,31 @@ async def del_user_by_id(
         "data": user,
         "details": f"User with email: [{user.id}] delete success!",
     }
+
+@router.post(
+    "/id={user_id}/subscribe",
+    responses={
+        status.HTTP_200_OK: {
+            "model": UserResponseOne,
+            "description": "Return deleting user data",
+        },
+        status.HTTP_401_UNAUTHORIZED: {
+            "model": None,
+            "description": "UNAUTHORIZED",
+        },
+    },
+    # response_model=UserResponseOne,
+)
+async def user_subscribe_ggp(
+    class_name: str,
+    session: AsyncSession = Depends(get_async_session),
+    user: User = Depends(user_by_id),
+
+    # curr_user: User = Depends(current_user),
+):
+    user = await UserService.user_subscribe_ggp_class(session, user, class_name)
+    return {
+        "status": "Success",
+        "data": user,
+        "details": f"User with id: [{user.id}] subsciber success!",
+    }
