@@ -52,5 +52,5 @@ class UserService:
 
     @classmethod
     async def user_subscribe_ggp_class(cls, session: AsyncSession, user: User, class_name: str) -> User:
-        user: User = await crud.subscribe_ggp_class(session, user, class_name)
+        user: User = await crud.subscribe_ggp_class(session=session, user=user, class_name=class_name)
         return user
