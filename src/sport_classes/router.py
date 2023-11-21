@@ -3,12 +3,10 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from src.auth.auth_config import current_user
 from src.database import get_async_session
-from src.sport_classes.schemas import (
-    SportClassResponseMany,
-    SportClassSchema,
-)
+from src.sport_classes.schemas import SportClassResponseMany, SportClassSchema
 
 from .crud import add_new_sport_class, get_sport_classes, get_users
+
 
 router = APIRouter(prefix="/api/v1/sport_classes", tags=["Sport Class"])
 

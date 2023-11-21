@@ -7,8 +7,8 @@ from pydantic.v1 import validator
 
 
 class RoleBase(BaseModel):
-    name: str
-    description: str
+    name: str = "Admin"
+    description: str = "Administrator who can change roles users"
 
 
 class Role(RoleBase):

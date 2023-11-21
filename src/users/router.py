@@ -5,6 +5,7 @@ from starlette import status
 from src.auth.auth_config import current_user
 from src.database import get_async_session
 
+from ..sport_classes.schemas import SportClassSchema
 from .dependecies import user_by_email, user_by_id
 from .models import User
 from .schemas import UserResponseMany, UserResponseOne
@@ -32,10 +33,7 @@ async def get_users(
     session: AsyncSession = Depends(get_async_session),
     curr_user: User = Depends(current_user),
 ):
-    users = await UserService.get_users(
-        session=session,
-        user=curr_user
-    )
+    users = await UserService.get_users(session=session, user=curr_user)
     return {
         "status": "Success",
         "data": users,
@@ -220,10 +218,11 @@ async def del_user_by_id(
         "details": f"User with email: [{user.id}] delete success!",
     }
 
-@router.post(
+
+@router.patch(
     "/id={user_id}/subscribe",
     responses={
-        status.HTTP_200_OK: {
+        status.HTTP_201_CREATED: {
             "model": UserResponseOne,
             "description": "Return deleting user data",
         },
@@ -231,19 +230,57 @@ async def del_user_by_id(
             "model": None,
             "description": "UNAUTHORIZED",
         },
+        status.HTTP_422_UNPROCESSABLE_ENTITY: {
+            "model": None,
+            "description": "UNAUTHORIZED",
+        },
     },
-    # response_model=UserResponseOne,
+    response_model=UserResponseOne,
 )
 async def user_subscribe_ggp(
     class_name: str,
     session: AsyncSession = Depends(get_async_session),
     user: User = Depends(user_by_id),
-
     # curr_user: User = Depends(current_user),
 ):
-    user = await UserService.user_subscribe_ggp_class(session, user, class_name)
+    user = await UserService.user_subscribe_ggp_class(
+        session=session, user=user, class_name=class_name
+    )
     return {
         "status": "Success",
         "data": user,
-        "details": f"User with id: [{user.id}] subsciber success!",
+        "details": f"User with id: [{user.id}] subscibing success!",
+    }
+
+
+@router.patch(
+    "/current/ggp_sub",
+    responses={
+        status.HTTP_201_CREATED: {
+            "model": UserResponseOne,
+            "description": "Return deleting user data",
+        },
+        status.HTTP_401_UNAUTHORIZED: {
+            "model": None,
+            "description": "UNAUTHORIZED",
+        },
+        status.HTTP_422_UNPROCESSABLE_ENTITY: {
+            "model": None,
+            "description": "UNAUTHORIZED",
+        },
+    },
+    response_model=UserResponseOne,
+)
+async def current_user_subscribe_ggp(
+    class_name: SportClassSchema,
+    session: AsyncSession = Depends(get_async_session),
+    curr_user: User = Depends(current_user),
+):
+    user = await UserService.user_subscribe_ggp_class(
+        session=session, user=curr_user, class_name=class_name.sport_class
+    )
+    return {
+        "status": "Success",
+        "data": user,
+        "details": f"User with id: [{user.id}] subscribing success!",
     }

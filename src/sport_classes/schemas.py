@@ -1,13 +1,17 @@
+from typing import Literal
+
 from pydantic import BaseModel
 
 
 class SportClassSchema(BaseModel):
-    sport_class: str
-    description: str
+    sport_class: Literal[
+        "A", "B", "C1", "C2", "C3", "D1", "D2", "D3", "D4", "N"
+    ]
+    description: str | None
 
 
-class SportClassResponse(BaseModel):
-    id: int
+class SportClassResponseOne(BaseModel):
+    # id: int
     sport_class: str
     description: str
 
