@@ -8,8 +8,7 @@ from src.sport_classes.schemas import (
     SportClassSchema,
 )
 
-from .crud import add_new_sport_class, get_sport_classes
-
+from .crud import add_new_sport_class, get_sport_classes, get_users
 
 router = APIRouter(prefix="/api/v1/sport_classes", tags=["Sport Class"])
 
@@ -30,4 +29,14 @@ async def router_get_sport_classes(
     # curr_user: Depends(current_user)
 ):
     sport_class = await get_sport_classes(session)
+    return {"status": "Success", "data": sport_class, "details": None}
+
+
+@router.get("get_users/class={sport_class}")
+async def router_get_sport_classes(
+    sport_class: str,
+    session: AsyncSession = Depends(get_async_session),
+    # curr_user: Depends(current_user)
+):
+    sport_class = await get_users(session, sport_class)
     return {"status": "Success", "data": sport_class, "details": None}
