@@ -5,26 +5,7 @@ from tests.conftest import client, async_session_maker
 
 
 class TestApiAuthentification:
-    async def test_add_role(
-        self,
-    ):
-        async with async_session_maker() as session:
-            stmt = insert(Role).values(name="Admin", description="Test of admin")
-            await session.execute(stmt)
-            await session.commit()
 
-            query = select(Role)
-            result = await session.scalar(query)
-
-            assert result.id == 1, "Проблема с добавлением роли"
-            assert result.name == "Admin"
-            assert result.description == "Test of admin"
-
-            stmt = insert(Role).values(name="User", description="Test of user")
-            await session.execute(stmt)
-            stmt = insert(Role).values(name="Guest", description="Test of guest")
-            await session.execute(stmt)
-            await session.commit()
 
     def test_register_post(
         self,

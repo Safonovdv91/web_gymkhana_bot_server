@@ -1,9 +1,11 @@
 import asyncio
+import json
 from typing import AsyncGenerator
 
 import pytest
 from fastapi.testclient import TestClient
 from httpx import AsyncClient
+from sqlalchemy import insert
 from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine, async_sessionmaker
 from sqlalchemy.pool import NullPool
 
@@ -17,6 +19,7 @@ from src.config import (
     DB_USER_TEST,
 )
 from src.main import app
+from src.roles.models import Role
 
 # DATABASE
 DATABASE_URL_TEST = f"postgresql+asyncpg://{DB_USER_TEST}:{DB_PASS_TEST}@{DB_HOST_TEST}:{DB_PORT_TEST}/{DB_NAME_TEST}"
@@ -39,13 +42,23 @@ app.dependency_overrides[get_async_session] = override_get_async_session
 @pytest.fixture(autouse=True, scope="session")
 async def prepare_database():
     async with engine_test.begin() as conn:
-        await conn.run_sync(metadata.create_all)
-    yield
-    async with engine_test.begin() as conn:
         await conn.run_sync(metadata.drop_all)
+        await conn.run_sync(metadata.create_all)
+
+    def open_mock_json(model: str):
+        with open(f"mock_{model}.json", "r") as file:
+            return json.load(file)
+
+    roles = open_mock_json(model="roles")
+    async with async_session_maker() as session:
+        add_roles = insert(Role).values(roles)
+        print(add_roles)
+        await session.execute(add_roles)
+        await session.commit()
 
 
-@pytest.fixture(scope="session")  # хз зачем, так хотят в frameworke
+# From pytest-asyncio documentation
+@pytest.fixture(scope="session")
 def event_loop(request):
     """Create an instance of the default event loop for each test case."""
     loop = asyncio.get_event_loop_policy().new_event_loop()

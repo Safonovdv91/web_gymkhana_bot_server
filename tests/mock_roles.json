@@ -1,0 +1,22 @@
+[
+  {
+    "id": 1,
+    "name": "mock_owner",
+    "description": "mock_owner_discriotion"
+  },
+  {
+    "id": 2,
+    "name": "mock_admin",
+    "description": "mock_admin_discription"
+  },
+  {
+    "id": 3,
+    "name": "mock_user",
+    "description": "mock user discription"
+  },
+    {
+    "id": 4,
+    "name": "mock_guest",
+    "description": "mock guest discription"
+  }
+]
