@@ -6,7 +6,7 @@ from src.auth.auth_config import current_user
 from src.database import get_async_session
 
 from ..sport_classes.schemas import SportClassSchema
-from .dependecies import user_by_email, user_by_id
+from .dependencies import user_by_email, user_by_id
 from .models import User
 from .schemas import UserResponseMany, UserResponseOne
 from .service import UserService
