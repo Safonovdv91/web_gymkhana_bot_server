@@ -10,24 +10,24 @@ async def add_roles():
         try:
             await conn.execute(
                 text(
-                    "INSERT INTO roles VALUES(1, 'Super_User','Can change role all users/admins, "
+                    "INSERT INTO roles (names, description) VALUES('Super_User','Can change role all users/admins, "
                     "delete or create')"
                 )
             )
             await conn.execute(
                 text(
-                    "INSERT INTO roles VALUES(2, 'Admin','Administrator can del users, and change user's "
+                    "INSERT INTO roles (names, description) VALUES('Admin','Administrator can del users, and change user's "
                     "settings')"
                 )
             )
             await conn.execute(
                 text(
-                    "INSERT INTO roles VALUES(3, 'User','Can only change himself settings')"
+                    "INSERT INTO roles (names, description) VALUES(3, 'User','Can only change himself settings')"
                 )
             )
             await conn.execute(
                 text(
-                    "INSERT INTO roles VALUES(4, 'Guest','Unknown person, can nothing')"
+                    "INSERT INTO roles (names, description) VALUES(4, 'Guest','Unknown person, can nothing')"
                 )
             )
         except Exception as e:
