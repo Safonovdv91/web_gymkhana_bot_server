@@ -47,8 +47,8 @@ router_role = APIRouter(prefix="/api/v1/roles", tags=["role"])
 )
 async def add_role(
     new_role: RoleCreate,
-    session: AsyncSession = Depends(get_async_session),
     user: User = Depends(current_user),
+    session: AsyncSession = Depends(get_async_session),
 ):
     role = await RoleService.add_new_role(session, new_role, current_user=user)
     return {
@@ -72,8 +72,8 @@ async def add_role(
     },
 )
 async def get_roles(
-    session: AsyncSession = Depends(get_async_session),
     user: User = Depends(current_user),
+    session: AsyncSession = Depends(get_async_session),
 ):
     result = await RoleService.get_roles(session)
     return {
@@ -101,8 +101,8 @@ async def get_roles(
     },
 )
 async def get_role_by_id(
-    role: Role = Depends(role_by_id),
     user: User = Depends(current_user),
+    role: Role = Depends(role_by_id),
 ):
     return {"status": "Success", "data": role, "details": None}
 
@@ -125,8 +125,8 @@ async def get_role_by_id(
     },
 )
 async def get_role_by_name(
-    role: Role = Depends(role_by_name),
     user: User = Depends(current_user),
+    role: Role = Depends(role_by_name),
 ):
     return {"status": "Success", "data": role, "details": None}
 
@@ -149,9 +149,9 @@ async def get_role_by_name(
     },
 )
 async def delete_role_by_id(
+    user: User = Depends(current_user),
     role: Role = Depends(role_by_id),
     session: AsyncSession = Depends(get_async_session),
-    user: User = Depends(current_user),
 ):
     result = await RoleService.delete_role(session=session, role=role)
     return {"status": "Success", "data": result, "details": "Was deleted!"}
@@ -175,9 +175,9 @@ async def delete_role_by_id(
     },
 )
 async def delete_role_by_name(
+    user: User = Depends(current_user),
     role: Role = Depends(role_by_name),
     session: AsyncSession = Depends(get_async_session),
-    user: User = Depends(current_user),
 ):
     result = await RoleService.delete_role(session=session, role=role)
     return {"status": "Success", "data": result, "details": "Was deleted!"}
@@ -202,9 +202,9 @@ async def delete_role_by_name(
 )
 async def update_role(
     role_update: RoleUpdate,
+    user: User = Depends(current_user),
     role: Role = Depends(role_by_id),
     session: AsyncSession = Depends(get_async_session),
-    user: User = Depends(current_user),
 ):
     result = await RoleService.update_role(
         session=session, role=role, role_update=role_update
@@ -231,9 +231,9 @@ async def update_role(
 )
 async def update_role_partial(
     role_update: RoleUpdatePartial,
+    user: User = Depends(current_user),
     role: Role = Depends(role_by_id),
     session: AsyncSession = Depends(get_async_session),
-    user: User = Depends(current_user),
 ):
     result = await RoleService.update_role_partial(
         session=session, role=role, role_update=role_update

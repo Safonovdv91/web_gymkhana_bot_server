@@ -30,8 +30,8 @@ router = APIRouter(prefix="/api/v1/users", tags=["user"])
     # response_model=UserResponseMany,
 )
 async def get_users(
-    session: AsyncSession = Depends(get_async_session),
     curr_user: User = Depends(current_user),
+    session: AsyncSession = Depends(get_async_session),
 ):
     users = await UserService.get_users(session=session, user=curr_user)
     return {
@@ -85,6 +85,7 @@ async def get_users_all_info(
     response_model=UserResponseOne,
 )
 async def get_user_by_id(
+    curr_user: User = Depends(current_user),
     user: User = Depends(user_by_id),
 ):
     return {"status": "Success", "data": user, "details": None}
@@ -105,8 +106,8 @@ async def get_user_by_id(
     response_model=UserResponseOne,
 )
 async def get_current_user(
-    session: AsyncSession = Depends(get_async_session),
     curr_user: User = Depends(current_user),
+    session: AsyncSession = Depends(get_async_session),
 ):
     user = await UserService.get_user_by_id(
         session=session, user_id=curr_user.id
@@ -129,8 +130,8 @@ async def get_current_user(
     response_model=UserResponseOne,
 )
 async def get_user_by_email(
-    user: User = Depends(user_by_email),
     curr_user: User = Depends(current_user),
+    user: User = Depends(user_by_email),
 ):
     return {"status": "Success", "data": user, "details": None}
 
@@ -151,8 +152,8 @@ async def get_user_by_email(
 )
 async def get_users_by_role_id(
     role_id: int,
-    session: AsyncSession = Depends(get_async_session),
     curr_user: User = Depends(current_user),
+    session: AsyncSession = Depends(get_async_session),
 ):
     users = await UserService.get_users_by_role(
         session=session, user_role_id=role_id
@@ -179,9 +180,9 @@ async def get_users_by_role_id(
     response_model=UserResponseOne,
 )
 async def del_user_by_email(
+    cur_user: User = Depends(current_user),
     user: User = Depends(user_by_email),
     session: AsyncSession = Depends(get_async_session),
-    cur_user: User = Depends(current_user),
 ):
     user = await UserService.delete_user(session, user)
 
@@ -208,8 +209,8 @@ async def del_user_by_email(
 )
 async def del_user_by_id(
     session: AsyncSession = Depends(get_async_session),
-    user: User = Depends(user_by_id),
     curr_user: User = Depends(current_user),
+    user: User = Depends(user_by_id),
 ):
     user = await UserService.delete_user(session, user)
     return {
@@ -239,9 +240,9 @@ async def del_user_by_id(
 )
 async def user_subscribe_ggp(
     class_name: str,
+    curr_user: User = Depends(current_user),
     session: AsyncSession = Depends(get_async_session),
     user: User = Depends(user_by_id),
-    # curr_user: User = Depends(current_user),
 ):
     user = await UserService.user_subscribe_ggp_class(
         session=session, user=user, class_name=class_name
@@ -273,8 +274,8 @@ async def user_subscribe_ggp(
 )
 async def current_user_subscribe_ggp(
     class_name: SportClassSchema,
-    session: AsyncSession = Depends(get_async_session),
     curr_user: User = Depends(current_user),
+    session: AsyncSession = Depends(get_async_session),
 ):
     user = await UserService.user_subscribe_ggp_class(
         session=session, user=curr_user, class_name=class_name.sport_class
