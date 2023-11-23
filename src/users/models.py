@@ -17,7 +17,7 @@ if TYPE_CHECKING:
 
 class User(SQLAlchemyBaseUserTable[int], Base):
     __tablename__ = "users"
-    id: Mapped[int] = mapped_column(primary_key=True)
+    id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
     hashed_password: Mapped[str] = mapped_column(nullable=False)
     ggp_percent_begin: Mapped[int] = mapped_column(
         default=100,

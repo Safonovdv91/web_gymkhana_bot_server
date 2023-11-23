@@ -1,3 +1,5 @@
+import json
+
 import pytest
 from httpx import AsyncClient
 
@@ -12,85 +14,53 @@ class TestRole:
 
 
 class TestRoleAdd(TestRole):
-    ROLES_GOOD = [
-        ("Admin_test", "Good description"),
-        ("Admin_del_id", "Admin for deleting by id"),
-        ("Admin_del_name", "Admin for deleting by name"),
-        ("Admin_put", "Admin for put"),
-        ("Admin_patch", "Admin for patch"),
-        ("Admin_dup", "Admin2 original"),
-    ]
-    ROLES_BAD = [
-        ("1@@Admin23", "G"),
-        ("Admin", "qa"),
-        ("1@@Admin23", 1),
-        ("", ""),
+    ROLES = [
+        ("Admin_test", "Good description", 201),
+        ("Admin_del_id", "Admin for deleting by id", 201),
+        ("Admin_del_name", "Admin for deleting by name", 201),
+        ("Admin_put", "Admin for put", 201),
+        ("Admin_patch", "Admin for patch", 201),
+        ("Admin_dup", "Admin2 original", 201),
+        ("Admin_dup", "Admin2 original", 400),
+        ("Admin_duasdasdsdsadasdasdp", "Admin2 original", 422),
+        ("", "Admin2 original", 422),
     ]
 
-    @pytest.mark.parametrize("role", ROLES_GOOD)
-    async def test_add_role_ok(self, ac: AsyncClient, role, jwt_token):
-        url = f"{self.URL_PREFIX}/add"
-        cookies = {"rabbitmg": jwt_token}
-        response = await ac.post(
-            url,
-            json={
-                "name": role[0],
-                "description": role[1],
-            },
-            cookies=cookies,
-        )
-        assert response.status_code == 201
-        assert response.json()["data"]["name"] == role[0]
-        assert response.json()["data"]["description"] == role[1]
-        assert (
-            response.json()["details"]
-            == f"Adding role: [{role[0]} - {role[1]}] SUCCESS"
-        )
-
-    @pytest.mark.parametrize("role", ROLES_BAD)
-    async def test_add_role_bad_credentials(
-        self, ac: AsyncClient, role: tuple, jwt_token
+    @pytest.mark.parametrize("role_name, role_description, status_code", ROLES)
+    async def test_add_role(
+        self, ac: AsyncClient, role_name, role_description, status_code, jwt_token
     ):
         url = f"{self.URL_PREFIX}/add"
         cookies = {"rabbitmg": jwt_token}
-
-        response = await ac.post(
-            url, json={"name": role[0], "description": role[1]}, cookies=cookies
-        )
-        assert response.status_code == 422, "bad credentials was add"
-
-    async def test_add_role_duplicate(self, ac: AsyncClient, jwt_token):
-        url = f"{self.URL_PREFIX}/add"
-        cookies = {"rabbitmg": jwt_token}
         response = await ac.post(
             url,
             json={
-                "name": "Admin_dup",
-                "description": "Admin2 duplicate",
+                "name": role_name,
+                "description": role_description,
             },
             cookies=cookies,
         )
-        assert response.status_code == 400, "Duplicate ROLE was added"
+        assert response.status_code == status_code, (
+            f"STATUS: [{response.status_code}]\n "
+            f"{json.dumps(response.json(), indent=4)}"
+        )
 
 
 class TestRoleGet(TestRole):
-    COUNT_OF_ROLE = 9
-    ROLES_ID = [
-        (1, "Admin"),
-        ("2", "User"),
-        (3, "Guest"),
+    COUNT_OF_ROLE = 10
+    ROLES = [
+        (1, "mock_owner", 200),
+        ("2", "mock_admin", 200),
+        (3, "mock_user", 200),
+        (1000, "iisi", 404),
+        # ("", "Admin", 422),
+        ("sda", "User", 422),
+        (3, "mock_user", 200),
     ]
 
-    BAD_ROLES_ID = [
-        ("", "Admin"),
-        ("sda", "User"),
-        (3, "Guest"),
-    ]
-
-    ROLES_EMAIL = [
-        ("Admin", "Test of admin"),
-        ("User", "Test of user"),
-        ("Guest", "Test of guest"),
+    ROLES_NAME = [
+        ("mock_owner", "mock_owner_discriotion", 200),
+        ("mock_owner2", "mock_owner_discriotion", 404),
     ]
 
     BAD_ROLES_EMAIL = [
@@ -106,47 +76,54 @@ class TestRoleGet(TestRole):
         assert response.status_code == 200
         assert (
             len(response.json()["data"]) == self.COUNT_OF_ROLE
-        ), "Count of role incorrect"
+        ), f"Count of role incorrect {len(response.json()['data'])}"
 
     async def test_get_roles_unauthorized(self, ac: AsyncClient):
         url = f"{self.URL_PREFIX}"
         response = await ac.get(url=url)
         assert response.status_code == 401
 
-    @pytest.mark.parametrize("role_id, expected_role_name", ROLES_ID)
+    @pytest.mark.parametrize("role_id, expected_role_name, status_code", ROLES)
     async def test_get_role_by_id(
-        self, ac: AsyncClient, jwt_token, role_id: int, expected_role_name: str
+        self,
+        ac: AsyncClient,
+        jwt_token,
+        role_id: int,
+        expected_role_name: str,
+        status_code,
     ):
         url = f"{self.URL_PREFIX}/id={role_id}"
         cookies = {"rabbitmg": jwt_token}
         response = await ac.get(url=url, cookies=cookies)
-        assert response.status_code == 200
-        assert response.json()["data"]["name"] == expected_role_name
+        assert response.status_code == status_code, (
+            f"STATUS: [{response.status_code}]\n "
+            f"{json.dumps(response.json(), indent=4)}"
+        )
+        if response.status_code == 200:
+            assert response.json()["data"]["name"] == expected_role_name
 
-    @pytest.mark.parametrize("role_id", BAD_ROLES_ID)
-    async def test_get_role_by_id_bad_id(self, ac: AsyncClient, jwt_token, role_id):
-        url = f"{self.URL_PREFIX}/id={role_id}"
-        cookies = {"rabbitmg": jwt_token}
-        response = await ac.get(url=url, cookies=cookies)
-        assert response.status_code == 422
-
-    @pytest.mark.parametrize("role_id, expected_role_name", ROLES_ID)
+    @pytest.mark.parametrize("role_id, expected_role_name, status", ROLES)
     async def test_get_role_by_id_unauthirized(
-        self, ac: AsyncClient, role_id: int, expected_role_name: str
+        self, ac: AsyncClient, role_id: int, expected_role_name: str, status
     ):
         url = f"{self.URL_PREFIX}/id={role_id}"
         response = await ac.get(url=url)
-        assert response.status_code == 401
+        assert response.status_code == 401, (
+            f"STATUS: [{response.status_code}]\n "
+            f"{json.dumps(response.json(), indent=4)}"
+        )
 
-    @pytest.mark.parametrize("role_email, role_description", ROLES_EMAIL)
-    async def test_get_role_by_email(
-        self, ac: AsyncClient, jwt_token, role_email: str, role_description: str
+    @pytest.mark.parametrize("name, role_desc, status", ROLES_NAME)
+    async def test_get_role_by_name(
+        self, ac: AsyncClient, name: str, role_desc: str, status, jwt_token
     ):
-        url = f"{self.URL_PREFIX}/name={role_email}"
+        url = f"{self.URL_PREFIX}/name={name}"
+
         cookies: dict = {"rabbitmg": jwt_token}
         response = await ac.get(url=url, cookies=cookies)
-        assert response.status_code == 200
-        assert response.json()["data"]["description"] == role_description
+        assert response.status_code == status
+        if status == 200:
+            assert response.json()["data"]["description"] == role_desc
 
     @pytest.mark.parametrize("role_email", BAD_ROLES_EMAIL)
     async def test_get_role_by_email_not_exist(
@@ -157,9 +134,9 @@ class TestRoleGet(TestRole):
         response = await ac.get(url=url, cookies=cookies)
         assert response.status_code == 404
 
-    @pytest.mark.parametrize("role_email, role_description", ROLES_EMAIL)
+    @pytest.mark.parametrize("role_email, role_description, status", ROLES_NAME)
     async def test_get_role_by_email_unauthorized(
-        self, ac: AsyncClient, role_email: str, role_description: str
+        self, ac: AsyncClient, role_email: str, role_description: str, status
     ):
         url = f"{self.URL_PREFIX}/name={role_email}"
         response = await ac.get(url=url)

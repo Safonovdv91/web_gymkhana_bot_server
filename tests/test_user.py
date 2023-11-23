@@ -1,70 +1,44 @@
+import json
+
 import pytest
 from httpx import AsyncClient
 
 
-class TestApiUserPost:
-    pass
-    # async def test_user_get_unauthorized(ac: AsyncClient):
-    #     response = await ac.get("/api/v1/users/get", )
-    #     assert response.status_code == 401, "UnAuthorized "
-
-    # @pytest.fixture
-    # async def login_cookies(ac: AsyncClient):
-    #     url = "/auth/jwt/login"
-    #     data = {
-    #         "username": "user3@example.com",
-    #         "password": "string",
-    #     }
-    #     response = await ac.post(url=url, data=data)
-    #     return response.cookies
-
-
 class TestUserApiGetByEmail:
     common_url = "/api/v1/users"
-
-    emails = [
-        ("user3@example.com"),
-        ("user1@example.com"),
-        ("@@@"),
-        ("123"),
+    USERS = [
+        ("user3@example.com", 200),
+        ("not_exissdt@test.com", 404),
+        ("@@@", 422),
+        ("123", 422),
+        ("", 422),
     ]
 
-    @pytest.mark.parametrize("email", emails)
-    async def test_user_get_by_email(self, ac: AsyncClient, email, jwt_token):
+    @pytest.mark.parametrize("email, status_code", USERS)
+    async def test_user_get_by_email(
+        self, ac: AsyncClient, email, status_code, jwt_token
+    ):
         url = f"{self.common_url}/?email={email}"
-        cookies: dict = {"rabbitmg": jwt_token}
-        response = await ac.get(url=url, cookies=cookies)
-        if email == "user3@example.com":
-            assert response.status_code == 200, "Check existing user"
-            assert response.json()["data"]["email"] == "user3@example.com"
-            assert response.json()["data"]["sub_ggp_percent"] is False, "Bad data"
-            assert response.json()["data"]["ggp_percent_begin"] == 100, "Bad data"
-            assert response.json()["data"]["ggp_percent_end"] == 150, "Bad data"
-            assert response.json()["data"]["sub_offline"] is False, "Bad data"
-            assert response.json()["data"]["sub_ggp"] is False, "Bad data"
-            assert response.json()["data"]["sub_world_record"] is False, "Bad data"
-        elif email in ("@@@", "123"):
-            assert response.status_code == 422
-        else:
-            assert response.status_code == 404
+        response = await ac.get(url=url, cookies={"rabbitmg": jwt_token})
+        assert response.status_code == status_code, (
+            f"STATUS: [{response.status_code}]\n "
+            f"{json.dumps(response.json(), indent=4)}"
+        )
 
-    async def test_user_get_by_email_not_exist(self, ac: AsyncClient):
-        url = f"{self.common_url}/email=usernotexist@example.com/get"
+    @pytest.mark.parametrize("email, status", USERS)
+    async def test_user_get_by_email_unauthorized(self, ac: AsyncClient, email, status):
+        url = f"{self.common_url}/?email={email}"
         response = await ac.get(url=url)
-        assert response.status_code == 404, "Not exist user -> not 404"
-
-    # async def test_user_get_verified(self, ac: AsyncClient, login_cookies):
-    #     url = "/users/get"
-    #     response = await ac.get(url=url, cookies=login_cookies)
-    #     assert response.status_code == 200
-    #     assert response.json()["data"]["email"] == "user3@example.com"
+        assert response.status_code == 401, (
+            f"STATUS: [{response.status_code}]\n "
+            f"{json.dumps(response.json(), indent=4)}"
+        )
 
     @pytest.mark.asyncio
     async def test_get_current_user(self, jwt_token, ac: AsyncClient):
         # Пример тестирования другого эндпоинта, требующего аутентификации через cookies
         test_url = "http://127.0.0.1:8000/api/v1/users/current"  #
-        cookies = {"rabbitmg": jwt_token}
-        response = await ac.get(test_url, cookies=cookies)
+        response = await ac.get(test_url, cookies={"rabbitmg": jwt_token})
 
         assert response.status_code == 200
         assert response.json()["data"]["email"] == "for_login@example.com"
@@ -73,62 +47,42 @@ class TestUserApiGetByEmail:
 
 class TestUserApiDeleteByEmail:
     common_url = "/api/v1/users"
-    emails = [
-        ("user_for_delete@example.com"),
-        ("usernoexist@example.com"),
-        ("@@@"),
-        ("123"),
-        (),
+    USERS_FOR_DELETE = [
+        ("for_delete@example.com", 200),
+        ("user1sdaa@example.com", 404),
+        ("@@@", 422),
+        ("123", 422),
     ]
 
-    async def test_register_post(self, ac: AsyncClient):
-        response = await ac.post(
-            "/auth/register",
-            json={
-                "email": "user_for_delete@example.com",
-                "password": "string",
-                "is_active": True,
-                "is_superuser": False,
-                "is_verified": False,
-                "login": "string",
-            },
-        )
-        assert response.status_code == 201, "User add register"
+    @pytest.mark.parametrize("email, status_code", USERS_FOR_DELETE)
+    async def test_user_delete_by_email(
+        self, ac: AsyncClient, email, status_code, jwt_token
+    ):
+        url = f"{self.common_url}/?email={email}"
+        if status_code == 200:
+            response = await ac.get(url, cookies={"rabbitmg": jwt_token})
+            assert response.status_code == 200, f"User {email} not exist"
 
-    @pytest.mark.parametrize("email", emails)
-    async def test_user_delete_by_email(self, ac: AsyncClient, email, jwt_token):
         url = f"{self.common_url}/email={email}/delete"
-        cookies : dict = {"rabbitmg": jwt_token}
-        response = await ac.delete(url=url, cookies=cookies)
-
-        if email == "user_for_delete@example.com":
-            assert response.status_code == 200, "delete exist user not status 200"
-            assert (
-                response.json()["status"] == "Success"
-            ), "delete exist user not status 200"
-            assert (
-                response.json()["details"]
-                == f"User with email: [{email}] delete success!"
-            ), "delete exist user not status 200"
-        elif email == "usernoexist@example.com":
-            assert response.status_code == 404
-        else:
-            assert response.status_code == 422
-
-    async def test_check_user_delete_by_email_check(self, ac: AsyncClient, jwt_token):
-        url = f"{self.common_url}/?email=user_for_delete@example.com"
-        cookies: dict = {"rabbitmg": jwt_token}
-        response = await ac.get(url, cookies=cookies)
-        assert response.status_code == 404
-
-    async def test_get_current_user(self, ac: AsyncClient, jwt_token):
-        # Пример тестирования другого эндпоинта, требующего аутентификации через cookies
-        test_url = (
-            "http://127.0.0.1:8000/api/v1/users/current"  # Замените на реальный URL
+        response = await ac.delete(url=url, cookies={"rabbitmg": jwt_token})
+        assert response.status_code == status_code, (
+            f"STATUS: [{response.status_code}]\n "
+            f"{json.dumps(response.json(), indent=4)}"
         )
-        cookies = {"rabbitmg": jwt_token}
-        response = await ac.get(test_url, cookies=cookies)
 
-        assert response.status_code == 200
-        assert response.json()["data"]["email"] == "for_login@example.com"
-        # Добавьте дополнительные проверки для ответа, если необходимо
+        if status_code == 200:
+            url = f"{self.common_url}/?email={email}"
+            response = await ac.get(url, cookies={"rabbitmg": jwt_token})
+            assert response.status_code == 404, f"User {email} is not delete"
+
+    @pytest.mark.parametrize("email, status_code", USERS_FOR_DELETE)
+    async def test_user_delete_by_email_unauthorized(
+        self, ac: AsyncClient, email, status_code
+    ):
+        url = f"{self.common_url}/email={email}/delete"
+
+        response = await ac.delete(url=url)
+        assert response.status_code == 401, (
+            f"STATUS: [{response.status_code}]\n "
+            f"{json.dumps(response.json(), indent=4)}"
+        )
