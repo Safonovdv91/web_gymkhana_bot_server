@@ -23,7 +23,7 @@ async def user_by_id(
 
 
 async def user_by_email(
-    email: Annotated[EmailStr, Path],
+    email: EmailStr,
     session: AsyncSession = Depends(get_async_session),
 ) -> User:
     user = await UserService.get_user_by_email(session=session, email=email)
