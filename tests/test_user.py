@@ -19,7 +19,7 @@ class TestUserApiGetByEmail:
         self, ac: AsyncClient, email, status_code, jwt_token
     ):
         url = f"{self.common_url}/?email={email}"
-        response = await ac.get(url=url, cookies={"rabbitmg": jwt_token})
+        response = await ac.get(url=url, cookies=jwt_token)
         assert response.status_code == status_code, (
             f"STATUS: [{response.status_code}]\n "
             f"{json.dumps(response.json(), indent=4)}"
@@ -38,7 +38,7 @@ class TestUserApiGetByEmail:
     async def test_get_current_user(self, jwt_token, ac: AsyncClient):
         # Пример тестирования другого эндпоинта, требующего аутентификации через cookies
         test_url = "http://127.0.0.1:8000/api/v1/users/current"  #
-        response = await ac.get(test_url, cookies={"rabbitmg": jwt_token})
+        response = await ac.get(test_url, cookies=jwt_token)
 
         assert response.status_code == 200
         assert response.json()["data"]["email"] == "for_login@example.com"
@@ -60,11 +60,11 @@ class TestUserApiDeleteByEmail:
     ):
         url = f"{self.common_url}/?email={email}"
         if status_code == 200:
-            response = await ac.get(url, cookies={"rabbitmg": jwt_token})
+            response = await ac.get(url, cookies=jwt_token)
             assert response.status_code == 200, f"User {email} not exist"
 
         url = f"{self.common_url}/email={email}/delete"
-        response = await ac.delete(url=url, cookies={"rabbitmg": jwt_token})
+        response = await ac.delete(url=url, cookies=jwt_token)
         assert response.status_code == status_code, (
             f"STATUS: [{response.status_code}]\n "
             f"{json.dumps(response.json(), indent=4)}"
@@ -72,7 +72,7 @@ class TestUserApiDeleteByEmail:
 
         if status_code == 200:
             url = f"{self.common_url}/?email={email}"
-            response = await ac.get(url, cookies={"rabbitmg": jwt_token})
+            response = await ac.get(url, cookies=jwt_token)
             assert response.status_code == 404, f"User {email} is not delete"
 
     @pytest.mark.parametrize("email, status_code", USERS_FOR_DELETE)
