@@ -89,7 +89,7 @@ async def jwt_token(ac: AsyncClient):
     assert (
         response.status_code == 204
     ), f"fixture: Problem with login user: [{test_username}]"
-    return response.cookies["rabbitmg"]
+    return {"rabbitmg": response.cookies["rabbitmg"]}
 
 
 client = TestClient(app)

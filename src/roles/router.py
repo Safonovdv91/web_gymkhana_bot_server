@@ -12,7 +12,6 @@ from .schemas import (
     RoleCreate,
     RoleResponseMany,
     RoleResponseOne,
-    RoleUpdate,
     RoleUpdatePartial,
 )
 from .service import RoleService
@@ -181,35 +180,6 @@ async def delete_role_by_name(
 ):
     result = await RoleService.delete_role(session=session, role=role)
     return {"status": "Success", "data": result, "details": "Was deleted!"}
-
-
-@router_role.put(
-    "/id={role_id}/update",
-    responses={
-        status.HTTP_200_OK: {
-            "model": RoleResponseOne,
-            "description": "Role put success, return updating role",
-        },
-        status.HTTP_401_UNAUTHORIZED: {
-            "model": None,
-            "description": "UNAUTHORIZED",
-        },
-        status.HTTP_422_UNPROCESSABLE_ENTITY: {
-            "model": None,
-            "description": "Not valid data",
-        },
-    },
-)
-async def update_role(
-    role_update: RoleUpdate,
-    user: User = Depends(current_user),
-    role: Role = Depends(role_by_id),
-    session: AsyncSession = Depends(get_async_session),
-):
-    result = await RoleService.update_role(
-        session=session, role=role, role_update=role_update
-    )
-    return {"status": "Success", "data": result, "details": "Update success"}
 
 
 @router_role.patch(
