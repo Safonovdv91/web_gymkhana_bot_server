@@ -137,7 +137,7 @@ async def get_user_by_email(
 
 
 @router.get(
-    "/role={role}",
+    "/role={role_id}",
     responses={
         status.HTTP_200_OK: {
             "model": UserResponseMany,
@@ -151,8 +151,8 @@ async def get_user_by_email(
     response_model=UserResponseMany,
 )
 async def get_users_by_role_id(
-    role_id: int,
     curr_user: User = Depends(current_user),
+    role_id: int = 1,
     session: AsyncSession = Depends(get_async_session),
 ):
     users = await UserService.get_users_by_role(
@@ -240,7 +240,7 @@ async def del_user_by_id(
 )
 async def user_subscribe_ggp(
     class_name: str,
-    curr_user: User = Depends(current_user),
+    # curr_user: User = Depends(current_user),
     session: AsyncSession = Depends(get_async_session),
     user: User = Depends(user_by_id),
 ):

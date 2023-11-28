@@ -1,7 +1,7 @@
 [
   {
     "hashed_password": "$2b$12$jLaWnxELQ9bs6rrRB9pQNux9o3nBvuZgblGW9X/ASBoA2eYhlNY2C",
-    "login": "user2",
+    "login": "user3",
     "email": "user3@example.com"
   },
   {
@@ -18,5 +18,10 @@
     "hashed_password": "$2b$12$ysBrvAU.a0bcbwo5ZW.eR.EPH9kz5aIBjLeY8D64F4bnAftmBrfTi",
     "login": "user_for_delete",
     "email": "for_delete@example.com"
+  },
+    {
+    "hashed_password": "$2b$12$ysBrvAU.a0bcbwo5ZW.eR.EPH9kz5aIBjLeY8D64F4bnAftmBrfTi",
+    "login": "user_for_patch",
+    "email": "for_patch@example.com"
   }
 ]
