@@ -1,8 +1,10 @@
 from sqlalchemy.ext.asyncio import AsyncSession
+from typing import List
 
 from ..roles.models import Role
 from . import crud
 from .models import User
+from ..sport_classes.crud import get_sport_class_by_name
 
 
 class UserService:
@@ -36,9 +38,7 @@ class UserService:
         return user
 
     @classmethod
-    async def get_user_by_email(
-        cls, session: AsyncSession, email: str
-    ) -> User | None:
+    async def get_user_by_email(cls, session: AsyncSession, email: str) -> User | None:
         user = await crud.get_user_by_mask(
             session=session, mask=User.email, mask_name=email
         )
@@ -50,11 +50,23 @@ class UserService:
         user: User = await crud.delete_user(session, user)
         return user
 
-    @classmethod
+    @staticmethod
     async def user_subscribe_ggp_class(
-        cls, session: AsyncSession, user: User, class_name: str
+        session: AsyncSession, user: User, class_names: str | List[str]
     ) -> User:
-        user: User = await crud.subscribe_ggp_class(
-            session=session, user=user, class_name=class_name
-        )
+        if type(class_names) is str:
+            class_names = [class_names]
+
+        for class_name in class_names:
+            sport_class = await get_sport_class_by_name(
+                session=session, name=class_name
+            )
+            if sport_class in user.ggp_sub_classes:
+                user: User = await crud.remove_ggp_class(
+                    session=session, user=user, sport_class=sport_class
+                )
+            else:
+                user: User = await crud.append_ggp_class(
+                    session=session, user=user, sport_class=sport_class
+                )
         return user

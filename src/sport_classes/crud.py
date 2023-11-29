@@ -30,8 +30,15 @@ async def add_new_sport_class(
 async def get_sport_classes(session: AsyncSession) -> list[SportClass]:
     query = select(SportClass).order_by(SportClass.id)
     result = await session.execute(query)
-    spoert_classes = result.scalars().all()
-    return list(spoert_classes)
+    sport_classes = result.scalars().all()
+    return list(sport_classes)
+
+
+async def get_sport_class_by_name(session: AsyncSession, name: str) -> list[SportClass]:
+    query = select(SportClass).where(SportClass.sport_class == name)
+    result = await session.execute(query)
+    sport_class = result.scalar()
+    return sport_class
 
 
 async def get_users(session: AsyncSession, sport_class: str):

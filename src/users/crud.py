@@ -4,6 +4,7 @@ from sqlalchemy.orm import selectinload
 
 from ..sport_classes.models import SportClass
 from .models import User
+from ..sport_classes.crud import get_sport_class_by_name
 
 
 async def get_user_by_mask(
@@ -44,23 +45,22 @@ async def delete_user(
     return user
 
 
-async def subscribe_ggp_class(
-    session: AsyncSession, user: User, class_name: str
+async def append_ggp_class(
+    session: AsyncSession, user: User, sport_class: SportClass
 ) -> User:
-    query_class = select(SportClass).where(
-        SportClass.sport_class == class_name
-    )
-    sport_class = await session.scalar(query_class)
-    query = (
-        select(User)
-        .where(User.id == user.id)
-        .options(selectinload(User.ggp_sub_classes))
-        .options(selectinload(User.role))
-    )
-    user = await session.scalar(query)
-    if sport_class in user.ggp_sub_classes:
-        user.ggp_sub_classes.remove(sport_class)
-    else:
-        user.ggp_sub_classes.append(sport_class)
+    print("Добав")
+    print("Добав")
+    print(f"Добавляем {user} : {sport_class}")
+    user.ggp_sub_classes.append(sport_class)
     await session.commit()
     return user
+
+
+async def remove_ggp_class(
+    session: AsyncSession, user: User, sport_class: SportClass
+) -> User:
+    user.ggp_sub_classes.remove(sport_class)
+    await session.commit()
+
+    return user
+
