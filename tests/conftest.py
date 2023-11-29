@@ -21,6 +21,8 @@ from src.config import (
 from src.main import app
 from src.roles.models import Role
 from src.users.models import User
+from src.sport_classes.models import SportClass
+
 
 # DATABASE
 DATABASE_URL_TEST = f"postgresql+asyncpg://{DB_USER_TEST}:{DB_PASS_TEST}@{DB_HOST_TEST}:{DB_PORT_TEST}/{DB_NAME_TEST}"
@@ -52,11 +54,14 @@ async def prepare_database():
 
     roles = open_mock_json(model="roles")
     users = open_mock_json(model="users")
+    sport_casses = open_mock_json(model="sub_classes")
     async with async_session_maker() as session:
         add_roles = insert(Role).values(roles)
         add_users = insert(User).values(users)
+        add_sport_classes = insert(SportClass).values(sport_casses)
         await session.execute(add_roles)
         await session.execute(add_users)
+        await session.execute(add_sport_classes)
         await session.commit()
 
 
