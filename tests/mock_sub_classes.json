@@ -1,0 +1,42 @@
+[
+  {
+    "sport_class": "A",
+    "description": "Mock A Class"
+  },
+  {
+    "sport_class": "B",
+    "description": "Mock B class"
+  },
+  {
+    "sport_class": "C1",
+    "description": "Mock C1 class"
+  },
+  {
+    "sport_class": "C2",
+    "description": "Mock C1 class"
+  },
+  {
+    "sport_class": "C3",
+    "description": "Mock C3 class"
+  },
+  {
+    "sport_class": "D1",
+    "description": "Mock D1 class"
+  },
+  {
+    "sport_class": "D2",
+    "description": "Mock D2 class"
+  },
+    {
+    "sport_class": "D3",
+    "description": "Mock D3 class"
+  },
+  {
+    "sport_class": "D4",
+    "description": "Mock D4 class"
+  },
+    {
+    "sport_class": "N",
+    "description": "Mock N class"
+  }
+]
