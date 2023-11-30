@@ -230,3 +230,43 @@ class TestUserPatchUserSubscribeById:
             f"STATUS: [{response.status_code}]\n "
             f"{json.dumps(response.json(), indent=4)}"
         )
+
+    @pytest.mark.parametrize(
+        "user_id, sub_letter, status_code, email, length_subscribe", USER_SUB
+    )
+    async def test_user_sub_class_unauthorized(
+        self,
+        ac: AsyncClient,
+        user_id,
+        sub_letter,
+        status_code,
+        email,
+        length_subscribe,
+        jwt_token,
+    ):
+        url_subscribe = f"{self.URL}id={user_id}/subscribe"
+        data = {"sport_class": sub_letter}
+        response = await ac.patch(
+            url=url_subscribe, data=json.dumps(data)
+        )
+        assert response.status_code == 401, (
+            f"STATUS: [{response.status_code}]\n "
+            f"{json.dumps(response.json(), indent=4)}"
+        )
+
+        # Проверка валидности через метод получения инфы через get by id
+        url_subscribe = f"{self.URL}id={user_id}"
+        response = await ac.get(url=url_subscribe, cookies=jwt_token)
+        assert response.status_code == 200, (
+            f"STATUS: [{response.status_code}]\n "
+            f"{json.dumps(response.json(), indent=4)}"
+        )
+        assert response.json()["data"]["email"] == email, (
+            f"STATUS: [{response.status_code}]\n "
+            f"{json.dumps(response.json(), indent=4)}"
+        )
+
+        assert len(response.json()["data"]["ggp_sub_classes"]) == 0, (
+            f"STATUS: [{response.status_code}]\n "
+            f"{json.dumps(response.json(), indent=4)}"
+        )
