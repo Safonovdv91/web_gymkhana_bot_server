@@ -34,7 +34,9 @@ async def get_sport_classes(session: AsyncSession) -> list[SportClass]:
     return list(sport_classes)
 
 
-async def get_sport_class_by_name(session: AsyncSession, name: str) -> list[SportClass]:
+async def get_sport_class_by_name(
+    session: AsyncSession, name: str
+) -> list[SportClass]:
     query = select(SportClass).where(SportClass.sport_class == name)
     result = await session.execute(query)
     sport_class = result.scalar()

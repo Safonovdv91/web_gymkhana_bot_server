@@ -5,7 +5,7 @@ from starlette import status
 from src.auth.auth_config import current_user
 from src.database import get_async_session
 
-from ..sport_classes.schemas import SportClassSchema
+from ..sport_classes.schemas import SportClassSchema, SportClassSchemaInput
 from .dependencies import user_by_email, user_by_id
 from .models import User
 from .schemas import UserResponseMany, UserResponseOne
@@ -239,13 +239,14 @@ async def del_user_by_id(
     response_model=UserResponseOne,
 )
 async def user_subscribe_ggp(
-    class_name: str,
-    # curr_user: User = Depends(current_user),
+    # curr_user: User = Depends(current_user)
+    # class_name: str | List[str] = -1,
+    class_name: SportClassSchemaInput,
     session: AsyncSession = Depends(get_async_session),
     user: User = Depends(user_by_id),
 ):
-    user = await UserService.user_subscribe_ggp_class(
-        session=session, user=user, class_name=class_name
+    user = await UserService().user_subscribe_ggp_class(
+        session=session, user=user, class_names=class_name.sport_class
     )
     return {
         "status": "Success",

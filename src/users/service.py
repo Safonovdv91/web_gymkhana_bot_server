@@ -1,10 +1,11 @@
-from sqlalchemy.ext.asyncio import AsyncSession
 from typing import List
 
+from sqlalchemy.ext.asyncio import AsyncSession
+
 from ..roles.models import Role
+from ..sport_classes.crud import get_sport_class_by_name
 from . import crud
 from .models import User
-from ..sport_classes.crud import get_sport_class_by_name
 
 
 class UserService:
@@ -38,7 +39,9 @@ class UserService:
         return user
 
     @classmethod
-    async def get_user_by_email(cls, session: AsyncSession, email: str) -> User | None:
+    async def get_user_by_email(
+        cls, session: AsyncSession, email: str
+    ) -> User | None:
         user = await crud.get_user_by_mask(
             session=session, mask=User.email, mask_name=email
         )

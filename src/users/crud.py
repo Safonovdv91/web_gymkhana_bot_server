@@ -4,7 +4,6 @@ from sqlalchemy.orm import selectinload
 
 from ..sport_classes.models import SportClass
 from .models import User
-from ..sport_classes.crud import get_sport_class_by_name
 
 
 async def get_user_by_mask(
@@ -63,4 +62,3 @@ async def remove_ggp_class(
     await session.commit()
 
     return user
-
