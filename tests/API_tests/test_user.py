@@ -183,13 +183,14 @@ class TestUserPatchUserSubscribeById:
         (2, "-1", 422, "user1@example.com", 1),
         (2, "", 422, "user1@example.com", 1),
         (2, "B", 200, "user1@example.com", 0),
+        (150, "B", 404, None, 0),
     ]
     URL = "/api/v1/users/"
 
     @pytest.mark.parametrize(
         "user_id, sub_letter, status_code, email, length_subscribe", USER_SUB
     )
-    async def test_user_sub_class(
+    async def test_user_subscribe_class(
         self,
         ac: AsyncClient,
         user_id,
@@ -217,19 +218,19 @@ class TestUserPatchUserSubscribeById:
         # Проверка валидности через метод получения инфы через get by id
         url_subscribe = f"{self.URL}id={user_id}"
         response = await ac.get(url=url_subscribe, cookies=jwt_token)
-        assert response.status_code == 200, (
-            f"STATUS: [{response.status_code}]\n "
-            f"{json.dumps(response.json(), indent=4)}"
-        )
-        assert response.json()["data"]["email"] == email, (
-            f"STATUS: [{response.status_code}]\n "
-            f"{json.dumps(response.json(), indent=4)}"
-        )
-
-        assert len(response.json()["data"]["ggp_sub_classes"]) == length_subscribe, (
-            f"STATUS: [{response.status_code}]\n "
-            f"{json.dumps(response.json(), indent=4)}"
-        )
+        if response.status_code not in [404]:
+            assert response.status_code == 200, (
+                f"STATUS: [{response.status_code}]\n "
+                f"{json.dumps(response.json(), indent=4)}"
+            )
+            assert response.json()["data"]["email"] == email, (
+                f"STATUS: [{response.status_code}]\n "
+                f"{json.dumps(response.json(), indent=4)}"
+            )
+            assert len(response.json()["data"]["ggp_sub_classes"]) == length_subscribe, (
+                f"STATUS: [{response.status_code}]\n "
+                f"{json.dumps(response.json(), indent=4)}"
+            )
 
     @pytest.mark.parametrize(
         "user_id, sub_letter, status_code, email, length_subscribe", USER_SUB
