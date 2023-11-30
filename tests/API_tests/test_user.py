@@ -18,8 +18,9 @@ class TestUserApiGetByEmail:
     async def test_user_get_by_email(
         self, ac: AsyncClient, email, status_code, jwt_token
     ):
-        url = f"{self.common_url}/?email={email}"
-        response = await ac.get(url=url, cookies=jwt_token)
+        url = f"{self.common_url}/"
+        params = {"email": email}
+        response = await ac.get(url=url, cookies=jwt_token, params=params)
         assert response.status_code == status_code, (
             f"STATUS: [{response.status_code}]\n "
             f"{json.dumps(response.json(), indent=4)}"
@@ -27,8 +28,9 @@ class TestUserApiGetByEmail:
 
     @pytest.mark.parametrize("email, status", USERS)
     async def test_user_get_by_email_unauthorized(self, ac: AsyncClient, email, status):
-        url = f"{self.common_url}/?email={email}"
-        response = await ac.get(url=url)
+        url = f"{self.common_url}/"
+        params = {"email": email}
+        response = await ac.get(url=url, params=params)
         assert response.status_code == 401, (
             f"STATUS: [{response.status_code}]\n "
             f"{json.dumps(response.json(), indent=4)}"
@@ -58,9 +60,10 @@ class TestUserApiDeleteByEmail:
     async def test_user_delete_by_email(
         self, ac: AsyncClient, email, status_code, jwt_token
     ):
-        url = f"{self.common_url}/?email={email}"
+        url = f"{self.common_url}/"
+        params = {"email": email}
         if status_code == 200:
-            response = await ac.get(url, cookies=jwt_token)
+            response = await ac.get(url, cookies=jwt_token, params=params)
             assert response.status_code == 200, f"User {email} not exist"
 
         url = f"{self.common_url}/email={email}/delete"
@@ -71,8 +74,8 @@ class TestUserApiDeleteByEmail:
         )
 
         if status_code == 200:
-            url = f"{self.common_url}/?email={email}"
-            response = await ac.get(url, cookies=jwt_token)
+            url = f"{self.common_url}/"
+            response = await ac.get(url, cookies=jwt_token, params=params)
             assert response.status_code == 404, f"User {email} is not delete"
 
     @pytest.mark.parametrize("email, status_code", USERS_FOR_DELETE)
@@ -237,7 +240,9 @@ class TestUserPatchUserSubscribeById:
                 f"STATUS: [{response.status_code}]\n "
                 f"{json.dumps(response.json(), indent=4)}"
             )
-            assert len(response.json()["data"]["ggp_sub_classes"]) == length_subscribe, (
+            assert (
+                len(response.json()["data"]["ggp_sub_classes"]) == length_subscribe
+            ), (
                 f"STATUS: [{response.status_code}]\n "
                 f"{json.dumps(response.json(), indent=4)}"
             )
@@ -257,9 +262,7 @@ class TestUserPatchUserSubscribeById:
     ):
         url_subscribe = f"{self.URL}id={user_id}/subscribe"
         data = {"sport_class": sub_letter}
-        response = await ac.patch(
-            url=url_subscribe, data=json.dumps(data)
-        )
+        response = await ac.patch(url=url_subscribe, data=json.dumps(data))
         assert response.status_code == 401, (
             f"STATUS: [{response.status_code}]\n "
             f"{json.dumps(response.json(), indent=4)}"

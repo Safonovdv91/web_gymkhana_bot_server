@@ -1,6 +1,6 @@
 import re
 from datetime import datetime
-from typing import Annotated
+from typing import Annotated, Optional
 
 from annotated_types import MaxLen, MinLen
 from fastapi_users import schemas
@@ -64,3 +64,41 @@ class UserResponseOne(BaseModel):
     status: str = "Success"
     data: UserOut
     details: str | None = None
+
+
+class SUser(BaseModel):
+    email: EmailStr = "user1@mail.com"
+    is_active: bool = True
+    is_superuser: bool = False
+    is_verified: bool = False
+
+
+class SResponse(BaseModel):
+    status: str
+    details: str | dict | None = None
+
+
+class SUserOutput(SUser):
+    telegram_id: str | None = "239123941"
+    registered_at: datetime
+    role: RoleBase
+
+
+class SUserOutResponseOne(SResponse):
+    data: SUserOutput
+
+
+class SUserOutResponseMany(SResponse):
+    data: list[SUserOutput]
+
+
+class SUserSearchArgs:
+    def __init__(
+        self,
+        is_active: Optional[bool] = None,
+        role: Optional[str] = None,
+        sub_offline: Optional[bool] = None,
+    ):
+        self.is_active = is_active
+        self.role = role
+        self.sub_offline = sub_offline

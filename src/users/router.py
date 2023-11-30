@@ -8,7 +8,12 @@ from src.database import get_async_session
 from ..sport_classes.schemas import SportClassSchemaInput
 from .dependencies import user_by_email, user_by_id
 from .models import User
-from .schemas import UserResponseMany, UserResponseOne
+from .schemas import (
+    SUserOutResponseMany,
+    SUserSearchArgs,
+    UserResponseMany,
+    UserResponseOne,
+)
 from .service import UserService
 
 
@@ -44,10 +49,10 @@ async def get_users(
 @router.get(
     "/ALL_INFO",
     responses={
-        # status.HTTP_200_OK: {
-        #     "model": UserResponseMany,
-        #     "description": "Return all users in db",
-        # },
+        status.HTTP_200_OK: {
+            "model": SUserOutResponseMany,
+            "description": "Return all users in db",
+        },
         status.HTTP_401_UNAUTHORIZED: {
             "model": None,
             "description": "UNAUTHORIZED",
@@ -56,9 +61,10 @@ async def get_users(
     # response_model=UserResponseMany,
 )
 async def get_users_all_info(
+    search_args: SUserSearchArgs = Depends(),
     session: AsyncSession = Depends(get_async_session),
     # curr_user: User = Depends(current_user),
-):
+) -> SUserOutResponseMany:
     users = await UserService.get_users(
         session=session,
         # user=curr_user
