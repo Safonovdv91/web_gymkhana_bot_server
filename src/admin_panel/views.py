@@ -22,7 +22,7 @@ class RoleAdmin(ModelView, model=Role):
     name = "Роль"
     name_plural = "Роли"
     icon = "fa-solid fa-address-book"
-    column_list = [Role.id, Role.name, Role.users]
+    column_list = [Role.id, Role.name, Role.description, Role.users]
 
 
 class SportClassAdmin(ModelView, model=SportClass):
