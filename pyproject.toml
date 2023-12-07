@@ -3,7 +3,6 @@ testpaths = "tests"
 pythonpath = [
   ".", "src",
 ]
-
 asyncio_mode="auto"
 
 [tool.poetry]
@@ -26,6 +25,7 @@ gunicorn = "^21.2.0"
 pydantic = "^2.5.1"
 python-dotenv = "^1.0.0"
 httpx = "^0.25.1"
+sqladmin = "^0.16.0"
 
 
 [tool.poetry.group.dev.dependencies]

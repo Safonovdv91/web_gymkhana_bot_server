@@ -18,3 +18,6 @@ class Role(Base):
     description: Mapped[str | None] = mapped_column()
 
     users: Mapped[List["User"]] = relationship(back_populates="role")
+
+    def __str__(self):
+        return f"Role # {self.id} - [ {self.name} ]"

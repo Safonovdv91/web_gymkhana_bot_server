@@ -2,10 +2,13 @@ import time
 
 import uvicorn
 from fastapi import FastAPI, Request
+from sqladmin import Admin
 from starlette.middleware.cors import CORSMiddleware
 from starlette.responses import RedirectResponse
 
+from src.admin_panel.views import RoleAdmin, SportClassAdmin, UserAdmin
 from src.auth.auth_config import auth_backend, fastapi_users
+from src.database import engine
 from src.pages.routers import router as page_router
 from src.roles.router import router_role
 from src.sport_classes.router import router as router_sport_class
@@ -77,6 +80,12 @@ app.include_router(router_sport_class)
 @app.get("/")
 async def redirect_to_docs():
     return RedirectResponse(url="/docs")
+
+
+admin = Admin(app, engine)
+admin.add_view(UserAdmin)
+admin.add_view(RoleAdmin)
+admin.add_view(SportClassAdmin)
 
 
 if __name__ == "__main__":

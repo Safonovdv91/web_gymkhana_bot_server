@@ -54,8 +54,6 @@ class User(SQLAlchemyBaseUserTable[int], Base):
 
     def __str__(self):
         return (
-            f" id: {self.id}"
-            f" login: {self.login},"
             f" email: {self.email} "
             f"registered_at: {self.registered_at} "
             f"telegram_id: {self.telegram_id}"
