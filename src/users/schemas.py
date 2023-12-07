@@ -34,7 +34,7 @@ class BaseUserCreate(CreateUpdateDictModel):
 
 
 class UserCreate(BaseUserCreate):
-    login: Annotated[str, MinLen(3), MaxLen(14)]
+    # login: Annotated[str, MinLen(3), MaxLen(14)]
     password: Annotated[str, MinLen(4)]
 
 
@@ -51,26 +51,13 @@ class UserOut(BaseModel):
     registered_at: datetime
     role: RoleBase
     ggp_sub_classes: list[SportClassResponseOne]
-    # role_id: int
-
-
-class UserResponseMany(BaseModel):
-    status: str = "Success"
-    data: list[UserOut]
-    details: str | dict | None = {"count": 10}
-
-
-class UserResponseOne(BaseModel):
-    status: str = "Success"
-    data: UserOut
-    details: str | None = None
 
 
 class SUser(BaseModel):
     email: EmailStr = "user1@mail.com"
-    is_active: bool = True
-    is_superuser: bool = False
-    is_verified: bool = False
+    # is_active: bool = True
+    # is_superuser: bool = False
+    # is_verified: bool = False
 
 
 class SResponse(BaseModel):
@@ -82,14 +69,15 @@ class SUserOutput(SUser):
     telegram_id: str | None = "239123941"
     registered_at: datetime
     role: RoleBase
+    ggp_sub_classes: list[SportClassResponseOne]
 
 
-class SUserOutResponseOne(SResponse):
-    data: SUserOutput
-
-
-class SUserOutResponseMany(SResponse):
+class SUsersResponseMany(SResponse):
     data: list[SUserOutput]
+
+
+class SUserResponseOne(SResponse):
+    data: SUserOutput
 
 
 class SUserSearchArgs:

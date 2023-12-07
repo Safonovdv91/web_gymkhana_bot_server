@@ -8,12 +8,7 @@ from src.database import get_async_session
 from ..sport_classes.schemas import SportClassSchemaInput
 from .dependencies import user_by_email, user_by_id
 from .models import User
-from .schemas import (
-    SUserOutResponseMany,
-    SUserSearchArgs,
-    UserResponseMany,
-    UserResponseOne,
-)
+from .schemas import SUserResponseOne, SUserSearchArgs, SUsersResponseMany
 from .service import UserService
 
 
@@ -23,16 +18,16 @@ router = APIRouter(prefix="/api/v1/users", tags=["user"])
 @router.get(
     "",
     responses={
-        # status.HTTP_200_OK: {
-        #     "model": UserResponseMany,
-        #     "description": "Return all users in db",
-        # },
+        status.HTTP_200_OK: {
+            "model": SUsersResponseMany,
+            "description": "Return all users in db",
+        },
         status.HTTP_401_UNAUTHORIZED: {
             "model": None,
             "description": "UNAUTHORIZED",
         },
     },
-    # response_model=UserResponseMany,
+    response_model=SUsersResponseMany,
 )
 async def get_users(
     curr_user: User = Depends(current_user),
@@ -50,7 +45,7 @@ async def get_users(
     "/ALL_INFO",
     responses={
         status.HTTP_200_OK: {
-            "model": SUserOutResponseMany,
+            "model": SUsersResponseMany,
             "description": "Return all users in db",
         },
         status.HTTP_401_UNAUTHORIZED: {
@@ -58,13 +53,13 @@ async def get_users(
             "description": "UNAUTHORIZED",
         },
     },
-    # response_model=UserResponseMany,
+    response_model=SUsersResponseMany,
 )
 async def get_users_all_info(
     search_args: SUserSearchArgs = Depends(),
     session: AsyncSession = Depends(get_async_session),
     # curr_user: User = Depends(current_user),
-) -> SUserOutResponseMany:
+) -> SUsersResponseMany:
     users = await UserService.get_users(
         session=session,
         # user=curr_user
@@ -80,7 +75,7 @@ async def get_users_all_info(
     "/id={user_id}",
     responses={
         status.HTTP_200_OK: {
-            "model": UserResponseOne,
+            "model": SUserResponseOne,
             "description": "Return one user data",
         },
         status.HTTP_401_UNAUTHORIZED: {
@@ -88,7 +83,7 @@ async def get_users_all_info(
             "description": "UNAUTHORIZED",
         },
     },
-    response_model=UserResponseOne,
+    response_model=SUserResponseOne,
 )
 async def get_user_by_id(
     curr_user: User = Depends(current_user),
@@ -101,7 +96,7 @@ async def get_user_by_id(
     "/current",
     responses={
         status.HTTP_200_OK: {
-            "model": UserResponseOne,
+            "model": SUserResponseOne,
             "description": "Return current user data",
         },
         status.HTTP_401_UNAUTHORIZED: {
@@ -109,7 +104,7 @@ async def get_user_by_id(
             "description": "UNAUTHORIZED",
         },
     },
-    response_model=UserResponseOne,
+    response_model=SUserResponseOne,
 )
 async def get_current_user(
     curr_user: User = Depends(current_user),
@@ -125,7 +120,7 @@ async def get_current_user(
     "/",
     responses={
         status.HTTP_200_OK: {
-            "model": UserResponseOne,
+            "model": SUserResponseOne,
             "description": "Return one user data by email",
         },
         status.HTTP_401_UNAUTHORIZED: {
@@ -133,7 +128,7 @@ async def get_current_user(
             "description": "UNAUTHORIZED",
         },
     },
-    response_model=UserResponseOne,
+    response_model=SUserResponseOne,
 )
 async def get_user_by_email(
     curr_user: User = Depends(current_user),
@@ -146,7 +141,7 @@ async def get_user_by_email(
     "/role={role_id}",
     responses={
         status.HTTP_200_OK: {
-            "model": UserResponseMany,
+            "model": SUsersResponseMany,
             "description": "Return all user's data with role",
         },
         status.HTTP_401_UNAUTHORIZED: {
@@ -154,7 +149,7 @@ async def get_user_by_email(
             "description": "UNAUTHORIZED",
         },
     },
-    response_model=UserResponseMany,
+    response_model=SUsersResponseMany,
 )
 async def get_users_by_role_id(
     curr_user: User = Depends(current_user),
@@ -175,7 +170,7 @@ async def get_users_by_role_id(
     "/email={email}/delete",
     responses={
         status.HTTP_200_OK: {
-            "model": UserResponseOne,
+            "model": SUserResponseOne,
             "description": "Return deleting user data",
         },
         status.HTTP_401_UNAUTHORIZED: {
@@ -183,7 +178,7 @@ async def get_users_by_role_id(
             "description": "UNAUTHORIZED",
         },
     },
-    response_model=UserResponseOne,
+    response_model=SUserResponseOne,
 )
 async def del_user_by_email(
     cur_user: User = Depends(current_user),
@@ -203,7 +198,7 @@ async def del_user_by_email(
     "/id={user_id}/delete",
     responses={
         status.HTTP_200_OK: {
-            "model": UserResponseOne,
+            "model": SUserResponseOne,
             "description": "Return deleting user data",
         },
         status.HTTP_401_UNAUTHORIZED: {
@@ -211,7 +206,7 @@ async def del_user_by_email(
             "description": "UNAUTHORIZED",
         },
     },
-    response_model=UserResponseOne,
+    response_model=SUserResponseOne,
 )
 async def del_user_by_id(
     session: AsyncSession = Depends(get_async_session),
@@ -230,7 +225,7 @@ async def del_user_by_id(
     "/id={user_id}/subscribe",
     responses={
         status.HTTP_201_CREATED: {
-            "model": UserResponseOne,
+            "model": SUserResponseOne,
             "description": "Return deleting user data",
         },
         status.HTTP_401_UNAUTHORIZED: {
@@ -242,7 +237,7 @@ async def del_user_by_id(
             "description": "UNAUTHORIZED",
         },
     },
-    response_model=UserResponseOne,
+    response_model=SUserResponseOne,
 )
 async def user_subscribe_ggp(
     curr_user: User = Depends(current_user),
@@ -264,7 +259,7 @@ async def user_subscribe_ggp(
     "/current/ggp_sub",
     responses={
         status.HTTP_201_CREATED: {
-            "model": UserResponseOne,
+            "model": SUserResponseOne,
             "description": "Return deleting user data",
         },
         status.HTTP_401_UNAUTHORIZED: {
@@ -276,7 +271,7 @@ async def user_subscribe_ggp(
             "description": "UNAUTHORIZED",
         },
     },
-    response_model=UserResponseOne,
+    response_model=SUserResponseOne,
 )
 async def current_user_subscribe_ggp(
     curr_user: User = Depends(current_user),
