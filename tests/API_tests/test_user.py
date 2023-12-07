@@ -143,7 +143,7 @@ class TestUsersApiGetByRoles:
 
     @pytest.mark.parametrize("role_id, status_code,count_user, email", USERS)
     async def test_user_get_by_id(
-        self, ac: AsyncClient, role_id, status_code, count_user, email, jwt_token
+        self, ac: AsyncClient, role_id, status_code, count_user, email, jwt_token: dict
     ):
         url = f"{self.COMMON_URL}role={role_id}"
         response = await ac.get(url=url, cookies=jwt_token)
@@ -211,12 +211,12 @@ class TestUserPatchUserSubscribeById:
         status_code,
         email,
         length_subscribe,
-        jwt_token,
+        jwt_token: dict,
     ):
         url_subscribe = f"{self.URL}id={user_id}/subscribe"
         data = {"sport_class": sub_letter}
         response = await ac.patch(
-            url=url_subscribe, cookies=jwt_token, data=json.dumps(data)
+            url=url_subscribe, cookies=jwt_token, content=json.dumps(data)
         )
         assert response.status_code == status_code, (
             f"STATUS: [{response.status_code}]\n "
@@ -258,11 +258,11 @@ class TestUserPatchUserSubscribeById:
         status_code,
         email,
         length_subscribe,
-        jwt_token,
+        jwt_token: dict,
     ):
         url_subscribe = f"{self.URL}id={user_id}/subscribe"
         data = {"sport_class": sub_letter}
-        response = await ac.patch(url=url_subscribe, data=json.dumps(data))
+        response = await ac.patch(url=url_subscribe, content=json.dumps(data))
         assert response.status_code == 401, (
             f"STATUS: [{response.status_code}]\n "
             f"{json.dumps(response.json(), indent=4)}"
