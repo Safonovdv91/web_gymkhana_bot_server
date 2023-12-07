@@ -47,9 +47,6 @@ async def delete_user(
 async def append_ggp_class(
     session: AsyncSession, user: User, sport_class: SportClass
 ) -> User:
-    print("Добав")
-    print("Добав")
-    print(f"Добавляем {user} : {sport_class}")
     user.ggp_sub_classes.append(sport_class)
     await session.commit()
     return user

@@ -2,7 +2,7 @@ import re
 from datetime import datetime
 from typing import Annotated, Optional
 
-from annotated_types import MaxLen, MinLen
+from annotated_types import MinLen
 from fastapi_users import schemas
 from fastapi_users.schemas import CreateUpdateDictModel
 from pydantic import BaseModel, EmailStr

@@ -13,7 +13,6 @@ class RoleService:
         cls, session: AsyncSession, new_role, current_user: User
     ) -> Role:
         role: Role = await crud.add_new_role(session, new_role)
-        print(f"{current_user.email} add new role: {role}")
         return role
 
     @classmethod
@@ -37,7 +36,6 @@ class RoleService:
     @classmethod
     async def delete_role(cls, session: AsyncSession, role: Role) -> Role:
         result: Role = await crud.delete_role(session, role=role)
-        print(f"{result.name} was deleted")
         return result
 
     @classmethod
