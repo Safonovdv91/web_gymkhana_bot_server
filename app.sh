@@ -7,7 +7,7 @@ echo "******"
 alembic upgrade head
 echo "******"
 
-echo "Добавляем стандартных юзеров"
+echo "Запустили py-scripts"
 python add_default_roles.py
 
 echo "Выполнено"
