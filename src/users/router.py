@@ -246,7 +246,7 @@ async def user_subscribe_ggp(
     user: User = Depends(user_by_id),
 ):
     user = await UserService().user_subscribe_ggp_class(
-        session=session, user=user, class_names=class_name.sport_class
+        session=session, user_in=user, class_names=class_name.sport_class
     )
     return {
         "status": "Success",
@@ -280,7 +280,7 @@ async def current_user_subscribe_ggp(
 ):
     user = await user_by_id(session=session, user_id=curr_user.id)
     user = await UserService().user_subscribe_ggp_class(
-        session=session, user=user, class_names=class_name.sport_class
+        session=session, user_in=user, class_names=class_name.sport_class
     )
     return {
         "status": "Success",

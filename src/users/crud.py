@@ -7,7 +7,7 @@ from .models import User
 
 
 async def get_user_by_mask(
-    session: AsyncSession, mask=None, mask_name: str | bool | int = None
+    session: AsyncSession, mask=None, mask_name: str | bool | int | None = None
 ) -> User | None | list[User]:
     query = (
         select(User)
@@ -21,7 +21,7 @@ async def get_user_by_mask(
 
 
 async def get_users_by_mask(
-    session: AsyncSession, mask=None, mask_name: str | bool | int = None
+    session: AsyncSession, mask=None, mask_name: str | bool | int | None = None
 ) -> None | list[User]:
     query = (
         select(User)

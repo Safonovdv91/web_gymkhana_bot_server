@@ -13,7 +13,7 @@ class UserService:
     async def get_users(
         cls,
         session: AsyncSession,
-        user: User = None,
+        user: User | None = None,
     ) -> list[User] | None:
         users: list[User] | None = await crud.get_users_by_mask(session)
         return users
@@ -50,12 +50,12 @@ class UserService:
 
     @classmethod
     async def delete_user(cls, session: AsyncSession, user: User) -> User:
-        user: User = await crud.delete_user(session, user)
-        return user
+        user_delete: User = await crud.delete_user(session, user)
+        return user_delete
 
     @staticmethod
     async def user_subscribe_ggp_class(
-        session: AsyncSession, user: User, class_names: str | List[str]
+        session: AsyncSession, user_in: User, class_names: str | List[str]
     ) -> User:
         if type(class_names) is str:
             class_names = [class_names]
@@ -64,12 +64,12 @@ class UserService:
             sport_class = await get_sport_class_by_name(
                 session=session, name=class_name
             )
-            if sport_class in user.ggp_sub_classes:
+            if sport_class in user_in.ggp_sub_classes:
                 user: User = await crud.remove_ggp_class(
-                    session=session, user=user, sport_class=sport_class
+                    session=session, user=user_in, sport_class=sport_class
                 )
             else:
                 user: User = await crud.append_ggp_class(
-                    session=session, user=user, sport_class=sport_class
+                    session=session, user=user_in, sport_class=sport_class
                 )
         return user
