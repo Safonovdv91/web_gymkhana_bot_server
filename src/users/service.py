@@ -56,7 +56,7 @@ class UserService:
     @staticmethod
     async def user_subscribe_ggp_class(
         session: AsyncSession, user_in: User, class_names: str | List[str]
-    ) -> User:
+    ) -> User | None:
         if type(class_names) is str:
             class_names = [class_names]
 
@@ -72,4 +72,8 @@ class UserService:
                 user: User = await crud.append_ggp_class(
                     session=session, user=user_in, sport_class=sport_class
                 )
-        return user
+
+            if user:
+                return user
+            else:
+                return None
