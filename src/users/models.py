@@ -18,7 +18,7 @@ if TYPE_CHECKING:
 class User(SQLAlchemyBaseUserTable[int], Base):
     __tablename__ = "users"
     id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
-    hashed_password: Mapped[str] = mapped_column(nullable=False)
+    # hashed_password: Mapped[str] = mapped_column(nullable=False)
     ggp_percent_begin: Mapped[int] = mapped_column(
         default=100,
     )
@@ -31,18 +31,18 @@ class User(SQLAlchemyBaseUserTable[int], Base):
     )
     telegram_id: Mapped[Optional[int]]
     login: Mapped[Optional[str]]
-    email: Mapped[Optional[str]] = mapped_column(unique=True)
+    # email: Mapped[Optional[str]] = mapped_column(unique=True)
     registered_at: Mapped[datetime] = mapped_column(default=datetime.utcnow)
-    is_active: Mapped[bool] = mapped_column(
-        Boolean,
-        default=True,
-    )
-    is_superuser: Mapped[bool] = mapped_column(
-        Boolean, default=False, nullable=False, server_default=false()
-    )
-    is_verified: Mapped[bool] = mapped_column(
-        Boolean, default=False, nullable=False, server_default=false()
-    )
+    # is_active: Mapped[bool] = mapped_column(
+    #     Boolean,
+    #     default=True,
+    # )
+    # is_superuser: Mapped[bool] = mapped_column(
+    #     Boolean, default=False, nullable=False, server_default=false()
+    # )
+    # is_verified: Mapped[bool] = mapped_column(
+    #     Boolean, default=False, nullable=False, server_default=false()
+    # )
     role_id: Mapped[int] = mapped_column(ForeignKey("roles.id"), default=1)
     role: Mapped["Role"] = relationship(back_populates="users")
     ggp_sub_classes: Mapped[List["SportClass"]] = relationship(
