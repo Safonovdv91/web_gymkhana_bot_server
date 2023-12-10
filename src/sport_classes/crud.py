@@ -1,9 +1,11 @@
 from fastapi import HTTPException
 from fastapi_users.schemas import model_dump
 from sqlalchemy import insert, select
+from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
 
+from logger.logger import logger
 from src.sport_classes.models import SportClass
 from src.sport_classes.schemas import SportClassSchema
 
@@ -37,9 +39,22 @@ async def get_sport_classes(session: AsyncSession) -> list[SportClass]:
 async def get_sport_class_by_name(
     session: AsyncSession, name: str
 ) -> list[SportClass]:
-    query = select(SportClass).where(SportClass.sport_class == name)
-    result = await session.execute(query)
-    sport_class = result.scalar()
+    try:
+        logger.debug("Get sportclass by name")
+        query = select(SportClass).where(SportClass.sport_class == name)
+        result = await session.execute(query)
+        sport_class = result.scalar()
+    except (SQLAlchemyError, Exception) as e:
+        if isinstance(e, SQLAlchemyError):
+            msg = "Database Exc: "
+        else:
+            msg = "Unknown Exc: "
+        msg += "Can not get sport class by name"
+        extra = {
+            "name": name,
+        }
+        logger.error(msg=msg, extra=extra, exc_info=True)
+
     return sport_class
 
 

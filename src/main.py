@@ -6,6 +6,7 @@ from sqladmin import Admin
 from starlette.middleware.cors import CORSMiddleware
 from starlette.responses import RedirectResponse
 
+from logger.logger import logger
 from src.admin_panel.views import RoleAdmin, SportClassAdmin, UserAdmin
 from src.auth.auth_config import auth_backend, fastapi_users
 from src.database import engine
@@ -46,7 +47,8 @@ async def add_process_time_header(request: Request, call_next):
     start_time = time.time()
     response = await call_next(request)
     process_time = time.time() - start_time
-    response.headers["X-Process-Time"] = str(process_time)
+    logger.debug("Process-time: {:.8f}".format(process_time))
+    response.headers["X-Process-Time"] = str(round(process_time, 5))
     return response
 
 
