@@ -240,8 +240,8 @@ async def del_user_by_id(
     response_model=SUserResponseOne,
 )
 async def user_subscribe_ggp(
+    class_name: SportClassSchemaInput,
     curr_user: User = Depends(current_user),
-    class_name: SportClassSchemaInput = -1,
     session: AsyncSession = Depends(get_async_session),
     user: User = Depends(user_by_id),
 ):
