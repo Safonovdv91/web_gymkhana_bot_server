@@ -2,6 +2,8 @@ from typing import List
 
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from logger.logger import logger
+
 from ..roles.models import Role
 from ..sport_classes.crud import get_sport_class_by_name
 from . import crud
@@ -61,6 +63,7 @@ class UserService:
             class_names = [class_names]
 
         for class_name in class_names:
+            logger.debug(f"Get class_name {class_name}")
             sport_class = await get_sport_class_by_name(
                 session=session, name=class_name
             )
