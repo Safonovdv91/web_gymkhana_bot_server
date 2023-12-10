@@ -1,0 +1,22 @@
+[
+  {
+    "name": "mock_owner",
+    "description": "mock_owner_description"
+  },
+  {
+    "name": "mock_admin",
+    "description": "mock_admin_description"
+  },
+  {
+    "name": "mock_user",
+    "description": "mock user description"
+  },
+  {
+    "name": "mock_guest",
+    "description": "mock guest description"
+  },
+  {
+    "name": "for_patch_role",
+    "description": "For patch role description"
+  }
+]

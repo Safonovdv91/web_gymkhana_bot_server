@@ -50,7 +50,7 @@ class UserManager(IntegerIDMixin, BaseUserManager[User, int]):
         user_dict["hashed_password"] = self.password_helper.hash(password)
         user_dict[
             "role_id"
-        ] = 2  # переопределение столбца роли для пользователя
+        ] = 3  # переопределение столбца роли для пользователя
 
         created_user = await self.user_db.create(user_dict)
 

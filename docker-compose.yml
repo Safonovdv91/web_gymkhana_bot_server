@@ -14,11 +14,11 @@ services:
     networks:
       - custom2
   app:
-#    build:
-#      context: .
-    image: softikdimon/rabbitmg-backend-server:${TAG}
+    build:
+      context: .
+#    image: softikdimon/rabbitmg-backend-server:${TAG}
     container_name: "fastapi_app"
-    command: ["/fastapi_app/app.sh"]
+    command: ["/app/app.sh"]
     ports:
       - "9000:8000"
     depends_on:

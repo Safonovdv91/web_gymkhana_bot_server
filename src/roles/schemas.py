@@ -7,8 +7,8 @@ from pydantic.v1 import validator
 
 
 class RoleBase(BaseModel):
-    name: str
-    description: str
+    name: str = "Admin"
+    description: str = "Administrator who can change roles users"
 
 
 class Role(RoleBase):
@@ -26,12 +26,6 @@ class RoleResponseMany(BaseModel):
     status: str
     data: list[Role]
     details: str | dict | None
-
-
-class CreatedResponse(BaseModel):
-    status: int
-    data: RoleBase
-    details: str
 
 
 class RoleCreate(BaseModel):

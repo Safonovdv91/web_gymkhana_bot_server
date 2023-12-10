@@ -1,72 +1,82 @@
+from typing import List
+
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from src.users.models import User
+from logger.logger import logger
 
+from ..roles.models import Role
+from ..sport_classes.crud import get_sport_class_by_name
 from . import crud
+from .models import User
 
 
 class UserService:
     @classmethod
-    async def lst(
+    async def get_users(
         cls,
         session: AsyncSession,
-        # user: User = Depends(current_user),
-    ):
-        result = await crud.get_users(session)
-        output = []
-        for row in result.scalars().all():
-            user = row
-            user = cls.user_to_dict(user)
-            output.append(user)
-        return output
-
-    @classmethod
-    async def get_user_by_id(cls, session: AsyncSession, user_id: int):
-        user: User = await crud.get_user_by_id(session, user_id)
-
-        return cls.user_to_dict(user)
-
-    @classmethod
-    async def get_user_by_email(cls, session: AsyncSession, email: str):
-        user: User | None = await crud.get_user_by_email(session, email)
-
-        return cls.user_to_dict(user)
-
-    @classmethod
-    async def delete_user_by_email(cls, session: AsyncSession, email: str):
-        user: User = await crud.delete_user_by_email(session, email)
-
-        return cls.user_to_dict(user)
-
-    @classmethod
-    async def delete_user_by_id(cls, session: AsyncSession, user_id: int):
-        user: User = await crud.delete_user_by_id(session, user_id)
-
-        return cls.user_to_dict(user)
+        user: User | None = None,
+    ) -> list[User] | None:
+        users: list[User] | None = await crud.get_users_by_mask(session)
+        return users
 
     @classmethod
     async def get_users_by_role(
         cls, session: AsyncSession, user_role_id: int
-    ) -> list[User]:
-        users: list[User] = await crud.get_users_by_role(
-            session=session, role_id=user_role_id
+    ) -> list[User] | None:
+        users: list[User] = await crud.get_users_by_mask(
+            session=session, mask=Role.id, mask_name=user_role_id
         )
         return users
 
     @classmethod
-    def user_to_dict(cls, user: User):
-        output = {
-            "id": user.id,
-            "login": user.login,
-            "role": user.role.name,
-            "email": user.email,
-            "sub_ggp_percent": user.sub_ggp_percent,
-            "ggp_percent_begin": user.ggp_percent_begin,
-            "ggp_percent_end": user.ggp_percent_end,
-            "sub_offline": user.sub_offline,
-            "sub_ggp": user.sub_ggp,
-            "sub_world_record": user.sub_world_record,
-            "registered_at": user.registered_at,
-            "telegram_id": user.telegram_id,
-        }
-        return output
+    async def get_user_by_id(
+        cls,
+        session: AsyncSession,
+        user_id: int,
+    ) -> User:
+        user: User = await crud.get_user_by_mask(
+            session=session, mask=User.id, mask_name=user_id
+        )
+        return user
+
+    @classmethod
+    async def get_user_by_email(
+        cls, session: AsyncSession, email: str
+    ) -> User | None:
+        user = await crud.get_user_by_mask(
+            session=session, mask=User.email, mask_name=email
+        )
+
+        return user
+
+    @classmethod
+    async def delete_user(cls, session: AsyncSession, user: User) -> User:
+        user_delete: User = await crud.delete_user(session, user)
+        return user_delete
+
+    @staticmethod
+    async def user_subscribe_ggp_class(
+        session: AsyncSession, user_in: User, class_names: str | List[str]
+    ) -> User | None:
+        if type(class_names) is str:
+            class_names = [class_names]
+
+        for class_name in class_names:
+            logger.debug(f"Get class_name {class_name}")
+            sport_class = await get_sport_class_by_name(
+                session=session, name=class_name
+            )
+            if sport_class in user_in.ggp_sub_classes:
+                user: User = await crud.remove_ggp_class(
+                    session=session, user=user_in, sport_class=sport_class
+                )
+            else:
+                user: User = await crud.append_ggp_class(
+                    session=session, user=user_in, sport_class=sport_class
+                )
+
+            if user:
+                return user
+            else:
+                return None
