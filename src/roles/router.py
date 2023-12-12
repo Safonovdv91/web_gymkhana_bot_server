@@ -7,13 +7,8 @@ from src.database import get_async_session
 from ..auth.auth_config import current_user
 from ..users.models import User
 from .dependecies import role_by_id, role_by_name
-from .schemas import (
-    Role,
-    RoleCreate,
-    RoleResponseMany,
-    RoleResponseOne,
-    RoleUpdatePartial,
-)
+from .schemas import (Role, RoleCreate, RoleResponseMany, RoleResponseOne,
+                      RoleUpdatePartial,)
 from .service import RoleService
 
 
@@ -74,7 +69,7 @@ async def get_roles(
     user: User = Depends(current_user),
     session: AsyncSession = Depends(get_async_session),
 ):
-    result = await RoleService.get_roles(session)
+    result = await RoleService.get_roles(session=session, current_user=user)
     return {
         "status": "Success",
         "data": result,

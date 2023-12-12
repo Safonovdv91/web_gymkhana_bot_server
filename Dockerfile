@@ -1,80 +1,42 @@
 # Этап 1: Установка зависимостей с помощью poetry
-FROM python:3.10-slim AS builder
+FROM python:3.11-slim
 
-# Устанавливаем переменную окружения для корректной работы Python в контейнере
-ENV PYTHONUNBUFFERED=1
+# python:
+ENV PYTHONFAULTHANDLER=1 \
+PYTHONUNBUFFERED=1 \
+PYTHONHASHSEED=random \
+# pip:
+PIP_NO_CACHE_DIR=off \
+PIP_DISABLE_PIP_VERSION_CHECK=on \
+PIP_DEFAULT_TIMEOUT=100 \
+# poetry:
+POETRY_VERSION=1.7.1 \
+POETRY_VIRTUALENVS_CREATE=false \
+POETRY_CACHE_DIR='/var/cache/pypoetry'
 
-# Устанавливаем зависимости для poetry
-RUN apt-get update && apt-get install -y \
-    curl \
-    build-essential \
-    && curl -sSL https://install.python-poetry.org | python3 -
-
-# Добавляем путь к установленным бинарным файлам poetry в переменную PATH
-ENV PATH="${PATH}:/root/.local/bin"
+# System deps:
+RUN apt-get update && \
+  apt-get install --no-install-recommends -y \
+  build-essential \
+  gettext \
+  libpq-dev \
+  wget \
+  # Cleaning cache:
+  && apt-get autoremove -y && apt-get clean -y && rm -rf /var/lib/apt/lists/* \
+  # Installing `poetry` package manager:
+  # https://github.com/python-poetry/poetry
+  && pip install "poetry==$POETRY_VERSION" && poetry --version
 
 # Копируем файлы проекта в контейнер
 COPY pyproject.toml poetry.lock /app/
 
-# Устанавливаем рабочую директорию
 WORKDIR /app
 
-# Устанавливаем зависимости проекта с помощью poetry
-RUN poetry config virtualenvs.create false && \
-    poetry install --no-dev
+# Project initialization:
+RUN poetry install --no-root
 
-# Этап 2: Установка зависимостей для запуска приложения
-FROM python:3.10-slim AS dependencies
+# Creating folders, and files for a project:
+COPY . .
 
-# Устанавливаем переменную окружения для корректной работы Python в контейнере
-ENV PYTHONUNBUFFERED=1
-
-# Копируем зависимости из первого этапа
-COPY --from=builder /usr/local/lib/python3.10/site-packages/ /usr/local/lib/python3.10/site-packages/
-
-# Копируем файлы проекта в контейнер
-COPY . /app
-
-# Устанавливаем рабочую директорию
-WORKDIR /app
-
-# Устанавливаем зависимости для запуска приложения
-RUN pip install uvicorn gunicorn alembic
-
-# Этап 3: Запуск приложения
-FROM python:3.10-slim
-LABEL authors="safon"
-
-
-# Устанавливаем переменную окружения для корректной работы Python в контейнере
-ENV PYTHONUNBUFFERED=1
-
-# Копируем зависимости из второго этапа
-COPY --from=builder /usr/local/lib/python3.10/site-packages/ /usr/local/lib/python3.10/site-packages/
-
-# Копируем файлы проекта в контейнер
-COPY . /app
-
-# Устанавливаем рабочую директорию
-WORKDIR /app
-RUN chmod a+x app.sh
-
-# Открываем порт, на котором будет запущен FastAPI
-#EXPOSE 9000
-
-# Запускаем FastAPI при старте контейнера
-#CMD ["python", "-m", "uvicorn", "src.main:app", "--host", "0.0.0.0", "--port", "8000"]
-#--------------
-#FROM python:3.10
-#LABEL authors="safon"
-
-#RUN mkdir /fastapi_app
-#WORKDIR /fastapi_app
-
-#COPY requirements.txt .
-
-#RUN pip install -r requirements.txt
-#COPY . .
-
-#RUN chmod a+x app.sh
-#CMD gunicorn src.main:app --workers 4 --worker-class uvicorn.workers.UvicornWorker --bind=0.0.0.0:8000
+# Setting up proper permissions:
+RUN chmod +x app.sh

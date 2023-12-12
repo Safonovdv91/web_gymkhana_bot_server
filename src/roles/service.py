@@ -1,5 +1,6 @@
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from logger.logger import logger
 from src.roles.models import Role
 
 from ..users.models import User
@@ -13,10 +14,12 @@ class RoleService:
         cls, session: AsyncSession, new_role, current_user: User
     ) -> Role:
         role: Role = await crud.add_new_role(session, new_role)
+        logger.info(f"[{current_user.email}]: Add new role: {role.name} - {role.description}")
         return role
 
     @classmethod
-    async def get_roles(cls, session: AsyncSession) -> list[Role]:
+    async def get_roles(cls, session: AsyncSession, current_user: User) -> list[Role]:
+        logger.info(f"[{current_user.email}]: get all roles.")
         result: list[Role] = await crud.get_roles(session)
         return result
 
