@@ -4,10 +4,14 @@ from datetime import datetime
 from pythonjsonlogger import jsonlogger
 
 from src.config import LOG_LEVEL
+import os
+
+path = os.path
 
 logger = logging.getLogger()
-
 logHandler = logging.StreamHandler()
+
+fileHandler = logging.FileHandler("logger/journals/log_file.log")
 
 
 class CustomJsonFormatter(jsonlogger.JsonFormatter):
@@ -24,6 +28,9 @@ class CustomJsonFormatter(jsonlogger.JsonFormatter):
 
 
 formatter = CustomJsonFormatter('%(timestamp)s %(level)s %(name)s %(message)s')
+
+# Добавляем обработчик файлового журнала в логгер
+logger.addHandler(fileHandler)
 
 logHandler.setFormatter(formatter)
 logger.addHandler(logHandler)

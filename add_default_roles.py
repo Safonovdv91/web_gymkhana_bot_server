@@ -4,7 +4,7 @@ from src.database import engine
 
 
 async def add_roles():
-    print("Добавляем стандартные роли")
+    print("Добавляем стандартные роли и спортинвые классы")
     async with engine.begin() as conn:
         try:
             await conn.execute(
@@ -29,6 +29,32 @@ async def add_roles():
                     "INSERT INTO roles (name, description) VALUES('Guest','Unknown person, can nothing')"
                 )
             )
+            await conn.execute(
+                text(
+                    "INSERT INTO sport_classes (sport_class, description) VALUES('A','Best of the best')"
+                )
+            )
+            await conn.execute(
+                text(
+                    "INSERT INTO sport_classes (sport_class, description) VALUES('B','Sport mans: 100-105 %')"
+                )
+            )
+            await conn.execute(
+                text(
+                    "INSERT INTO sport_classes (sport_class, description) VALUES('C1','Sport mans: 105-110 %')"
+                )
+            )
+            await conn.execute(
+                text(
+                    "INSERT INTO sport_classes (sport_class, description) VALUES('C2','Sport mans: 110-115 %')"
+                )
+            )
+            await conn.execute(
+                text(
+                    "INSERT INTO sport_classes (sport_class, description) VALUES('C3','Sport mans: 115-120 %')"
+                )
+            )
+
         except Exception as e:
             print("<----Добавление пошло не по плану!---->")
             print(f"ERROR: {e}")
