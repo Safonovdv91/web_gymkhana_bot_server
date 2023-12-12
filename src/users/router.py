@@ -2,6 +2,7 @@ from fastapi import APIRouter, Depends
 from sqlalchemy.ext.asyncio import AsyncSession
 from starlette import status
 
+from logger.logger import logger
 from src.auth.auth_config import current_user
 from src.database import get_async_session
 
@@ -33,6 +34,7 @@ async def get_users(
     curr_user: User = Depends(current_user),
     session: AsyncSession = Depends(get_async_session),
 ):
+    logger.info(f"[USER][GET] user: {curr_user.email} get users")
     users = await UserService.get_users(session=session, user=curr_user)
     return {
         "status": "Success",
@@ -58,8 +60,10 @@ async def get_users(
 async def get_users_all_info(
     search_args: SUserSearchArgs = Depends(),
     session: AsyncSession = Depends(get_async_session),
-    # curr_user: User = Depends(current_user),
+    curr_user: User = Depends(current_user),
 ) -> SUsersResponseMany:
+    logger.info(f"[USER][GET] user: {curr_user.email} get users [ALL INFO]")
+
     users = await UserService.get_users(
         session=session,
         # user=curr_user
@@ -89,6 +93,9 @@ async def get_user_by_id(
     curr_user: User = Depends(current_user),
     user: User = Depends(user_by_id),
 ):
+    logger.info(
+        f"[USER][GET] user: {curr_user.email} get user by id [{user.id}] - {user.email}"
+    )
     return {"status": "Success", "data": user, "details": None}
 
 
@@ -110,6 +117,7 @@ async def get_current_user(
     curr_user: User = Depends(current_user),
     session: AsyncSession = Depends(get_async_session),
 ):
+    logger.info(f"[USER][GET] current user: {curr_user.email}")
     user = await UserService.get_user_by_id(
         session=session, user_id=curr_user.id
     )
@@ -134,6 +142,10 @@ async def get_user_by_email(
     curr_user: User = Depends(current_user),
     user: User = Depends(user_by_email),
 ):
+    logger.info(
+        f"[USER][GET] user: {curr_user.email} get user by email: [{user.email}]"
+    )
+
     return {"status": "Success", "data": user, "details": None}
 
 
@@ -156,6 +168,9 @@ async def get_users_by_role_id(
     role_id: int = 1,
     session: AsyncSession = Depends(get_async_session),
 ):
+    logger.info(
+        f"[USER][GET] user: {curr_user.email} get user by role id = {role_id}"
+    )
     users = await UserService.get_users_by_role(
         session=session, user_role_id=role_id
     )
@@ -181,10 +196,13 @@ async def get_users_by_role_id(
     response_model=SUserResponseOne,
 )
 async def del_user_by_email(
-    cur_user: User = Depends(current_user),
+    curr_user: User = Depends(current_user),
     user: User = Depends(user_by_email),
     session: AsyncSession = Depends(get_async_session),
 ):
+    logger.info(
+        f"[USER][DELETE] user: {curr_user.email} DELETE user: {user.email}"
+    )
     user = await UserService.delete_user(session, user)
 
     return {
@@ -213,6 +231,9 @@ async def del_user_by_id(
     curr_user: User = Depends(current_user),
     user: User = Depends(user_by_id),
 ):
+    logger.info(
+        f"[USER][DELETE] user: {curr_user.email} delete user by id {user.id}:{user.email}"
+    )
     user = await UserService.delete_user(session, user)
     return {
         "status": "Success",
@@ -245,6 +266,7 @@ async def user_subscribe_ggp(
     session: AsyncSession = Depends(get_async_session),
     user: User = Depends(user_by_id),
 ):
+    logger.info(f"[USER][PATCH] user: {curr_user.email} patch")
     user = await UserService().user_subscribe_ggp_class(
         session=session, user_in=user, class_names=class_name.sport_class
     )
@@ -278,6 +300,8 @@ async def current_user_subscribe_ggp(
     class_name: SportClassSchemaInput = -1,
     session: AsyncSession = Depends(get_async_session),
 ):
+    logger.info(f"[USER][PATCH] current_user: {curr_user.email} patch")
+
     user = await user_by_id(session=session, user_id=curr_user.id)
     user = await UserService().user_subscribe_ggp_class(
         session=session, user_in=user, class_names=class_name.sport_class
