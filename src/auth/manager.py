@@ -1,8 +1,13 @@
 from typing import Optional
 
 from fastapi import Depends, Request
-from fastapi_users import (BaseUserManager, IntegerIDMixin, exceptions, models,
-                           schemas,)
+from fastapi_users import (
+    BaseUserManager,
+    IntegerIDMixin,
+    exceptions,
+    models,
+    schemas,
+)
 
 from logger.logger import logger
 from src.auth.utils import get_user_db
