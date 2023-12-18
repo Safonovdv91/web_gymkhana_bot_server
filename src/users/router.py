@@ -63,7 +63,7 @@ async def get_users_all_info(
     search_args: SUserSearchArgs = Depends(),
     session: AsyncSession = Depends(get_async_session),
     curr_user: User = Depends(current_user),
-) -> SUsersResponseMany:
+):
     main_logger.info(
         f"[USER][GET] user: {curr_user.email} get users [ALL INFO]"
     )
@@ -273,10 +273,16 @@ async def user_subscribe_ggp(
     user = await UserService().user_subscribe_ggp_class(
         session=session, user_in=user, class_names=class_name.sport_class
     )
+    if user:
+        return {
+            "status": "Success",
+            "data": user,
+            "details": f"User with id: [{user.id}] subscribing [{class_name.sport_class}] success!",
+        }
     return {
-        "status": "Success",
+        "status": "User is none",
         "data": user,
-        "details": f"User with id: [{user.id}] subscribing [{class_name.sport_class}] success!",
+        "details": None,
     }
 
 
@@ -299,8 +305,8 @@ async def user_subscribe_ggp(
     response_model=SUserResponseOne,
 )
 async def current_user_subscribe_ggp(
+    class_name: SportClassSchemaInput,
     curr_user: User = Depends(current_user),
-    class_name: SportClassSchemaInput = {"sport_class": "A"},
     session: AsyncSession = Depends(get_async_session),
 ):
     main_logger.info(f"[USER][PATCH] current_user: {curr_user.email} patch")
@@ -309,8 +315,14 @@ async def current_user_subscribe_ggp(
     user = await UserService().user_subscribe_ggp_class(
         session=session, user_in=user, class_names=class_name.sport_class
     )
+    if user:
+        return {
+            "status": "Success",
+            "data": user,
+            "details": f"User with id: [{user.id}] subscribing success!",
+        }
     return {
-        "status": "Success",
+        "status": "User is none",
         "data": user,
-        "details": f"User with id: [{user.id}] subscribing success!",
+        "details": None,
     }
