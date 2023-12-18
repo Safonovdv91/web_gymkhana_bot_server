@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends
 from sqlalchemy.ext.asyncio import AsyncSession
 from starlette import status
 
-from logger.logger import logger
+from logger.logger import init_logger
 from src.auth.auth_config import current_user
 from src.database import get_async_session
 
@@ -12,6 +12,8 @@ from .models import User
 from .schemas import SUserResponseOne, SUserSearchArgs, SUsersResponseMany
 from .service import UserService
 
+
+main_logger = init_logger("src.users.router")
 
 router = APIRouter(prefix="/api/v1/users", tags=["user"])
 
@@ -34,7 +36,7 @@ async def get_users(
     curr_user: User = Depends(current_user),
     session: AsyncSession = Depends(get_async_session),
 ):
-    logger.info(f"[USER][GET] user: {curr_user.email} get users")
+    main_logger.info(f"[USER][GET] user: {curr_user.email} get users")
     users = await UserService.get_users(session=session, user=curr_user)
     return {
         "status": "Success",
@@ -62,8 +64,9 @@ async def get_users_all_info(
     session: AsyncSession = Depends(get_async_session),
     curr_user: User = Depends(current_user),
 ) -> SUsersResponseMany:
-    logger.info(f"[USER][GET] user: {curr_user.email} get users [ALL INFO]")
-
+    main_logger.info(
+        f"[USER][GET] user: {curr_user.email} get users [ALL INFO]"
+    )
     users = await UserService.get_users(
         session=session,
         # user=curr_user
@@ -93,7 +96,7 @@ async def get_user_by_id(
     curr_user: User = Depends(current_user),
     user: User = Depends(user_by_id),
 ):
-    logger.info(
+    main_logger.info(
         f"[USER][GET] user: {curr_user.email} get user by id [{user.id}] - {user.email}"
     )
     return {"status": "Success", "data": user, "details": None}
@@ -117,7 +120,7 @@ async def get_current_user(
     curr_user: User = Depends(current_user),
     session: AsyncSession = Depends(get_async_session),
 ):
-    logger.info(f"[USER][GET] current user: {curr_user.email}")
+    main_logger.info(f"[USER][GET] current user: {curr_user.email}")
     user = await UserService.get_user_by_id(
         session=session, user_id=curr_user.id
     )
@@ -142,7 +145,7 @@ async def get_user_by_email(
     curr_user: User = Depends(current_user),
     user: User = Depends(user_by_email),
 ):
-    logger.info(
+    main_logger.info(
         f"[USER][GET] user: {curr_user.email} get user by email: [{user.email}]"
     )
 
@@ -168,7 +171,7 @@ async def get_users_by_role_id(
     role_id: int = 1,
     session: AsyncSession = Depends(get_async_session),
 ):
-    logger.info(
+    main_logger.info(
         f"[USER][GET] user: {curr_user.email} get user by role id = {role_id}"
     )
     users = await UserService.get_users_by_role(
@@ -200,7 +203,7 @@ async def del_user_by_email(
     user: User = Depends(user_by_email),
     session: AsyncSession = Depends(get_async_session),
 ):
-    logger.info(
+    main_logger.info(
         f"[USER][DELETE] user: {curr_user.email} DELETE user: {user.email}"
     )
     user = await UserService.delete_user(session, user)
@@ -231,7 +234,7 @@ async def del_user_by_id(
     curr_user: User = Depends(current_user),
     user: User = Depends(user_by_id),
 ):
-    logger.info(
+    main_logger.info(
         f"[USER][DELETE] user: {curr_user.email} delete user by id {user.id}:{user.email}"
     )
     user = await UserService.delete_user(session, user)
@@ -266,7 +269,7 @@ async def user_subscribe_ggp(
     session: AsyncSession = Depends(get_async_session),
     user: User = Depends(user_by_id),
 ):
-    logger.info(f"[USER][PATCH] user: {curr_user.email} patch")
+    main_logger.info(f"[USER][PATCH] user: {curr_user.email} patch")
     user = await UserService().user_subscribe_ggp_class(
         session=session, user_in=user, class_names=class_name.sport_class
     )
@@ -297,10 +300,10 @@ async def user_subscribe_ggp(
 )
 async def current_user_subscribe_ggp(
     curr_user: User = Depends(current_user),
-    class_name: SportClassSchemaInput = -1,
+    class_name: SportClassSchemaInput = {"sport_class": "A"},
     session: AsyncSession = Depends(get_async_session),
 ):
-    logger.info(f"[USER][PATCH] current_user: {curr_user.email} patch")
+    main_logger.info(f"[USER][PATCH] current_user: {curr_user.email} patch")
 
     user = await user_by_id(session=session, user_id=curr_user.id)
     user = await UserService().user_subscribe_ggp_class(

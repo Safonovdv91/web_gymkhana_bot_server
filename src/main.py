@@ -20,6 +20,7 @@ from src.users.schemas import UserCreate, UserRead
 logger = init_logger("main")
 app = FastAPI(title="RabbitMG")
 
+
 origins = [
     "http://localhost:5500",
     "https://localhost:5500",
@@ -46,16 +47,23 @@ app.add_middleware(
 @app.middleware("http")
 async def add_process_time_header(request: Request, call_next):
     start_time = time.time()
-    logger.info(request.headers, extra={"tags": {"middleware": "request"}})
+    logger.info(
+        request.headers,
+        extra={"tags": {"middleware": "True", "content_type": "request"}},
+    )
     try:
         response = await call_next(request)
     except Exception:
-        logger.error(msg="all_proc error", extra={"tags": "middleware"}, exc_info=True)
-        raise HTTPException(status_code=404, detail="Poshel nahui!")
+        logger.error(
+            msg="all_proc error",
+            extra={"tags": {"middleware": "True"}},
+            exc_info=True,
+        )
+        raise HTTPException(status_code=404, detail="problem 404 in request")
     process_time = time.time() - start_time
     logger.info(
         f"time:{process_time}: \n{response.headers}",
-        extra={"tags": {"middleware": "response"}},
+        extra={"tags": {"middleware": "True", "content_type": "response"}},
     )
     response.headers["X-Process-Time"] = str(round(process_time, 5))
     return response
@@ -100,5 +108,4 @@ admin.add_view(SportClassAdmin)
 
 
 if __name__ == "__main__":
-    logger.info(msg="Server starting")
     uvicorn.run(app, host="0.0.0.0", port=8000)

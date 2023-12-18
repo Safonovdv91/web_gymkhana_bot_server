@@ -36,6 +36,7 @@ def init_logger(name):
 
 logger = init_logger("unnamed_logger")
 
+
 def main():
     logger = init_logger("test_logger")
     logger.info("START TEST LOGGING")
@@ -57,7 +58,7 @@ def main():
     })
     status_code = 500
     logger.critical("CRITICAL test msg")
-    logger.critical(f"CRITICAL test msg with extra status code [{status_code}]",  extra={
+    logger.critical(f"CRITICAL test msg with extra status code [{status_code}]", extra={
         "tags": {
             "status_code": str(status_code)
         }

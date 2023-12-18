@@ -6,7 +6,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 LOG_LEVEL = os.environ.get("LOG_LEVEL")
-LOGGER_LOKI_URL=os.environ.get("LOGGER_LOKI_URL")
+LOGGER_LOKI_URL = os.environ.get("LOGGER_LOKI_URL")
 
 DB_HOST = os.environ.get("DB_HOST")
 DB_PORT = os.environ.get("DB_PORT")
