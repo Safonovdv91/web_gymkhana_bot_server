@@ -9,13 +9,14 @@ from fastapi_users import (
     schemas,
 )
 
-from logger.logger import logger
+from logger.logger import init_logger
 from src.auth.utils import get_user_db
 from src.config import SECRET_AUTH_MANAGER
 from src.users.models import User
 
 
 SECRET = SECRET_AUTH_MANAGER
+logger = init_logger("src.auth.manager")
 
 
 class UserManager(IntegerIDMixin, BaseUserManager[User, int]):

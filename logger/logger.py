@@ -1,37 +1,74 @@
+import logging.config
+import logging_loki
 import logging
-from datetime import datetime
-
-from pythonjsonlogger import jsonlogger
-
-from src.config import LOG_LEVEL
-import os
-
-path = os.path
-
-logger = logging.getLogger()
-logHandler = logging.StreamHandler()
-
-fileHandler = logging.FileHandler("logger/journals/log_file.log")
+import logging.handlers
+from src.config import LOGGER_LOKI_URL, LOG_LEVEL
 
 
-class CustomJsonFormatter(jsonlogger.JsonFormatter):
-    def add_fields(self, log_record, record, message_dict):
-        super(CustomJsonFormatter, self).add_fields(log_record, record, message_dict)
-        if not log_record.get('timestamp'):
-            # this doesn't use record.created, so it is slightly off
-            now = datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%S.%fZ')
-            log_record['timestamp'] = now
-        if log_record.get('level'):
-            log_record['level'] = log_record['level'].upper()
-        else:
-            log_record['level'] = record.levelname
+class MyFilter(logging.Filter):
+    def filter(self, record: logging.LogRecord) -> bool:
+        print(record.__dict__)
+        return True
 
 
-formatter = CustomJsonFormatter('%(timestamp)s %(level)s %(name)s %(message)s')
+def init_logger(name):
+    """ Инициализация логгера
+    sh_level - уровень логгера на отображение в экране
+    fh_level: int = 30 - уровень логгера для записи в файл
+    """
 
-# Добавляем обработчик файлового журнала в логгер
-logger.addHandler(fileHandler)
+    LOGER_FORMAT = "%(name)s:%(lineno)s - %(levelname)s - %(message)s"
 
-logHandler.setFormatter(formatter)
-logger.addHandler(logHandler)
-logger.setLevel(LOG_LEVEL)
+    loki_logger = logging.getLogger(name)
+    loki_handler = logging_loki.LokiHandler(
+        url=LOGGER_LOKI_URL,
+        tags={"application": "rabbit-mg-app"},
+        # auth=("username", "password"),
+        version="1",
+    )
+
+    loki_handler.setFormatter(logging.Formatter(LOGER_FORMAT))
+    loki_logger.addHandler(loki_handler)
+    loki_logger.setLevel(LOG_LEVEL)
+
+    return loki_logger
+
+
+logger = init_logger("unnamed_logger")
+
+def main():
+    logger = init_logger("test_logger")
+    logger.info("START TEST LOGGING")
+    logger.debug("DEBUG test msg")
+    logger.info("INFO test msg")
+    logger.warning("WARNING test msg")
+    status_code = 201
+    logger.warning(f"WARNING test msg with extra code :[{status_code}]", extra={
+        "tags": {
+            "status_code": str(status_code)
+        }
+    })
+    status_code = 400
+    logger.error("ERROR test msg")
+    logger.error(f"ERROR test msg with extra status code: [{status_code}]", extra={
+        "tags": {
+            "status_code": str(status_code)
+        }
+    })
+    status_code = 500
+    logger.critical("CRITICAL test msg")
+    logger.critical(f"CRITICAL test msg with extra status code [{status_code}]",  extra={
+        "tags": {
+            "status_code": str(status_code)
+        }
+    })
+    try:
+        print(10 / 0)
+    except Exception as e:
+        logger.exception(e)
+
+    print("Test logger has been finished")
+
+
+if __name__ == "__main__":
+    main()
