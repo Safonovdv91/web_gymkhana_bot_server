@@ -1,12 +1,12 @@
 import time
 
 import uvicorn
-from fastapi import FastAPI, Request
+from fastapi import FastAPI, HTTPException, Request
 from sqladmin import Admin
 from starlette.middleware.cors import CORSMiddleware
 from starlette.responses import RedirectResponse
 
-from logger.logger import logger
+from logger.logger import init_logger
 from src.admin_panel.views import RoleAdmin, SportClassAdmin, UserAdmin
 from src.auth.auth_config import auth_backend, fastapi_users
 from src.database import engine
@@ -17,6 +17,7 @@ from src.users.router import router as auth_router
 from src.users.schemas import UserCreate, UserRead
 
 
+logger = init_logger("main")
 app = FastAPI(title="RabbitMG")
 
 origins = [
@@ -45,9 +46,17 @@ app.add_middleware(
 @app.middleware("http")
 async def add_process_time_header(request: Request, call_next):
     start_time = time.time()
-    response = await call_next(request)
+    logger.info(request.headers, extra={"tags": {"middleware": "request"}})
+    try:
+        response = await call_next(request)
+    except Exception:
+        logger.error(msg="all_proc error", extra={"tags": "middleware"}, exc_info=True)
+        raise HTTPException(status_code=404, detail="Poshel nahui!")
     process_time = time.time() - start_time
-    logger.debug("Process-time: {:.8f}".format(process_time))
+    logger.info(
+        f"time:{process_time}: \n{response.headers}",
+        extra={"tags": {"middleware": "response"}},
+    )
     response.headers["X-Process-Time"] = str(round(process_time, 5))
     return response
 
@@ -91,4 +100,5 @@ admin.add_view(SportClassAdmin)
 
 
 if __name__ == "__main__":
+    logger.info(msg="Server starting")
     uvicorn.run(app, host="0.0.0.0", port=8000)

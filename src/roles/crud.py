@@ -4,10 +4,13 @@ from sqlalchemy import Result, insert, select
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from logger.logger import logger
+from logger.logger import init_logger
 
 from .models import Role
 from .schemas import RoleCreate, RoleUpdate, RoleUpdatePartial
+
+
+logger = init_logger("src.roles.crud")
 
 
 async def add_new_role(session: AsyncSession, new_role: RoleCreate):

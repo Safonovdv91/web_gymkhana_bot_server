@@ -10,12 +10,14 @@ from src.config import SECRET_AUTH
 from src.users.models import User
 
 
-cookie_transport = CookieTransport(cookie_name="rabbitmg", cookie_max_age=3600)
+cookie_transport = CookieTransport(
+    cookie_name="rabbitmg", cookie_max_age=36000
+)
 SECRET = SECRET_AUTH
 
 
 def get_jwt_strategy() -> JWTStrategy:
-    return JWTStrategy(secret=SECRET, lifetime_seconds=3600)
+    return JWTStrategy(secret=SECRET, lifetime_seconds=36000)
 
 
 auth_backend = AuthenticationBackend(
