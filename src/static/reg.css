@@ -1,0 +1,181 @@
+* {
+    margin: 0;
+    padding: 0;
+    border: 0;
+  }
+
+  *,*:before,*:after{
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  }
+
+  :focus,:active{outline:none;}
+  a:focus,a:active{outline: none;}
+
+  nav,footer,header,aside{display: block;}
+
+  html,body{
+    height: 100%;
+    width: 100%;
+    font-size: 100%;
+    line-height: 1;
+    font-size: 14px;
+    -ms-text-size-adjust: 100%;
+    -moz-text-size-adjust: 100%;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  input,button,textarea{font-family:inherit;}
+
+  input::-ms-clear{display: none;}
+  button{cursor: pointer;}
+  button::-moz-focus-inner {padding: 0;border: 0;}
+  a, a:visited{text-decoration: none;}
+  ul il{list-style: none;}
+  img{vertical-align: top;}
+
+  h1,h2,h3,h4,h5,h6{font-size: inherit; font-weight: 400;}
+/* обнуление стилей  */
+body {
+    font-family: 'Roboto', sans-serif;
+}
+
+main {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-image: url(assets/asfalt-foto-108.jpg);
+    background-size: cover;
+}
+
+input {
+    color: rgb(92, 88, 88);
+    height: 41px;
+    width: 100%;
+    border-radius: 5px;
+    border: 1px solid #000;
+    font-style: normal;
+    line-height: normal;
+    padding-left: 10px;
+}
+
+input:focus {
+    outline: none;
+    border: #4446bb;
+}
+
+.main-form {
+    opacity: 0;
+    max-width: 394px;
+    height: 330px;
+    width: 390px;
+    flex-shrink: 0;
+    border-radius: 10px;
+    background-color: rgb(190, 190, 190);
+    background-position: center;
+    padding: 16px 33px 16px 33px;
+    animation-name: fadeForm;
+    animation-duration: 1s;
+    animation-timing-function: ease-in-out;
+    animation-delay: 0s;
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
+}
+
+@keyframes fadeForm {
+    0% {
+        opacity: 0;
+    }
+
+    25% {
+        opacity: .25;
+    }
+
+    50% {
+        opacity: .5;
+    }
+
+    75% {
+        opacity: .75;
+    }
+
+    100% {
+        opacity: .9;
+    }
+}
+
+.form-title {
+  text-align: center;
+  color: #333;
+  text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 23px;
+  margin-bottom: 12px;
+}
+
+.form-field {
+    margin-bottom: 5px;
+}
+
+.button {
+    margin-bottom: 10px;
+    display: block;
+    font-weight: 350;
+    font-size: 20px;
+    color: white;
+    border-radius: 5px;
+    background: #474747;
+    cursor: pointer;
+}
+
+.button:hover {
+    background-color: grey;
+}
+
+a.button {
+    text-decoration: none;
+}
+
+.error {
+  text-align: center;
+  display: block;
+  color: #e21e1e;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  padding-top: 6px;
+  padding-bottom: 7px;
+  margin-bottom: 5px;
+}
+
+.divider {
+    display: inline;
+    color: #333;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    padding-left: 2px;
+    padding-right: 2px;
+}
+
+.button-here {
+    display: inline;
+    border-radius: 2px;
+    background: #474747;
+    flex-shrink: 0;
+    color: #FFF;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    text-transform: lowercase;
+    padding: 1px 1px 1px 1px;
+}
+
+.button-here:hover {
+    background-color: grey;
+}

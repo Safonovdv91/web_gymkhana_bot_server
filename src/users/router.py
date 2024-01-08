@@ -37,6 +37,7 @@ async def get_users(
     session: AsyncSession = Depends(get_async_session),
 ):
     main_logger.info(f"[USER][GET] user: {curr_user.email} get users")
+    print("user_get")
     users = await UserService.get_users(session=session, user=curr_user)
     return {
         "status": "Success",

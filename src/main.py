@@ -5,6 +5,7 @@ from fastapi import FastAPI, HTTPException, Request
 from sqladmin import Admin
 from starlette.middleware.cors import CORSMiddleware
 from starlette.responses import RedirectResponse
+from starlette.staticfiles import StaticFiles
 
 from logger.logger import init_logger
 from src.admin_panel.views import RoleAdmin, SportClassAdmin, UserAdmin
@@ -20,13 +21,18 @@ from src.users.schemas import UserCreate, UserRead
 logger = init_logger("main")
 app = FastAPI(title="RabbitMG")
 
+app.mount("/static", StaticFiles(directory="src/static"), "static")
 
 origins = [
     "http://localhost:5500",
     "https://localhost:5500",
+    "http://localhost:8000",
+    "https://localhost:8000",
+    "http://127.0.0.1:8000",
+    "https://127.0.0.1:8000",
     "http://127.0.0.1:5500",
     "https://127.0.0.1:5500",
-    "*",
+    # "*",
 ]
 
 app.add_middleware(
