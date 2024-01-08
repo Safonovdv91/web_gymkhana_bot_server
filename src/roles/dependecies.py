@@ -30,6 +30,6 @@ async def role_by_name(
     )
     if role is None:
         raise HTTPException(
-            status_code=404, detail=f"Role id={role_name} not found!"
+            status_code=404, detail=f"Role name={role_name} not found!"
         )
     return role

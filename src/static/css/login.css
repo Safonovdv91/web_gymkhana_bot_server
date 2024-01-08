@@ -9,7 +9,7 @@ body {
 }
 
 main {
-    background-image: url(assets/ilya-andreev-iYp1cRQSiAg-unsplash.jpg);
+    background-image: url(../assets/asfalt-foto-108.jpg);
     height: 100vh;
     display: flex;
     flex-direction: column;
@@ -25,7 +25,8 @@ input {
     border: 1px solid #000;
     font-style: normal;
     line-height: normal;
-    padding-left: 51px;
+    padding-left: 5px;
+    margin-bottom: 5%;
 }
 
 input:focus {
@@ -34,14 +35,16 @@ input:focus {
 
 }
 
-.register-form-container {
+.main-form {
     opacity: 0;
     max-width: 394px;
-    height: 394px;
+    height: 280px;
+    width: 390px;
     flex-shrink: 0;
     border-radius: 10px;
-    background: #CACACA;
-    padding: 16px 53px 50px 53px;
+    background-color: rgb(190, 190, 190);
+    background-position: center;
+    padding: 16px 33px 16px 33px;
     animation-name: fadeForm;
     animation-duration: 1s;
     animation-timing-function: ease-in-out;
@@ -64,7 +67,7 @@ input:focus {
         opacity: .75;
     }
     100% {
-        opacity: 1;
+        opacity: .9;
     }
 }
 
@@ -73,27 +76,51 @@ input:focus {
     color: #333;
     text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     font-size: 24px;
-    font-weight: 400;
+    font-weight: 600;
     line-height: 23px;
     margin-bottom: 12px;
 }
 
-.form-field {
+/*.icon {
+    width: 20%;
+    display: flex;
+    margin-right: 10px;
+}*/
+
+/*.form-fieldLog {
+    width: 70%;
+    display: inline-flex;
+    margin-left: 10px;
+}*/
+
+.form-fie {
+  margin-bottom: 5px;
+}
+
+.error {
+    width: 85%;
+    text-align: center;
+    display: block;
+    color: #e21e1e;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    padding-top: 6px;
+    padding-bottom: 7px;
     margin-bottom: 5px;
 }
 
 .button {
     font-weight: 400;
     font-size: 20px;
-    text-align: center;
-    display: block;
-    width: 281px;
-    height: 50px;
+    display: inline;
+    width: 90px;
+    height: 35px;
     flex-shrink: 0;
-    color: white;
-    border-radius: 20px;
+    color: #ececec;
+    border-radius: 5px;
     background: #474747;
-    line-height: 45px;
     cursor: pointer;
 }
 
@@ -105,18 +132,18 @@ a.button {
     text-decoration: none;
 }
 
-.divider {
+.pasForget {
+    font-size: 16px;
+    color: #333;
+    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     display: inline;
-    color: #686868;
-    font-size: 13px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: normal;
-    padding-top: 24px;
-    padding-bottom: 50px;
+    margin-left: 55px;
+    padding-left: 2px;
+    padding-right: 2px;
 }
 
-.button-here {
+
+/*.button-here {
     display: inline;
     border-radius: 10px;
     background: #474747;
@@ -136,4 +163,4 @@ a.button {
 
 .button-here:hover {
     background-color: grey;
-}
+} */
