@@ -1,0 +1,43 @@
+version: 1
+disable_existing_loggers: False
+formatters:
+  default:
+    format: '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+  access:
+    format: '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+handlers:
+  default:
+    formatter: default
+    class: logging.StreamHandler
+    stream: ext://sys.stderr
+  access:
+    formatter: access
+    class: logging.StreamHandler
+    stream: ext://sys.stdout
+  loki_handler:
+    class: logging_loki.LokiHandler
+    url: <YOUR_LOKI_URL>
+    tags:
+      application: rabbit-mg-app
+    formatter: default
+loggers:
+  uvicorn.error:
+    level: INFO
+    handlers:
+      - default
+    propagate: no
+  uvicorn.access:
+    level: INFO
+    handlers:
+      - access
+    propagate: no
+  loki_logger:
+    level: DEBUG
+    handlers:
+      - loki_handler
+    propagate: no
+root:
+  level: DEBUG
+  handlers:
+    - default
+  propagate: no

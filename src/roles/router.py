@@ -2,13 +2,19 @@ from fastapi import APIRouter, Depends
 from sqlalchemy.ext.asyncio import AsyncSession
 from starlette import status
 
+from logger.logger import logger
 from src.database import get_async_session
 
 from ..auth.auth_config import current_user
 from ..users.models import User
 from .dependecies import role_by_id, role_by_name
-from .schemas import (Role, RoleCreate, RoleResponseMany, RoleResponseOne,
-                      RoleUpdatePartial,)
+from .schemas import (
+    Role,
+    RoleCreate,
+    RoleResponseMany,
+    RoleResponseOne,
+    RoleUpdatePartial,
+)
 from .service import RoleService
 
 
@@ -44,6 +50,9 @@ async def add_role(
     user: User = Depends(current_user),
     session: AsyncSession = Depends(get_async_session),
 ):
+    logger.info(
+        f"[ROLE][POST][{user.email}]: try add new role: {new_role.name} - {new_role.description}"
+    )
     role = await RoleService.add_new_role(session, new_role, current_user=user)
     return {
         "status": "Success",
@@ -69,6 +78,7 @@ async def get_roles(
     user: User = Depends(current_user),
     session: AsyncSession = Depends(get_async_session),
 ):
+    logger.info(f"[ROLE][GET][{user.email}]: get all roles.")
     result = await RoleService.get_roles(session=session, current_user=user)
     return {
         "status": "Success",
@@ -98,6 +108,9 @@ async def get_role_by_id(
     user: User = Depends(current_user),
     role: Role = Depends(role_by_id),
 ):
+    logger.info(
+        f"[ROLE][GET][{user.email}]: get role_by id | id:[{role.id}] - {role.name}."
+    )
     return {"status": "Success", "data": role, "details": None}
 
 
@@ -122,6 +135,9 @@ async def get_role_by_name(
     user: User = Depends(current_user),
     role: Role = Depends(role_by_name),
 ):
+    logger.info(
+        f"[ROLE][GET][{user.email}]: get role_by_name | id:[{role.id}] - {role.name}."
+    )
     return {"status": "Success", "data": role, "details": None}
 
 
@@ -147,6 +163,9 @@ async def delete_role_by_id(
     role: Role = Depends(role_by_id),
     session: AsyncSession = Depends(get_async_session),
 ):
+    logger.info(
+        f"[ROLE][DELETE] {user.email} : delete role_by id | id:[{role.id}] - {role.name}."
+    )
     result = await RoleService.delete_role(session=session, role=role)
     return {"status": "Success", "data": result, "details": "Was deleted!"}
 
@@ -173,6 +192,9 @@ async def delete_role_by_name(
     role: Role = Depends(role_by_name),
     session: AsyncSession = Depends(get_async_session),
 ):
+    logger.info(
+        f"[ROLE][DELETE] {user.email} : delete role_by name | name:[{role.name}]"
+    )
     result = await RoleService.delete_role(session=session, role=role)
     return {"status": "Success", "data": result, "details": "Was deleted!"}
 
@@ -200,6 +222,12 @@ async def update_role_partial(
     role: Role = Depends(role_by_id),
     session: AsyncSession = Depends(get_async_session),
 ):
+    logger.info(
+        f"[ROLE][PATCH] {user.email} : patch role\n"
+        f"old: [{role.id}:{role.name} -[{role.description}]\n"
+        f"new: [{role_update.model_dump()}:"
+    )
+
     result = await RoleService.update_role_partial(
         session=session, role=role, role_update=role_update
     )

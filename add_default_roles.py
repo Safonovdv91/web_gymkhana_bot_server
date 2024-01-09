@@ -1,10 +1,14 @@
 from sqlalchemy import text
 import asyncio
+
+from sqlalchemy.exc import SQLAlchemyError
+
+from logger.logger import logger
 from src.database import engine
 
 
 async def add_roles():
-    print("Добавляем стандартные роли и спортинвые классы")
+    logger.info("Adding roles and sport class")
     async with engine.begin() as conn:
         try:
             await conn.execute(
@@ -29,6 +33,7 @@ async def add_roles():
                     "INSERT INTO roles (name, description) VALUES('Guest','Unknown person, can nothing')"
                 )
             )
+            logger.info("Adding roles complete. Adding roles...")
             await conn.execute(
                 text(
                     "INSERT INTO sport_classes (sport_class, description) VALUES('A','Best of the best')"
@@ -36,28 +41,32 @@ async def add_roles():
             )
             await conn.execute(
                 text(
-                    "INSERT INTO sport_classes (sport_class, description) VALUES('B','Sport mans: 100-105 %')"
+                    "INSERT INTO sport_classes (sport_class, description) VALUES('B','Sportsman speed rate: 100-105%')"
                 )
             )
             await conn.execute(
                 text(
-                    "INSERT INTO sport_classes (sport_class, description) VALUES('C1','Sport mans: 105-110 %')"
+                    "INSERT INTO sport_classes (sport_class, description) VALUES('C1','Sportsman speed rate: 105-110%')"
                 )
             )
             await conn.execute(
                 text(
-                    "INSERT INTO sport_classes (sport_class, description) VALUES('C2','Sport mans: 110-115 %')"
+                    "INSERT INTO sport_classes (sport_class, description) VALUES('C2','Sportsman speed rate: 110-115%')"
                 )
             )
             await conn.execute(
                 text(
-                    "INSERT INTO sport_classes (sport_class, description) VALUES('C3','Sport mans: 115-120 %')"
+                    "INSERT INTO sport_classes (sport_class, description) VALUES('C3','Sportsman speed rate: 115-120%')"
                 )
             )
-
-        except Exception as e:
-            print("<----Добавление пошло не по плану!---->")
-            print(f"ERROR: {e}")
+            logger.info("Adding sport classes complete!")
+        except (SQLAlchemyError, Exception) as e:
+            if isinstance(e, SQLAlchemyError):
+                msg = "Database Exc: "
+            else:
+                msg = "Unknown Exc: "
+                msg += "add standard roles and sport-class error!"
+                logger.error(msg=msg, exc_info=True)
 
 
 # async def add_users():

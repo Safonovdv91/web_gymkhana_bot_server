@@ -1,12 +1,13 @@
 import time
 
 import uvicorn
-from fastapi import FastAPI, Request
+from fastapi import FastAPI, HTTPException, Request
 from sqladmin import Admin
 from starlette.middleware.cors import CORSMiddleware
 from starlette.responses import RedirectResponse
+from starlette.staticfiles import StaticFiles
 
-from logger.logger import logger
+from logger.logger import init_logger
 from src.admin_panel.views import RoleAdmin, SportClassAdmin, UserAdmin
 from src.auth.auth_config import auth_backend, fastapi_users
 from src.database import engine
@@ -17,14 +18,15 @@ from src.users.router import router as auth_router
 from src.users.schemas import UserCreate, UserRead
 
 
+logger = init_logger("main")
 app = FastAPI(title="RabbitMG")
 
+app.mount("/static", StaticFiles(directory="src/frontend/static"), "static")
+
 origins = [
-    "http://localhost:5500",
-    "https://localhost:5500",
-    "http://127.0.0.1:5500",
-    "https://127.0.0.1:5500",
-    "*",
+    "http://127.0.0.1:8000",
+    "https://127.0.0.1:8000",
+    # "*",
 ]
 
 app.add_middleware(
@@ -45,9 +47,24 @@ app.add_middleware(
 @app.middleware("http")
 async def add_process_time_header(request: Request, call_next):
     start_time = time.time()
-    response = await call_next(request)
+    logger.info(
+        request.headers,
+        extra={"tags": {"middleware": "True", "content_type": "request"}},
+    )
+    try:
+        response = await call_next(request)
+    except Exception:
+        logger.error(
+            msg="all_proc error",
+            extra={"tags": {"middleware": "True"}},
+            exc_info=True,
+        )
+        raise HTTPException(status_code=404, detail="problem 404 in request")
     process_time = time.time() - start_time
-    logger.debug("Process-time: {:.8f}".format(process_time))
+    logger.info(
+        f"time:{process_time}: \n{response.headers}",
+        extra={"tags": {"middleware": "True", "content_type": "response"}},
+    )
     response.headers["X-Process-Time"] = str(round(process_time, 5))
     return response
 
