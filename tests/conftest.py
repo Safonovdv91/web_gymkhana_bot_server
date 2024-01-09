@@ -49,7 +49,7 @@ async def prepare_database():
         await conn.run_sync(metadata.create_all)
 
     def open_mock_json(model: str):
-        with open(f"mock_{model}.json", "r") as file:
+        with open(f"tests/mock_{model}.json", "r") as file:
             return json.load(file)
 
     roles = open_mock_json(model="roles")
