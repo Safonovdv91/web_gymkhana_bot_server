@@ -47,7 +47,7 @@ main {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background-image: url(assets/asfalt-foto-108.jpg);
+    background-image: url(../assets/asfalt-foto-108.jpg);
     background-size: cover;
 }
 

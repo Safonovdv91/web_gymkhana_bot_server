@@ -80,7 +80,8 @@ async function onSubmit(event) {
     } else if (response.status == 201) {
 
         alert('Вы успешно зарегистрировались');
-        window.location = "login.html"
+        window.location = "login"
+
     } else console.log('Что-то пошло нетак, обратитесь в поддержку');
 
   };

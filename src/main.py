@@ -21,17 +21,11 @@ from src.users.schemas import UserCreate, UserRead
 logger = init_logger("main")
 app = FastAPI(title="RabbitMG")
 
-app.mount("/static", StaticFiles(directory="src/static"), "static")
+app.mount("/static", StaticFiles(directory="src/frontend/static"), "static")
 
 origins = [
-    "http://localhost:5500",
-    "https://localhost:5500",
-    "http://localhost:8000",
-    "https://localhost:8000",
     "http://127.0.0.1:8000",
     "https://127.0.0.1:8000",
-    "http://127.0.0.1:5500",
-    "https://127.0.0.1:5500",
     # "*",
 ]
 

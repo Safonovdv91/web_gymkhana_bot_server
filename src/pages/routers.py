@@ -5,7 +5,7 @@ from src.users.router import get_user_by_id, get_users
 
 
 router = APIRouter(tags=["Frontend"])
-templates = Jinja2Templates(directory="src/templates")
+templates = Jinja2Templates(directory="src/frontend/templates")
 
 
 @router.get("/base")
@@ -31,7 +31,7 @@ def get_users_page_id(request: Request, usr=Depends(get_user_by_id)):
         raise HTTPException(status_code=404, detail="User not found")
 
 
-@router.get("/register")
+@router.get("/registration")
 def get_register_page(request: Request):
     return templates.TemplateResponse("reg.html", {"request": request})
 
