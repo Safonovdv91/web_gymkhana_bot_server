@@ -1,6 +1,6 @@
 document.getElementById('main-form').addEventListener('submit', onSubmit);
 
-const requestURL = 'http://127.0.0.1:9000/auth/jwt/login';
+const requestURL = 'http://127.0.0.1:8000/auth/jwt/login';
 
 async function onSubmit(event) {
   event.preventDefault();
@@ -30,7 +30,7 @@ async function onSubmit(event) {
 
     alert('Successful Response')
   } else if (response.status == 204) {
-    //window.location = "main-page.html"
+    //window.location = "main-page"
     alert('Авторизация прошла успешно')
 
   } else if (response.status == 400) {

@@ -26,7 +26,7 @@ let checkForm = (password, pw2) => {
 };
 
 // объявляем константу с URL-адресом, на котрый будет отправляться запрос
-const requestURL = 'http://127.0.0.1:9000/auth/register';
+const requestURL = 'http://127.0.0.1:8000/auth/register';
 
 // создаём функцию, в которой объявляем переменные, условие и делаем запрос
 async function onSubmit(event) {
@@ -65,74 +65,17 @@ async function onSubmit(event) {
 
     // проверка статуса для вывода сообщения о результате выполнения запроса(ошибка или успех)
     if (response.status == 400 ) {
-      //const str = JSON.stringify(result);
-      //const arr = JSON.parse(str);
-      //alert(arr.detail);
       alert('Такой пользователь уже существует')
 
 
     } else if (response.status == 422) {
-      //const str = JSON.stringify(result);
-      //const arr = JSON.parse(str);
-      //alert(arr.detail[0].msg);
       alert('Необходимо использовать почтовый адрес типа xxx@mail.com')
 
     } else if (response.status == 201) {
 
         alert('Вы успешно зарегистрировались');
-        window.location = "authorization.html"
+        window.location = "login"
     } else console.log('Что-то пошло нетак, обратитесь в поддержку');
 
   };
 }
-
-
-/*
-// функция, которая создаёт метод запроса, в данном случае это метод XML HTTP Request
-
-function sendRequest(method, url, body = null) {
-  return new Promise((resolve, reject) => {
-    const xhr = new XMLHttpRequest()
-    xhr.open(method, url)
-
-    xhr.responseType = 'json'
-    xhr.setRequestHeader('Content-Type', 'application/json')
-
-    xhr.onload = () => {
-      if (xhr.status >= 400) {
-        reject(xhr.response)
-      } else {
-        resolve(xhr.response);
-      }
-    }
-
-    xhr.onerror = () => {
-      reject(xhr.response)
-    }
-
-    xhr.send(JSON.stringify(body))
-  })
-};
-
-    //отправляется пост-запрос и метод запроса, при правильном выполнении которого будет редирект на логин страницу
-    // или алерт с описанием ошибки
-
-   /* sendRequest('POST', requestURL, body)
-      .then(data => {
-        console.log(data);
-        window.location = "login.html"
-      })
-      .catch(err => {
-
-
-        console.log(err);
-
-
-
-        const str = JSON.stringify(err);
-
-        const arr = JSON.parse(str);
-
-        alert(arr.detail[0].msg);
-
-      })*/
