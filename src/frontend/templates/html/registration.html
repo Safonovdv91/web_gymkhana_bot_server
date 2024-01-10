@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/registration.css">
+  <link rel="icon" href="../assets/rabbitIco.png">
+  <title>Форма регистрации</title>
+</head>
+<body>
+  <main>
+      <form class="main-form" id="main-form" method="post">
+        <h1 class="form-title">Регистрация</h1>
+        <div class="form-fields">
+          <div class="form-field">
+            <input type="text" name="mail" id="mail" placeholder="E-Mail">
+          </div>
+          <hr>
+          <div class="form-field">
+            <input type="password" name="password" id="password" placeholder="Пароль">
+          </div>
+          <hr>
+          <div class="form-field">
+            <input type="password" name="repass" id="repass" placeholder="Повторите пароль">
+          </div>
+          <hr>
+          </div>
+        <div id="error" class="error"></div>
+        <input type="submit" name="submit" value="Зарегистрироваться" class="button">
+        <div class="divider">Если у вас уже есть аккаунт, нажмите</div>
+        <a href="../html/authorization.html" target="_blank" class="button-here">вход</a>
+      </form>
+    </main>
+    <noscript>Turn on JS</noscript>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="../js/registration.js"></script>
+</body>
+</html>
