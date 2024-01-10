@@ -33,11 +33,11 @@ def get_users_page_id(request: Request, usr=Depends(get_user_by_id)):
 
 @router.get("/registration")
 def get_register_page(request: Request):
-    return templates.TemplateResponse("reg.html", {"request": request})
+    return templates.TemplateResponse("registration.html", {"request": request})
 
 
 @router.get("/login")
 async def get_login_page(
     request: Request,
 ):
-    return templates.TemplateResponse("login.html", {"request": request})
+    return templates.TemplateResponse("authorization.html", {"request": request})
