@@ -112,13 +112,12 @@ input {
 }
 
 input:focus {
-    outline: none;
-    border: #4446bb;
+  outline: none;
+  border: #4446bb;
 
 }
 
 .main-form {
-  margin-right: 600px;
   opacity: 0;
   max-width: 394px;
   width: 390px;
