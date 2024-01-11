@@ -1,5 +1,16 @@
 version: "3.0"
 services:
+  web:
+    container_name: "web"
+    image: nginx:alpine
+    depends_on:
+      - app
+    ports:
+      - "80:80"
+    volumes:
+      - ./src/conf.d:/etc/nginx/conf.d
+    networks:
+      - custom2
   db:
     container_name: "rabbit_mg_DB"
     image: postgres:15.4-alpine
