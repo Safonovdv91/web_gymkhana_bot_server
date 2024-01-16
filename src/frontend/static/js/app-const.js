@@ -2,7 +2,7 @@ const AppConsts = {
 
   "EnvName" : "Dev",
   "LocalBaseUrl" : "http://127.0.0.1:8000",
-  "ProdBaseUrl" : "https://rabbitmg.ru/",
+  "ProdBaseUrl" : "https://rabbitmg.ru",
   "BaseUrl" : "__BaseUrl__"
 };
 
