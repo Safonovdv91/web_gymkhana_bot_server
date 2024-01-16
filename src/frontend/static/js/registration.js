@@ -26,7 +26,7 @@ let checkForm = (password, pw2) => {
 };
 
 // объявляем константу с URL-адресом, на котрый будет отправляться запрос
-const requestURL = 'http://127.0.0.1:8000/auth/register';
+const requestURL =`${window.AppConsts.BaseUrl}/auth/register` ;// 'http://127.0.0.1:8000/auth/register';
 
 // создаём функцию, в которой объявляем переменные, условие и делаем запрос
 async function onSubmit(event) {

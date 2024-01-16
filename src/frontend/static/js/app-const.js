@@ -1,9 +1,9 @@
 const AppConsts = {
 
-  "EnvName" = "Dev",
-  "LocalBaseUrl" = "http://127.0.0.1:8000",
-  "ProdBaseUrl" = "https://rabbitmg.ru/",
-  "BaseUrl" = "__BaseUrl__"  
+  "EnvName" : "Dev",
+  "LocalBaseUrl" : "http://127.0.0.1:8000",
+  "ProdBaseUrl" : "https://rabbitmg.ru/",
+  "BaseUrl" : "__BaseUrl__"
 };
 
 function init(){
@@ -14,4 +14,6 @@ function init(){
   else{
     AppConsts.BaseUrl = AppConsts.ProdBaseUrl;
   }
-}
+};
+
+init();
