@@ -1,0 +1,3 @@
+- Запустить команду .\build.ps1 из папки frontend
+- Запустить команду .\run.ps1 из папки frontend
+- Открыть в браузере страницу http://localhost:8080/templates/registration.html

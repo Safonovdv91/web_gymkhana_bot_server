@@ -1,0 +1,1 @@
+docker build -t mg/front:1.0 .
