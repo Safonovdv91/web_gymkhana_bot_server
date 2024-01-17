@@ -65,7 +65,7 @@ a:visited {
   text-decoration: none;
 }
 
-ul il {
+ul li {
   list-style: none;
 }
 
@@ -85,7 +85,7 @@ h6 {
 
 /* обнуление стилей  */
 body {
-  font-family: 'Rubik', sans-serif;
+  font-family: 'Roboto', serif;
 }
 
 main {
@@ -104,7 +104,6 @@ input {
   height: 26.082px;
   flex-shrink: 0;
   color: #FFF;
-  font-family: Rubik;
   font-size: 16px;
   font-style: normal;
   font-weight: 200;
@@ -114,13 +113,19 @@ input {
   margin-bottom: 1px;
 }
 
+@media (max-width: 570px) {
+  input {
+    font-size: 14px;
+    margin: 5px;
+  }
+  
+}
+
 .main-form {
-  margin-right: 600px;
   opacity: 0;
   max-width: 394px;
   width: 390px;
   height: 476px;
-  flex-shrink: 0;
   border-radius: 10px;
   background: rgba(20, 20, 20, 0.97);
   animation-name: fadeForm;
@@ -153,13 +158,20 @@ input {
   }
 }
 
+@media (max-width: 570px) {
+  .main-form {
+    width: 280px;
+    height: 70%;
+  }
+  
+}
+
 .form-title {
   margin-left: 95px;
   margin-top: 34px;
   margin-bottom: 45px;
   color: #FFF;
   text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-  font-family: Rubik;
   font-size: 30px;
   font-style: normal;
   font-weight: 600;
@@ -170,6 +182,14 @@ input {
   text-align: right;
 }
 
+@media (max-width: 570px) {
+  .form-title {
+    margin: 10px 0px;
+    font-size: 20px;
+  }
+  
+}
+
 hr {
   width: 313px;
   height: 1px;
@@ -178,21 +198,29 @@ hr {
   margin-bottom: 12px;
 }
 
+@media (max-width: 570px) {
+  hr {
+    width: 80%;
+    margin: 0px 0px 0px 15px;
+  }
+
+}
+
+.button-row {
+  display: block;
+}
 
 .button {
   margin-bottom: 23px;
-  display: block;
+  margin-left: 20%;
   font-weight: 350;
   font-size: 20px;
   color: white;
   border-radius: 5px;
   background: #FE4E17;
   cursor: pointer;
-  width: 333px;
-  height: 63.017px;
-  flex-shrink: 0;
-  margin-left: 28px;
-  margin-right: 29px;
+  width: 233px;
+  height: 63px;
 }
 
 .button:hover {
@@ -203,11 +231,19 @@ a.button {
   text-decoration: none;
 }
 
+@media (max-width: 570px) {
+  .button {
+    margin: 5px 0px 5px 15px;
+    width: 80%;
+    font-size: 16px;
+    height: 40px;
+  }
+}
+
 .error {
   text-align: center;
   display: block;
   color: rgba(226, 30, 30, 0.90);
-  font-family: Rubik;
   font-size: 16px;
   font-style: normal;
   font-weight: 400;
@@ -218,10 +254,16 @@ a.button {
   margin-top: 40px;
 }
 
+@media (max-width: 570px) {
+  .error {
+    font-size: 14px;
+    margin-top: 10px;
+  }
+}
+
 .divider {
   display: inline;
   color: #686868;
-  font-family: Rubik;
   font-size: 14px;
   font-style: normal;
   font-weight: 400;
@@ -229,13 +271,11 @@ a.button {
   padding-left: 2px;
   padding-right: 2px;
   margin-left: 20px;
-
 }
 
 .button-here {
   width: 106px;
   height: 28.848px;
-  flex-shrink: 0;
   display: inline;
   border-radius: 5px;
   background: #474747;
@@ -244,9 +284,23 @@ a.button {
   font-style: normal;
   font-weight: 400;
   text-transform: uppercase;
+  text-align: center;
   padding: 5px 20px;
 }
 
 .button-here:hover {
   background-color: grey;
+}
+
+@media (max-width: 570px) {
+
+    .button-here {
+      font-size: 12px;
+      display: block;
+      height: 20px;
+      width: 60px;
+      padding: 5px;
+      margin: 10px 0px 0px 15px;
+    }
+
 }

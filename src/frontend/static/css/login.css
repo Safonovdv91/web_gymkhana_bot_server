@@ -87,8 +87,9 @@ body {
 }
 
 main {
-  background-image: url(../assets/kevin-picone-jq3Gd1zz-Zk-unsplash-min2-min.png);
   height: 100vh;
+  background-image: url(/src/frontend/static/assets/login_background.png);
+  background-size: cover;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -110,11 +111,16 @@ input {
   margin-left: 46px;
   margin-bottom: 1px;
 }
-
 input:focus {
   outline: none;
   border: #4446bb;
+}
 
+@media (max-width: 570px) {
+  input {
+    font-size: 14px;
+    margin: 5px;
+  }
 }
 
 .main-form {
@@ -151,6 +157,14 @@ input:focus {
     }
 }
 
+@media (max-width: 570px) {
+  .main-form {
+    width: 280px;
+    height: 60%;
+  }
+  
+}
+
 .form-title {
   margin-left: 95px;
   margin-top: 34px;
@@ -168,12 +182,28 @@ input:focus {
   text-align: right;
 }
 
+@media (max-width: 570px) {
+  .form-title {
+    margin: 10px 0px;
+    font-size: 20px;
+  }
+  
+}
+
 hr {
   width: 313px;
   height: 1px;
   background: #FFF;
   margin-left: 46px;
   margin-bottom: 12px;
+}
+
+@media (max-width: 570px) {
+  hr {
+    width: 80%;
+    margin: 0px 0px 0px 15px;
+  }
+
 }
 
 .error {
@@ -191,8 +221,14 @@ hr {
   margin-top: 40px;
 }
 
+.button-row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .button {
-  margin-bottom: 23px;
+  margin: 0px auto;
   display: block;
   font-weight: 350;
   font-size: 20px;
@@ -200,11 +236,8 @@ hr {
   border-radius: 5px;
   background: #FE4E17;
   cursor: pointer;
-  width: 333px;
   height: 63.017px;
-  flex-shrink: 0;
-  margin-left: 28px;
-  margin-right: 29px;
+  justify-content: start;
 }
 
 .button:hover {
@@ -213,6 +246,14 @@ hr {
 
 a.button {
     text-decoration: none;
+}
+
+@media (max-width: 570px) {
+  input.button {
+    font-size: 16px;
+    width: 65%;
+    height: 40px;
+  }
 }
 
 .pasForget {
@@ -226,4 +267,5 @@ a.button {
   padding-right: 2px;
   display: flex;
   justify-content: center;
+  margin-top: 20px;
 }
