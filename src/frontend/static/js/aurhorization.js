@@ -32,6 +32,7 @@ async function onSubmit(event) {
   } else if (response.status == 204) {
     //window.location = "main-page"
     alert('Авторизация прошла успешно')
+    window.location = "get_users"
 
   } else if (response.status == 400) {
 
