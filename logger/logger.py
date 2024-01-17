@@ -16,6 +16,7 @@ def init_logger(name):
     sh_level - уровень логгера на отображение в экране
     fh_level: int = 30 - уровень логгера для записи в файл
     """
+    return logging.getLogger("temp_loger")  # Временная заглушка на время подключения графана
 
     LOGER_FORMAT = "%(name)s:%(lineno)s - %(levelname)s - %(message)s"
 

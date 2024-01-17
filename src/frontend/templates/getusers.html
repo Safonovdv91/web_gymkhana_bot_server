@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8" />
+    <link rel="icon" href="/static/assets/rabbitIco.png">
+    <title>Все пользователи</title>
+    <style type="text/css">
+    div {
+    width: 70%; /* Ширина блока */
+    overflow: auto; /* Добавляем полосы прокрутки */
+    padding-left: 15px; /* Отступ от текста слева */
+    background:repeat-y #808080;
+   }
+  </style>
+</head>
+<body>
+<div>
+    <h1> Все зарегистрированные пользователи </h1>
+    <body text="maroon">
+          <p>Если вы это видите - значит успешно авторизовались и это хорошо </p>
+    </body>
+</div>
+    <div>
+        {% for user in users %}
+        <div>
+            <h2> {{user.email}}</h2>
+            <h4> ggp_percent_begin: {{user.ggp_percent_begin}}</h4>
+            <h4> ggp_percent_end: {{user.ggp_percent_end}}</h4>
+            <h4> sub_ggp_percent: {{user.sub_ggp_percent}}</h4>
+            <h4> sub_offline: {{user.sub_offline}}</h4>
+            <h4> sub_ggp: {{user.sub_ggp}}</h4>
+            <h4> sub_world_record: {{user.sub_world_record}}</h4>
+            <h4> telegram_id: {{user.telegram_id}}</h4>
+            <h4> registered_at: {{user.registered_at}}</h4>
+            <h4> role_id: {{user.role_id}}</h4>
+        </div>
+        {% endfor %}
+    </div>
+
+</body>
+</html>
