@@ -14,9 +14,13 @@ def get_base_page(request: Request):
 
 
 @router.get("/get_users")
-def get_users_page(request: Request, usr=Depends(get_users)):
+def get_users_page(
+        request: Request,
+        users=Depends(get_users)
+):
     return templates.TemplateResponse(
-        "getusers.html", {"request": request, "users": usr["data"]}
+        name="getusers.html",
+        context={"request": request, "users": users["data"]}
     )
 
 
