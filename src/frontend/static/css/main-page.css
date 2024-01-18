@@ -65,7 +65,7 @@ a:visited {
   text-decoration: none;
 }
 
-ul il {
+ul li {
   list-style: none;
 }
 
@@ -88,8 +88,6 @@ h6 {
 .body {
   font-family: Arial, Helvetica, sans-serif;
 }
-
-
 
 .wrapper {
   min-height: 100%;
@@ -124,7 +122,7 @@ h6 {
 
 
 .hi {
-  background-image: url(/static/assets/close-up-motorcyclist-with-helmet\ 1.png);
+  background-image: url(../assets/helmet_background.png);
   padding: 50px 50px;
 }
 

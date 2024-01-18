@@ -65,7 +65,7 @@ a:visited {
   text-decoration: none;
 }
 
-ul il {
+ul li {
   list-style: none;
 }
 
@@ -83,12 +83,12 @@ h6 {
   font-weight: 400;
 }
 body {
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Rubik', serif;
 }
 
 main {
   height: 100vh;
-  background-image: url(/src/frontend/static/assets/login_background.png);
+  background-image: url(../assets/helmet_background.png);
   background-size: cover;
   display: flex;
   flex-direction: column;
@@ -174,7 +174,7 @@ input:focus {
   font-family: Rubik;
   font-size: 30px;
   font-style: normal;
-  font-weight: 600;
+  font-weight: 500;
   line-height: normal;
   width: 201px;
   height: 37.828px;

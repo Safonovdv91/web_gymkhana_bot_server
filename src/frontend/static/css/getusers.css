@@ -99,7 +99,7 @@ body {
 
 .content {
     flex: 1 1 auto;
-    background-image: url(/src/frontend/static/assets/getusers_background.png);
+    background-image: url(../assets/getusers_background.png);
 }
 
 .container-head {
