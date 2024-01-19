@@ -1,6 +1,6 @@
 document.getElementById('main-form').addEventListener('submit', onSubmit);
 
-const requestURL = '`${AppConsts.BaseUrl}/auth/jwt/login';
+const requestURL = `${AppConsts.BaseUrl}/auth/jwt/login`;
 
 async function onSubmit(event) {
   event.preventDefault();
@@ -30,7 +30,6 @@ async function onSubmit(event) {
 
     alert('Successful Response')
   } else if (response.status == 204) {
-    window.location = "getusers"
     alert('Авторизация прошла успешно')
     window.location = "get_users"
 

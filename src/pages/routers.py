@@ -67,5 +67,5 @@ async def get_login_page(
     request: Request,
 ):
     return templates.TemplateResponse(
-        "authorization.html", {"request": request}
+        "login.html", {"request": request}
     )
