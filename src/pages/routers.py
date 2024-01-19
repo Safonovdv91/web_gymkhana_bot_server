@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException, Request
 from starlette.templating import Jinja2Templates
 
-from src.users.router import get_user_by_id, get_users
+from src.users.router import get_current_user, get_user_by_id, get_users
 
 
 router = APIRouter(tags=["Frontend"])
@@ -13,6 +13,20 @@ def get_base_page(request: Request):
     return templates.TemplateResponse("base.html", {"request": request})
 
 
+@router.get("/current_user")
+def get_users_page(
+        request: Request,
+        users=Depends(get_current_user)
+):
+    return templates.TemplateResponse(
+        name="getusers.html",
+        context={
+            "request": request,
+            "users": [users["data"]]
+        },
+    )
+
+
 @router.get("/get_users")
 def get_users_page(
         request: Request,
@@ -20,12 +34,18 @@ def get_users_page(
 ):
     return templates.TemplateResponse(
         name="getusers.html",
-        context={"request": request, "users": users["data"]}
+        context={
+            "request": request,
+            "users": users["data"]
+        }
     )
 
 
 @router.get("/get_users/{user_id}")
-def get_users_page_id(request: Request, usr=Depends(get_user_by_id)):
+def get_users_page_id(
+        request: Request,
+        usr=Depends(get_user_by_id)
+):
     try:
         user_data = usr["data"]
         return templates.TemplateResponse(
@@ -37,11 +57,15 @@ def get_users_page_id(request: Request, usr=Depends(get_user_by_id)):
 
 @router.get("/registration")
 def get_register_page(request: Request):
-    return templates.TemplateResponse("registration.html", {"request": request})
+    return templates.TemplateResponse(
+        "registration.html", {"request": request}
+    )
 
 
 @router.get("/login")
 async def get_login_page(
     request: Request,
 ):
-    return templates.TemplateResponse("authorization.html", {"request": request})
+    return templates.TemplateResponse(
+        "authorization.html", {"request": request}
+    )

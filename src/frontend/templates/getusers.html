@@ -27,6 +27,27 @@
             <h4> ggp_percent_begin: {{user.ggp_percent_begin}}</h4>
             <h4> ggp_percent_end: {{user.ggp_percent_end}}</h4>
             <h4> sub_ggp_percent: {{user.sub_ggp_percent}}</h4>
+
+            <label>
+                <input type="checkbox" name="languages" value={{user.sub_ggp_percent}}>
+                Подписан на GGP проценты
+            </label>
+            <br>
+            <label>
+                <input type="checkbox" name="languages" value={{user.sub_offline}}>
+                Подписан на офлайн соревнования
+            </label>
+            <br>
+            <label>
+                <input type="checkbox" name="languages" value="{{user.sub_ggp}}">
+                Подписан на GGP
+            </label>
+            <br>
+            <label>
+                <input type="checkbox" name="languages" value="sub_world_record" checked={{user.sub_world_record}}>
+                Подписан на мировой рекорд
+            </label>
+
             <h4> sub_offline: {{user.sub_offline}}</h4>
             <h4> sub_ggp: {{user.sub_ggp}}</h4>
             <h4> sub_world_record: {{user.sub_world_record}}</h4>

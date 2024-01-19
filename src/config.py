@@ -8,6 +8,9 @@ load_dotenv()
 LOG_LEVEL = os.environ.get("LOG_LEVEL")
 LOGGER_LOKI_URL = os.environ.get("LOGGER_LOKI_URL")
 
+SITE_URL = f"localhost.{os.environ.get('SITE_URL')}"
+SITE_PORT = os.environ.get("SITE_PORT")
+
 DB_HOST = os.environ.get("DB_HOST")
 DB_PORT = os.environ.get("DB_PORT")
 DB_NAME = os.environ.get("DB_NAME")

@@ -164,3 +164,4 @@ cython_debug/
 /pre-commit
 /.black.toml
 /.flake8
+.env
