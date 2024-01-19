@@ -15,49 +15,47 @@
 
 <body>
     <div class="wrapper">
-        <div class="content">
-            <div class="container-head">
-                <div class="header__image">
-                    <img src="../static/assets/logo_rabbit.png">
+        <div class="container-head" role="banner">
+            <div class="header__image">
+                <img src="../static/assets/logo_rabbit.png">
+            </div>
+            <div class="header__text">
+                RMG
+            </div>
+            <div class="header__title">
+                <p>Все зарегистрированные пользователи</p>
+            </div>
+        </div>
+        <main class="main" role="main">
+            <div class="container-main">
+                <div class="main__title">
+                    <h2 class="text">Если вы это видите - значит успешно авторизовались и это хорошо...</h2>
                 </div>
-                <div class="header__text">
-                    RMG
-                </div>
-                <div class="header__title">
-                    <p>Все зарегистрированные пользователи</p>
+                <div class="main__user">
+                    {% for user in users %}
+                    <ul class="user">
+                        <li class="email"> {{user.email}}</li>
+                        <li>Телеграм id:<br>{{user.telegram_id}}</li>
+                        <li>Подписан на GGP:<br>[{{user.sub_ggp}}]</li>
+                        <li>Подписан на проценты:<br>[{{user.sub_ggp_percent}}]</li>
+                        <li>От: {{user.ggp_percent_begin}}</li>
+                        <li>До: {{user.ggp_percent_end}}</li>
+                        <li>Подписан на офлайн:<br>[{{user.sub_offline}}]</li>
+                        <li>Подписан на мировой рекорд:<br>[{{user.sub_world_record}}]</li>
+                        <li>Дата регистрации:<br>{{user.registered_at}}</li>
+                        <li>Роль: {{user.role_id}}</li>
+                    </ul>
+                    {% endfor %}
                 </div>
             </div>
-            <main class="main">
-                <div class="container-main">
-                    <div class="main__title">
-                        <h2 class="text">Если вы это видите - значит успешно авторизовались и это хорошо...</h2>
-                    </div>
-                    <div class="main__user">
-                        {% for user in users %}
-                        <ul class="user">
-                            <li class="email"> {{user.email}}</li>
-                            <li>Телеграм id: {{user.telegram_id}}</li>
-                            <li>Подписан на GGP: [{{user.sub_ggp}}]</li>
-                            <li>Подписан на проценты: [{{user.sub_ggp_percent}}]</li>
-                            <li>От: {{user.ggp_percent_begin}}</li>
-                            <li>До: {{user.ggp_percent_end}}</li>
-                            <li>Подписан на офлайн: [{{user.sub_offline}}]</li>
-                            <li>Подписан на мировой рекорд: [{{user.sub_world_record}}]</li>
-                            <li>Дата регистрации: {{user.registered_at}}</li>
-                            <li>Роль: {{user.role_id}}</li>
-                        </ul>
-                        {% endfor %}
-                    </div>
-                </div>
-            </main>
-            <footer class="footer">
-                <div class="container-footer">
-                    <p class="footer__title">
-                        Designed by Pavel
-                    </p>
-                </div>
-            </footer>
-        </div>
+        </main>
+        <footer class="footer" role="contentinfo">
+            <div class="container-footer">
+                <p class="footer__title">
+                    Designed by Pavel
+                </p>
+            </div>
+        </footer>
     </div>
 </body>
 
