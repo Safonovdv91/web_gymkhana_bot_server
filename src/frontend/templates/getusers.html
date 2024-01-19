@@ -36,15 +36,15 @@
                         {% for user in users %}
                         <ul class="user">
                             <li class="email"> {{user.email}}</li>
-                            <li>{{user.ggp_percent_begin}}</li>
-                            <li>{{user.ggp_percent_end}}</li>
-                            <li>{{user.sub_ggp_percent}}</li>
-                            <li>{{user.sub_offline}}</li>
-                            <li>{{user.sub_ggp}}</li>
-                            <li>{{user.sub_world_record}}</li>
-                            <li>{{user.telegram_id}}</li>
-                            <li>{{user.registered_at}}</li>
-                            <li>{{user.role_id}}</li>
+                            <li>Телеграм id: {{user.telegram_id}}</li>
+                            <li>Подписан на GGP: [{{user.sub_ggp}}]</li>
+                            <li>Подписан на проценты: [{{user.sub_ggp_percent}}]</li>
+                            <li>От: {{user.ggp_percent_begin}}</li>
+                            <li>До: {{user.ggp_percent_end}}</li>
+                            <li>Подписан на офлайн: [{{user.sub_offline}}]</li>
+                            <li>Подписан на мировой рекорд: [{{user.sub_world_record}}]</li>
+                            <li>Дата регистрации: {{user.registered_at}}</li>
+                            <li>Роль: {{user.role_id}}</li>
                         </ul>
                         {% endfor %}
                     </div>
