@@ -10,6 +10,7 @@ from starlette.staticfiles import StaticFiles
 from logger.logger import init_logger
 from src.admin_panel.views import RoleAdmin, SportClassAdmin, UserAdmin
 from src.auth.auth_config import auth_backend, fastapi_users
+from src.config import SITE_PORT, SITE_URL
 from src.database import engine
 from src.pages.routers import router as page_router
 from src.roles.router import router_role
@@ -24,9 +25,8 @@ app = FastAPI(title="RabbitMG")
 app.mount("/static", StaticFiles(directory="src/frontend/static"), "static")
 
 origins = [
-    "http://127.0.0.1:8000",
-    "https://127.0.0.1:8000",
-    # "*",
+    f"http://localhost.{SITE_URL}:{SITE_PORT}",
+    f"https://localhost.{SITE_URL}:{SITE_PORT}",
 ]
 
 app.add_middleware(
@@ -98,7 +98,7 @@ app.include_router(router_sport_class)
 
 @app.get("/")
 async def redirect_to_docs():
-    return RedirectResponse(url="/docs")
+    return RedirectResponse(url="/registration")
 
 
 admin = Admin(app, engine)
