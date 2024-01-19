@@ -1,7 +1,8 @@
 from fastapi import APIRouter, Depends, HTTPException, Request
 from starlette.templating import Jinja2Templates
 
-from src.users.router import get_user_by_id, get_users, get_current_user
+from src.users.router import get_current_user, get_user_by_id, get_users
+
 
 router = APIRouter(tags=["Frontend"])
 templates = Jinja2Templates(directory="src/frontend/templates")
@@ -19,8 +20,12 @@ def get_users_page(
 ):
     return templates.TemplateResponse(
         name="getusers.html",
-        context={"request": request, "users": [users["data"]]}
+        context={
+            "request": request,
+            "users": [users["data"]]
+        },
     )
+
 
 @router.get("/get_users")
 def get_users_page(
@@ -29,12 +34,18 @@ def get_users_page(
 ):
     return templates.TemplateResponse(
         name="getusers.html",
-        context={"request": request, "users": users["data"]}
+        context={
+            "request": request,
+            "users": users["data"]
+        }
     )
 
 
 @router.get("/get_users/{user_id}")
-def get_users_page_id(request: Request, usr=Depends(get_user_by_id)):
+def get_users_page_id(
+        request: Request,
+        usr=Depends(get_user_by_id)
+):
     try:
         user_data = usr["data"]
         return templates.TemplateResponse(
