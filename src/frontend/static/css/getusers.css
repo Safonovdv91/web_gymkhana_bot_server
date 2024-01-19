@@ -149,7 +149,7 @@ body {
     
 }
 
-@media (max-width: 320px) {
+@media (max-width: 520px) {
     .header__title {
         display: none;
     }
@@ -188,7 +188,7 @@ h2.text {
 .user {
     display: flex;
     flex-direction: column;
-    margin: auto;
+    margin: 15px;
     width: 300px;
     background: rgba(20, 20, 20, 0.80);
     border-radius: 10px;
@@ -213,7 +213,7 @@ li {
 
 @media (max-width: 520px) {
     li {
-        font-size: 14px;
+        font-size: 12px;
     }
 }
 
@@ -221,9 +221,14 @@ li {
     font-size: 24px;
 }
 
+@media (max-width: 520px) {
+    .email {
+    font-size: 14px;
+}
+}
+
 footer {
     display: flex;
-    position: absolute;
 	left: 0;
 	bottom: 0;
 	width: 100%;
@@ -239,3 +244,5 @@ footer {
     font-weight: 400;
     text-align: center;
 }
+
+
