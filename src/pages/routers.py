@@ -40,4 +40,4 @@ def get_register_page(request: Request):
 async def get_login_page(
     request: Request,
 ):
-    return templates.TemplateResponse("authorization.html", {"request": request})
+    return templates.TemplateResponse("login.html", {"request": request})
