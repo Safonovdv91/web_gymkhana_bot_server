@@ -33,18 +33,45 @@
                 </div>
                 <div class="main__user">
                     {% for user in users %}
-                    <ul class="user">
-                        <li class="email"> {{user.email}}</li>
-                        <li>Телеграм id:<br>{{user.telegram_id}}</li>
-                        <li>Подписан на GGP:<br>[{{user.sub_ggp}}]</li>
-                        <li>Подписан на проценты:<br>[{{user.sub_ggp_percent}}]</li>
-                        <li>От: {{user.ggp_percent_begin}}</li>
-                        <li>До: {{user.ggp_percent_end}}</li>
-                        <li>Подписан на офлайн:<br>[{{user.sub_offline}}]</li>
-                        <li>Подписан на мировой рекорд:<br>[{{user.sub_world_record}}]</li>
-                        <li>Дата регистрации:<br>{{user.registered_at}}</li>
-                        <li>Роль: {{user.role_id}}</li>
-                    </ul>
+                    <div class="user">
+                        <div class="user-email">{{user.email}}</div>
+                        <div class="tg-id">
+                            <div >{{user.telegram_id}}</div>
+                        </div>
+                        <div class="subscriptionGGP">
+                            <label class="check-box">
+                                <input type="checkbox">
+                                [{{user.sub_ggp}}]
+                            </label>
+                            <div class="title">Подписан на GGP</div>
+                        </div>
+                        <div class="subscriptionPercent">
+                            <label class="check-box">
+                                <input type="checkbox">
+                                [{{user.sub_ggp_percent}}]
+                            </label>
+                            <div class="title">Подписан на проценты</div>
+                        </div>
+                        <div class="subscrStartEnd">
+                            <div class="subscriptionStart">От: 105</div>
+                            <div class="subscriptionEnd">До: 100</div>
+                        </div>
+                        <div class="subscriptionOffline">
+                            <label class="check-box">
+                                <input type="checkbox">
+                                [{{user.sub_offline}}]
+                            </label>
+                            <div class="title">Подписан на офлайн</div>
+                        </div>
+                        <div class="subscriptionWR">
+                            <label class="check-box">
+                                <input type="checkbox">[{{user.sub_world_record}}]
+                            </label>
+                            <div class="title">Подписан на мировой рекорд</div>
+                        </div>
+                        <div class="regDate">Дата регистрации: {{user.registered_at}}</div>
+                        <div class="role">Роль: {{user.role_id}}</div>
+                    </div>
                     {% endfor %}
                 </div>
             </div>
