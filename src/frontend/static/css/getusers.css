@@ -281,6 +281,10 @@ h2.text {
     align-self: center;
 }
 
+input {
+    accent-color: #FE4E17;
+}
+
 .title {
     justify-self: start;
 }
