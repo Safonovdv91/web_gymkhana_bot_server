@@ -213,6 +213,7 @@ hr {
 }
 
 .button {
+  display: block;
   margin-bottom: 23px;
   margin-left: 20%;
   font-weight: 350;
