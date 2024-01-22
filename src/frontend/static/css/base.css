@@ -1,0 +1,307 @@
+* {
+    margin: 0;
+    padding: 0;
+    border: 0;
+}
+
+*,
+*:before,
+*:after {
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+:focus,
+:active {
+    outline: none;
+}
+
+a:focus,
+a:active {
+    outline: none;
+}
+
+nav,
+footer,
+header,
+aside {
+    display: block;
+}
+
+html,
+body {
+    height: 100%;
+    width: 100%;
+    font-size: 100%;
+    line-height: 1;
+    font-size: 14px;
+    -ms-text-size-adjust: 100%;
+    -moz-text-size-adjust: 100%;
+    -webkit-text-size-adjust: 100%;
+}
+
+input,
+button,
+textarea {
+    font-family: inherit;
+}
+
+input::-ms-clear {
+    display: none;
+}
+
+button {
+    cursor: pointer;
+}
+
+button::-moz-focus-inner {
+    padding: 0;
+    border: 0;
+}
+
+a,
+a:visited {
+    text-decoration: none;
+}
+
+ul li {
+    list-style: none;
+}
+
+img {
+    vertical-align: top;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-size: inherit;
+    font-weight: 400;
+}
+
+/* обнуление стилей */
+
+body {
+    font-family: 'Roboto', serif;
+
+}
+
+.wrapper {
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    min-height: 100%;
+}
+
+.content {
+    background-image: url(../assets/getusers_background-min.png);
+}
+
+.container-head {
+    flex: 0 0 auto;
+    background: #202020;
+    display: grid;
+    grid-template-columns: 0.5fr 0.25fr 1fr;
+    grid-template-areas:
+        "logo text title"
+}
+
+.header__image {
+    grid-area: logo;
+    justify-self: right;
+    align-self: center;
+}
+
+.header__text {
+    grid-area: text;
+    color: #FFF;
+    text-shadow: 0px 3px 3px rgba(181, 181, 181, 0.50);
+    font-family: Rubik;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    letter-spacing: 3px;
+    font-size: 24px;
+    align-self: center;
+    justify-self: left;
+    padding: 10px;
+
+}
+
+.header__title {
+    grid-area: title;
+    justify-self: left;
+    align-self: center;
+    color: #9F9F9F;
+    font-size: 24px;
+    font-weight: 400;
+}
+
+@media (max-width: 520px) {
+    .header__title {
+        font-size: 18px;
+    }
+
+}
+
+@media (max-width: 520px) {
+    .header__title {
+        display: none;
+    }
+}
+
+main {
+    flex: 1 0 auto;
+    background-image: url(../assets/getusers_background.png);
+}
+
+.container-main {
+    display: flex;
+    flex-direction: column;
+}
+
+.main__title {
+    display: flex;
+    justify-content: center;
+
+}
+
+h2.text {
+    color: #f7f4f3;
+    font-size: 20px;
+    font-weight: 400;
+    font-size: 20px;
+    font-weight: 400;
+    text-align: center;
+}
+
+.text {
+    padding: 10px;
+    background-color: rgba(255, 255, 255, 0.1);
+    ;
+}
+
+.main__user {
+    grid-area: user;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: auto;
+    gap: 10px;
+}
+
+.user {
+    display: grid;
+    width: 500px;
+    background: rgba(20, 20, 20, 0.80);
+    border-radius: 10px;
+    color: #dddada;
+    font-size: 20px;
+    font-weight: 400;
+    text-align: center;
+    padding: 10px;
+    margin: 10px;
+    grid-template-rows: repeat(10, auto);
+
+}
+
+@media (max-width: 520px) {
+    .user {
+        width: 200px;
+        font-size: 14px;
+    }
+}
+
+.user-email h2 {
+    font-size: 26px;
+    padding: 10px;
+}
+
+@media (max-width: 520px) {
+    .user-email h2 {
+        font-size: 18px;
+    }
+}
+
+.tg-id {
+    padding: 10px;
+}
+
+.subscriptionGGP {
+    display: grid;
+    grid-template-columns: repeat(2, auto);
+    padding: 10px;
+}
+
+.subscriptionPercent {
+    display: grid;
+    grid-template-columns: repeat(2, auto);
+    padding: 10px;
+}
+
+.subscrStartEnd {
+    display: grid;
+    grid-template-columns: repeat(2, auto);
+}
+
+.subscriptionStart {
+    padding: 10px;
+}
+
+.subscriptionEnd {
+    padding: 10px;
+}
+
+.subscriptionOffline {
+    display: grid;
+    grid-template-columns: repeat(2, auto);
+    padding: 10px;
+}
+
+.subscriptionWR {
+    display: grid;
+    grid-template-columns: repeat(2, auto);
+    padding: 10px;
+}
+
+.regDate {
+    padding: 10px;
+}
+
+.role {
+    padding: 10px;
+}
+
+.check-box {
+    justify-self: start;
+    align-self: center;
+}
+
+input {
+    accent-color: #FE4E17;
+}
+
+.title {
+    justify-self: start;
+}
+
+footer {
+    flex: 0 0 auto;
+    display: flex;
+    width: 100%;
+    height: 30px;
+    background: #202020;
+    justify-content: center;
+    align-items: center;
+}
+
+.footer__title {
+    color: #9F9F9F;
+    font-size: 20px;
+    font-weight: 400;
+    text-align: center;
+}
