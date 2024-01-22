@@ -216,13 +216,13 @@ h2.text {
     }
 }
 
-.user-email {
+.user-email h2 {
     font-size: 26px;
     padding: 10px;
 }
 
 @media (max-width: 520px) {
-    .user-email {
+    .user-email h2 {
         font-size: 18px;
     }
 }

@@ -34,7 +34,9 @@
                 <div class="main__user">
                     {% for user in users %}
                     <div class="user">
-                        <div class="user-email">{{user.email}}</div>
+                        <div class="user-email">
+                            <h2>{{user.email}}</h2>
+                        </div>
                         <div class="tg-id">
                             <div >{{user.telegram_id}}</div>
                         </div>
