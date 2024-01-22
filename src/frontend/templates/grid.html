@@ -1,21 +1,19 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <div class="user-email">{{user.email}}</div>
-    <div class="tg-id">{{user.telegram_id}}</div>
-    <div class="subscriptionGGP">Подписан на GGP: [{{user.sub_ggp}}]</div>
-    <div class="subscriptionPercent">Подписан на проценты:[{{user.sub_ggp_percent}}]</div>
-    <div class="subscriptionStart">От: {{user.ggp_percent_begin}}</div>
-    <div class="subscriptionEnd">До: {{user.ggp_percent_end}}</div>
-    <div class="subscriptionOffline">Подписан на офлайн: [{{user.sub_offline}}]</div>
-    <div class="subscriptionWR">Подписан на мировой рекорд:[{{user.sub_world_record}}]</div>
-    <div class="regDate">Дата регистрации:{{user.registered_at}}</div>
-    <div class="role">Роль: {{user.role_id}}</div>
-</body>
-</html>
-<div class="user-email"></div>
+{% extends "base.html" %}
+{% block head %}
+    <link rel="stylesheet" href="../static/css/grid.css">
+{% endblock %}
+
+{% block content %}
+    {% for user in users %}
+        <div class="user-email">{{user.email}}</div>
+        <div class="tg-id">{{user.telegram_id}}</div>
+        <div class="subscriptionGGP">Подписан на GGP: [{{user.sub_ggp}}]</div>
+        <div class="subscriptionPercent">Подписан на проценты:[{{user.sub_ggp_percent}}]</div>
+        <div class="subscriptionStart">От: {{user.ggp_percent_begin}}</div>
+        <div class="subscriptionEnd">До: {{user.ggp_percent_end}}</div>
+        <div class="subscriptionOffline">Подписан на офлайн: [{{user.sub_offline}}]</div>
+        <div class="subscriptionWR">Подписан на мировой рекорд:[{{user.sub_world_record}}]</div>
+        <div class="regDate">Дата регистрации:{{user.registered_at}}</div>
+        <div class="role">Роль: {{user.role_id}}</div>
+    {% endfor %}
+{% endblock %}

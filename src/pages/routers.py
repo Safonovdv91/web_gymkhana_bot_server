@@ -40,6 +40,19 @@ def get_users_page(
         }
     )
 
+@router.get("/grid")
+def get_users_page(
+        request: Request,
+        users=Depends(get_users)
+):
+    return templates.TemplateResponse(
+        name="grid.html",
+        context={
+            "request": request,
+            "users": users["data"]
+        }
+    )
+
 
 @router.get("/get_users/{user_id}")
 def get_users_page_id(
