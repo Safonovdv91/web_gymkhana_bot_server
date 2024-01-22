@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/html">
 
 <head>
     <meta charset="UTF-8" />
@@ -39,35 +39,56 @@
                             <div >{{user.telegram_id}}</div>
                         </div>
                         <div class="subscriptionGGP">
+                            <div class="title">Подписан на GGP</div>
                             <label class="check-box">
+                                {% if user.sub_ggp %}
+                                <input type="checkbox" checked>
+                                {% else %}
                                 <input type="checkbox">
+                                {% endif %}
                                 [{{user.sub_ggp}}]
                             </label>
-                            <div class="title">Подписан на GGP</div>
+
                         </div>
                         <div class="subscriptionPercent">
+                            <div class="title">Подписан на проценты</div>
                             <label class="check-box">
-                                <input type="checkbox">
+                                {% if user.sub_ggp_percent %}
+                                    <input type="checkbox" checked>
+                                {% else %}
+                                    <input type="checkbox">
+                                {% endif %}
                                 [{{user.sub_ggp_percent}}]
                             </label>
-                            <div class="title">Подписан на проценты</div>
+
                         </div>
                         <div class="subscrStartEnd">
-                            <div class="subscriptionStart">От: {{user.ggp_percent_begin}}</div>
-                            <div class="subscriptionEnd">До: {{user.ggp_percent_end}}</div>
+                            {% if user.sub_ggp_percent %}
+                            <div class="subscriptionStart">От: <input value="{{user.ggp_percent_begin}}"></div>
+                            <div class="subscriptionEnd">До: <input value ="{{user.ggp_percent_end}}"></div>
+                            {% else %}
+                            <div class="subscriptionStart">От: <input value="{{user.ggp_percent_begin}}" disabled></div>
+                            <div class="subscriptionEnd">До: <input value ="{{user.ggp_percent_end}}" disabled></div>
+                            {% endif%}
                         </div>
                         <div class="subscriptionOffline">
+                            <div class="title">Подписан на офлайн</div>
                             <label class="check-box">
                                 <input type="checkbox">
                                 [{{user.sub_offline}}]
                             </label>
-                            <div class="title">Подписан на офлайн</div>
+
                         </div>
                         <div class="subscriptionWR">
-                            <label class="check-box">
-                                <input type="checkbox">[{{user.sub_world_record}}]
-                            </label>
                             <div class="title">Подписан на мировой рекорд</div>
+                            <label class="check-box">
+                                {% if user.sub_world_record %}
+                                <input type="checkbox" checked>[{{user.sub_world_record}}]
+                                {% else %}
+                                <input type="checkbox">[{{user.sub_world_record}}]
+                                {% endif %}
+                            </label>
+
                         </div>
                         <div class="regDate">Дата регистрации: {{user.registered_at}}</div>
                         <div class="role">Роль: {{user.role_id}}</div>
