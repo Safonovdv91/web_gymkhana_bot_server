@@ -33,12 +33,12 @@ router = APIRouter(prefix="/api/v1/users", tags=["user"])
     response_model=SUsersResponseMany,
 )
 async def get_users(
-    curr_user: User = Depends(current_user),
+    # curr_user: User = Depends(current_user),
     session: AsyncSession = Depends(get_async_session),
 ):
-    main_logger.info(f"[USER][GET] user: {curr_user.email} get users")
+    # main_logger.info(f"[USER][GET] user: {curr_user.email} get users")
     print("user_get")
-    users = await UserService.get_users(session=session, user=curr_user)
+    users = await UserService.get_users(session=session)
     return {
         "status": "Success",
         "data": users,
