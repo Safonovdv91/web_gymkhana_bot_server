@@ -30,6 +30,8 @@ services:
 #    image: softikdimon/web_gymkhana_bot_server-app:${TAG}
     container_name: "fastapi_app"
     command: ["/app/app.sh"]
+    volumes:
+      - ./src/frontend:/app/src/frontend
     ports:
       - "9000:8000"
     depends_on:
