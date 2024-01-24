@@ -40,7 +40,7 @@ class UserCreate(BaseUserCreate):
 
 class UserOut(BaseModel):
     id: int = 1
-    email: EmailStr = "user1@mail.com"
+    email: EmailStr = "user_example@mail.com"
     ggp_percent_begin: int = 100
     ggp_percent_end: int = 150
     sub_ggp_percent: bool = True
@@ -73,7 +73,7 @@ class SUserOutput(SUser):
 
 
 class SUsersResponseMany(SResponse):
-    data: list[SUserOutput]
+    data: list[UserOut]
 
 
 class SUserResponseOne(SResponse):
