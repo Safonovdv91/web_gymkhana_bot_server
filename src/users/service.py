@@ -55,6 +55,15 @@ class UserService:
         user_delete: User = await crud.delete_user(session, user)
         return user_delete
 
+    @classmethod
+    async def update_user_partial(
+        cls, session: AsyncSession, user: User, user_update
+    ) -> User:
+        return await crud.update_user(
+            session=session, user=user, user_update=user_update, partial=True
+        )
+        return user_patched
+
     @staticmethod
     async def user_subscribe_ggp_class(
         session: AsyncSession, user_in: User, class_names: str | List[str]

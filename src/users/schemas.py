@@ -53,6 +53,19 @@ class UserOut(BaseModel):
     ggp_sub_classes: list[SportClassResponseOne]
 
 
+class UserInParticul(BaseModel):
+    email: EmailStr | None = None
+    ggp_percent_begin: int | None = None
+    ggp_percent_end: int | None = None
+    sub_ggp_percent: bool | None = None
+    sub_offline: bool | None = None
+    sub_ggp: bool | None = None
+    sub_world_record: bool | None = None
+    telegram_id: str | None = None
+    # role: RoleBase | None = None
+    # ggp_sub_classes: list[SportClassResponseOne] | None = None
+
+
 class SUser(BaseModel):
     email: EmailStr = "user1@mail.com"
     # is_active: bool = True
@@ -73,11 +86,11 @@ class SUserOutput(SUser):
 
 
 class SUsersResponseMany(SResponse):
-    data: list[SUserOutput]
+    data: list[UserOut]
 
 
 class SUserResponseOne(SResponse):
-    data: SUserOutput
+    data: UserOut
 
 
 class SUserSearchArgs:
