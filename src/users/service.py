@@ -15,7 +15,6 @@ class UserService:
     async def get_users(
         cls,
         session: AsyncSession,
-        user: User | None = None,
     ) -> list[User] | None:
         users: list[User] | None = await crud.get_users_by_mask(session)
         return users

@@ -38,12 +38,11 @@ router = APIRouter(prefix="/api/v1/users", tags=["user"])
     response_model=SUsersResponseMany,
 )
 async def get_users(
-    curr_user: User = Depends(current_user),
+    # curr_user: User = Depends(current_user),
     session: AsyncSession = Depends(get_async_session),
 ):
-    main_logger.info(f"[USER][GET] user: {curr_user.email} get users")
-    print("user_get")
-    users = await UserService.get_users(session=session, user=curr_user)
+    # main_logger.info(f"[USER][GET] user: {curr_user.email} get users")
+    users = await UserService.get_users(session=session)
     return {
         "status": "Success",
         "data": users,
@@ -68,14 +67,13 @@ async def get_users(
 async def get_users_all_info(
     search_args: SUserSearchArgs = Depends(),
     session: AsyncSession = Depends(get_async_session),
-    curr_user: User = Depends(current_user),
+    # curr_user: User = Depends(current_user),
 ):
-    main_logger.info(
-        f"[USER][GET] user: {curr_user.email} get users [ALL INFO]"
-    )
+    # main_logger.info(
+    #     f"[USER][GET] user: {curr_user.email} get users [ALL INFO]"
+    # )
     users = await UserService.get_users(
         session=session,
-        # user=curr_user
     )
     return {
         "status": "Success",
