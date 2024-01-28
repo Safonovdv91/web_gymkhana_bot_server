@@ -2,6 +2,31 @@ import json
 
 import pytest
 from httpx import AsyncClient
+from faker import Faker
+
+
+class FakeUser:
+    def __init__(self, user_id: int):
+        fake = Faker()
+        self.user_id = user_id
+        self.email = fake.email()
+        self.ggp_percent_begin = fake.random_int(50, 130)
+        self.ggp_percent_end = fake.random_int(self.ggp_percent_begin, 200)
+        self.sub_ggp_percent = fake.boolean()
+        self.sub_offline = fake.boolean()
+        self.sub_ggp = fake.boolean()
+        self.sub_world_record = fake.boolean()
+        self.telegram_id = str(fake.random_int(1_000_000, 1_000_000_000))
+
+    def __repr__(self):
+        return f"{self.user_id}, {self.email}, {self.ggp_percent_begin}, {self.ggp_percent_end}," \
+               f" {self.sub_ggp_percent}, {self.sub_offline}, {self.sub_ggp}, {self.sub_world_record}, {self.telegram_id}"
+
+    def __str__(self):
+        return self.__repr__()
+
+
+users = (FakeUser(i) for i in range(5, 20))
 
 
 class TestUserApiGetByEmail:
@@ -141,7 +166,7 @@ class TestUsersApiGetByRoles:
         ("", 404, 0, None),
     ]
 
-    @pytest.mark.parametrize("role_id, status_code,count_user, email", USERS)
+    @pytest.mark.parametrize("role_id, status_code, count_user, email", USERS)
     async def test_user_get_by_id(
         self, ac: AsyncClient, role_id, status_code, count_user, email, jwt_token: dict
     ):
@@ -284,3 +309,126 @@ class TestUserPatchUserSubscribeById:
                 f"STATUS: [{response.status_code}]\n "
                 f"{json.dumps(response.json(), indent=4)}"
             )
+
+
+class TestUserPatchUserById:
+    """
+    Тестирование /api/v1/users/id={user_id}/patch
+    изменения данных о пользователе
+    """
+    URL = "/api/v1/users"
+    USER_PATCH = [(user, 200) for user in users]
+
+    @pytest.mark.parametrize(
+        "user, status_code", USER_PATCH
+    )
+    async def test_user_patch_by_id(
+        self,
+        ac: AsyncClient,
+        user: FakeUser,
+        status_code,
+        jwt_token
+    ):
+        """
+        Позитивный тест на апгрейд всех данных польхователя
+        """
+        url_patch = f"{self.URL}/id=5/patch"
+        url_get = f"{self.URL}/id=5"
+        data = {
+            "user_id": user.user_id,
+            "email": user.email,
+            "ggp_percent_begin": user.ggp_percent_begin,
+            "ggp_percent_end": user.ggp_percent_end,
+            "sub_ggp_percent": user.sub_ggp_percent,
+            "sub_offline": user.sub_offline,
+            "sub_ggp": user.sub_ggp,
+            "sub_world_record": user.sub_world_record,
+            "telegram_id": user.telegram_id
+        }
+        response = await ac.get(url=url_get, cookies=jwt_token)
+        assert response.status_code == 200, "user not exist"
+
+        response = await ac.patch(
+            url=url_patch, cookies=jwt_token, content=json.dumps(data)
+        )
+        assert response.status_code == 200, "user not patched"
+
+        response = await ac.get(url=url_get, cookies=jwt_token)
+        assert response.status_code == 200, "user not exist"
+        assert response.json()["data"]["email"] == user.email, "Email not patched"
+        assert response.json()["data"]["ggp_percent_begin"] == user.ggp_percent_begin, f"begin % not valid"
+        assert response.json()["data"]["ggp_percent_end"] == user.ggp_percent_end, f"end % not valid"
+        assert response.json()["data"]["sub_ggp_percent"] == user.sub_ggp_percent, f"sub % not valid"
+        assert response.json()["data"]["sub_offline"] == user.sub_offline, f"sub OFFLINE not valid"
+        assert response.json()["data"]["sub_ggp"] == user.sub_ggp, f"sub GGP not valid"
+        assert response.json()["data"]["sub_world_record"] == user.sub_world_record, f"sub WORLD  not valid"
+
+    @pytest.mark.parametrize(
+        "user, status_code", USER_PATCH
+    )
+    async def test_user_patch_by_id_particular(
+        self,
+        ac: AsyncClient,
+        user: FakeUser,
+        status_code,
+        jwt_token
+    ):
+        """
+        Позитивный тест на апгрейд частичных данных польхователя
+        """
+        url_patch = f"{self.URL}/id=5/patch"
+        url_get = f"{self.URL}/id=5"
+
+        response = await ac.get(url=url_get, cookies=jwt_token)
+        assert response.status_code == 200, "Не удалось получить данные пользователя"
+
+        old_data = response.json()["data"]
+        new_data = {"email": user.email}
+        response = await ac.patch(url=url_patch, cookies=jwt_token, content=json.dumps(new_data))
+
+        data = {
+            "user_id": user.user_id,
+            "email": user.email,
+            "ggp_percent_begin": user.ggp_percent_begin,
+            "ggp_percent_end": user.ggp_percent_end,
+            "sub_ggp_percent": user.sub_ggp_percent,
+            "sub_offline": user.sub_offline,
+            "sub_ggp": user.sub_ggp,
+            "sub_world_record": user.sub_world_record,
+            "telegram_id": user.telegram_id
+        }
+
+        # data ={"ggp_percent_begin": user.ggp_percent_begin}
+
+        for k, v in data.items():
+            response = await ac.patch(url=url_patch, cookies=jwt_token, content=json.dumps({k:v}))
+            assert response.status_code == 200, "Не прошла хуйня эта"
+
+        # assert response.status_code == status_code, (
+        #     f"STATUS: [{response.status_code}]\n "
+        #     f"{json.dumps(response.json(), indent=4)}"
+        # )
+        # if status_code == 200:
+        #     assert response.json()["data"]["email"] == user.email, (
+        #         f"STATUS: [{response.status_code}]\n "
+        #         f"{json.dumps(response.json(), indent=4)}"
+        #     )
+        #
+        # # Проверка валидности через метод получения инфы через get by id
+        # url_subscribe = f"{self.URL}id={user_id}"
+        # response = await ac.get(url=url_subscribe, cookies=jwt_token)
+        # if response.status_code not in [404]:
+        #     assert response.status_code == 200, (
+        #         f"STATUS: [{response.status_code}]\n "
+        #         f"{json.dumps(response.json(), indent=4)}"
+        #     )
+        #     assert response.json()["data"]["email"] == email, (
+        #         f"STATUS: [{response.status_code}]\n "
+        #         f"{json.dumps(response.json(), indent=4)}"
+        #     )
+        #     assert (
+        #         len(response.json()["data"]["ggp_sub_classes"]) == length_subscribe
+        #     ), (
+        #         f"STATUS: [{response.status_code}]\n "
+        #         f"{json.dumps(response.json(), indent=4)}"
+        #     )
