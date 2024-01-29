@@ -72,7 +72,7 @@ fastapi-project
 ### Вручную:
 1. Активируем виртуальное окружение
    Открывает терминал в папке с проектом и вбиваем команду
-   >venv\bin\Activate.ps1
+   >venv\Scripts\Activate.ps1
    появится зеленая приписка в терминале.
 2. Запустить backend сервер
    > uvicorn src.main:app --reload
