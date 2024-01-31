@@ -76,7 +76,7 @@
                         <div class="regDate">Дата регистрации: {{user.registered_at}}</div>
                         <div class="role">Роль: {{user.role_id}}</div>
                         <div class="patch-button">
-                            <input type="submit" name="submit" value="Сохранить изменения" class="button">
+                            <button class="button patch-button-submit" data-userid="{{user.id}}">Сохранить изменения</button>
                         </div>
                     </div>
                     {% endfor %}
@@ -85,4 +85,5 @@
         </main>
 {% endblock %}
     </div>
+    <script src="/static/js/getusers.js"></script>
 
