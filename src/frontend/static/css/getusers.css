@@ -196,14 +196,13 @@ h2.text {
 
 .user {
     display: grid;
-    width: 500px;
     background: rgba(20, 20, 20, 0.80);
     border-radius: 10px;
     color: #dddada;
     font-size: 20px;
     font-weight: 400;
     text-align: center;
-    padding: 10px;
+    padding: 20px;
     margin: 10px;
     grid-template-rows: repeat(10, auto);
 
@@ -211,12 +210,16 @@ h2.text {
 
 @media (max-width: 520px) {
     .user {
-        width: 200px;
+        min-width: 300px;
         font-size: 14px;
     }
 }
 
 .user-email h2 {
+    display: inline-flex;
+    justify-content: center ;
+    border: #9F9F9F solid 1px;
+    border-radius: 3px;
     font-size: 26px;
     padding: 10px;
 }
@@ -229,23 +232,33 @@ h2.text {
 
 .tg-id {
     padding: 10px;
+    display: none;
 }
 
 .subscriptionGGP {
     display: grid;
     grid-template-columns: repeat(2, auto);
+    align-items: center;
     padding: 10px;
 }
 
 .subscriptionPercent {
     display: grid;
     grid-template-columns: repeat(2, auto);
+    align-items: center;
     padding: 10px;
 }
 
 .subscrStartEnd {
     display: grid;
     grid-template-columns: repeat(2, auto);
+}
+
+@media (max-width: 520px) {
+    .subscrStartEnd {
+        display: flex;
+        flex-direction: column;
+    }
 }
 
 .subscriptionStart {
@@ -259,12 +272,14 @@ h2.text {
 .subscriptionOffline {
     display: grid;
     grid-template-columns: repeat(2, auto);
+    align-items: center;
     padding: 10px;
 }
 
 .subscriptionWR {
     display: grid;
     grid-template-columns: repeat(2, auto);
+    align-items: center;
     padding: 10px;
 }
 
@@ -272,24 +287,31 @@ h2.text {
     padding: 10px;
 }
 
+@media (max-width: 520px) {
+    .regDate {
+        font-size: 12px;
+    }
+}
+
 .role {
     padding: 10px;
 }
 
 .check-box {
-    justify-self: start;
+    justify-self: end;
     align-self: center;
 }
 
 .check-box input {
     accent-color: #FE4E17;
+    margin: 10px;
 }
 
 .title {
     justify-self: start;
 }
 
-.patch-button input {
+.patch-button-submit {
     margin: 0px auto;
     display: block;
     font-weight: 350;
@@ -298,16 +320,14 @@ h2.text {
     border-radius: 5px;
     background: #FE4E17;
     cursor: pointer;
-    height: 50px;
+    height: 40px;
     padding: 10px;
 }
 
-.patch-button input:hover {
-    background-color: rgb(0, 110, 255);
-}
-
-a.patch-button input {
-    text-decoration: none;
+@media (max-width: 520px) {
+    .patch-button-submit {
+        font-size: 12px;
+    }
 }
 
 footer {
