@@ -1,8 +1,13 @@
-(function asd() {
+
+
   //медот PATCH запроса
-  let onSubmit = function (event) {
+
+(function asd() {
+
+  function onSubmit(event) {
 
     event.preventDefault();
+    console.log('Отправка!')
 
     let button = event.target;
 
@@ -26,24 +31,15 @@
   for (let element of elements) {
     element.addEventListener('click', onSubmit);
   }
-
-
-  // метод GET запроса
-  /*fetch('http://127.0.0.1:8000/api/v1/users',  {
-    method: 'GET',
-    credentials: 'include',
-  })
-        .then(response => {
-          console.log(response)
-          return response.json()
-        })
-        .then(json => {
-          console.log(json.data[0].email);
-          
-          let emailElement = document.querySelector('#user-email');
-          emailElement.textContent = json.data[0].email;
-  
-        })
-        .catch(error => console.log(error))*/
 })();
 
+/*
+function handleFormSubmit(event) {
+  // Просим форму не отправлять данные самостоятельно
+  event.preventDefault()
+  console.log('Отправка!')
+}
+
+const applicantForm = document.getElementsByClassName('user');
+applicantForm.addEventListener('submit', handleFormSubmit);
+*/

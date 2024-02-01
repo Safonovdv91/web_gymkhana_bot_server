@@ -14,7 +14,7 @@
                 </div>
                 <div class="main__user">
                     {% for user in users %}
-                    <div class="user">
+                    <form class="user">
                         <div class="user-email">
                             <h2>{{user.email}}</h2>
                         </div>
@@ -75,10 +75,8 @@
                         </div>
                         <div class="regDate">Дата регистрации: {{user.registered_at}}</div>
                         <div class="role">Роль: {{user.role_id}}</div>
-                        <div class="patch-button">
-                            <button class="button patch-button-submit" data-userid="{{user.id}}">Сохранить изменения</button>
-                        </div>
-                    </div>
+                        <button class="button patch-button-submit" type="submit" data-userid="{{user.id}}">Сохранить изменения</button>
+                    </form>
                     {% endfor %}
                 </div>
             </div>
