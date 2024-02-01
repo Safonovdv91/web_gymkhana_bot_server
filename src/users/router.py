@@ -9,7 +9,12 @@ from src.database import get_async_session
 from ..sport_classes.schemas import SportClassSchemaInput
 from .dependencies import user_by_email, user_by_id
 from .models import User
-from .schemas import SUserResponseOne, SUserSearchArgs, SUsersResponseMany
+from .schemas import (
+    SUserResponseOne,
+    SUserSearchArgs,
+    SUsersResponseMany,
+    UserInParticul,
+)
 from .service import UserService
 
 
@@ -37,7 +42,6 @@ async def get_users(
     session: AsyncSession = Depends(get_async_session),
 ):
     # main_logger.info(f"[USER][GET] user: {curr_user.email} get users")
-    print("user_get")
     users = await UserService.get_users(session=session)
     return {
         "status": "Success",
@@ -63,14 +67,13 @@ async def get_users(
 async def get_users_all_info(
     search_args: SUserSearchArgs = Depends(),
     session: AsyncSession = Depends(get_async_session),
-    curr_user: User = Depends(current_user),
+    # curr_user: User = Depends(current_user),
 ):
-    main_logger.info(
-        f"[USER][GET] user: {curr_user.email} get users [ALL INFO]"
-    )
+    # main_logger.info(
+    #     f"[USER][GET] user: {curr_user.email} get users [ALL INFO]"
+    # )
     users = await UserService.get_users(
         session=session,
-        # user=curr_user
     )
     return {
         "status": "Success",
@@ -94,12 +97,12 @@ async def get_users_all_info(
     response_model=SUserResponseOne,
 )
 async def get_user_by_id(
-    curr_user: User = Depends(current_user),
+    # curr_user: User = Depends(current_user),
     user: User = Depends(user_by_id),
 ):
-    main_logger.info(
-        f"[USER][GET] user: {curr_user.email} get user by id [{user.id}] - {user.email}"
-    )
+    # main_logger.info(
+    #     f"[USER][GET] user: {curr_user.email} get user by id [{user.id}] - {user.email}"
+    # )
     return {"status": "Success", "data": user, "details": None}
 
 
@@ -279,6 +282,48 @@ async def user_subscribe_ggp(
             "status": "Success",
             "data": user,
             "details": f"User with id: [{user.id}] subscribing [{class_name.sport_class}] success!",
+        }
+    return {
+        "status": "User is none",
+        "data": user,
+        "details": None,
+    }
+
+
+@router.patch(
+    "/id={user_id}/patch",
+    responses={
+        status.HTTP_200_OK: {
+            "model": SUserResponseOne,
+            "description": "Return deleting user data",
+        },
+        status.HTTP_401_UNAUTHORIZED: {
+            "model": None,
+            "description": "UNAUTHORIZED",
+        },
+        status.HTTP_422_UNPROCESSABLE_ENTITY: {
+            "model": None,
+            "description": "UNAUTHORIZED",
+        },
+    },
+    response_model=SUserResponseOne,
+)
+async def user_patch_by_id(
+    #    curr_user: User = Depends(current_user),
+    user_update: UserInParticul,
+    session: AsyncSession = Depends(get_async_session),
+    user: User = Depends(user_by_id),
+):
+    # main_logger.info(f"[USER][PATCH] user: {curr_user.email} patch")
+
+    result = await UserService.update_user_partial(
+        session=session, user=user, user_update=user_update
+    )
+    if user:
+        return {
+            "status": "Success",
+            "data": result,
+            "details": f"User {user.id} updated success!",
         }
     return {
         "status": "User is none",

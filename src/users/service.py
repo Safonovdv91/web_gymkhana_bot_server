@@ -15,7 +15,6 @@ class UserService:
     async def get_users(
         cls,
         session: AsyncSession,
-        user: User | None = None,
     ) -> list[User] | None:
         users: list[User] | None = await crud.get_users_by_mask(session)
         return users
@@ -54,6 +53,14 @@ class UserService:
     async def delete_user(cls, session: AsyncSession, user: User) -> User:
         user_delete: User = await crud.delete_user(session, user)
         return user_delete
+
+    @classmethod
+    async def update_user_partial(
+        cls, session: AsyncSession, user: User, user_update
+    ) -> User:
+        return await crud.update_user(
+            session=session, user=user, user_update=user_update, partial=True
+        )
 
     @staticmethod
     async def user_subscribe_ggp_class(
