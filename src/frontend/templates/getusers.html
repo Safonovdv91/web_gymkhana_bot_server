@@ -1,31 +1,12 @@
-<!DOCTYPE html>
-<html lang="en">
 
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700&display=swap" rel="stylesheet">
+{% extends "base.html" %}
+
+{% block head %}
     <link rel="stylesheet" href="../static/css/getusers.css">
-    <link rel="icon" href="../static/assets/rabbitIco.png">
-    <title>Зарегистрированные пользователи</title>
-</head>
+{% endblock %}
 
-<body>
+{% block content %}
     <div class="wrapper">
-        <div class="container-head" role="banner">
-            <div class="header__image">
-                <img src="../static/assets/logo_rabbit.png">
-            </div>
-            <div class="header__text">
-                RMG
-            </div>
-            <div class="header__title">
-                <p>Все зарегистрированные пользователи</p>
-            </div>
-        </div>
         <main class="main" role="main">
             <div class="container-main">
                 <div class="main__title">
@@ -33,30 +14,76 @@
                 </div>
                 <div class="main__user">
                     {% for user in users %}
-                    <ul class="user">
-                        <li class="email"> {{user.email}}</li>
-                        <li>Телеграм id:<br>{{user.telegram_id}}</li>
-                        <li>Подписан на GGP:<br>[{{user.sub_ggp}}]</li>
-                        <li>Подписан на проценты:<br>[{{user.sub_ggp_percent}}]</li>
-                        <li>От: {{user.ggp_percent_begin}}</li>
-                        <li>До: {{user.ggp_percent_end}}</li>
-                        <li>Подписан на офлайн:<br>[{{user.sub_offline}}]</li>
-                        <li>Подписан на мировой рекорд:<br>[{{user.sub_world_record}}]</li>
-                        <li>Дата регистрации:<br>{{user.registered_at}}</li>
-                        <li>Роль: {{user.role_id}}</li>
-                    </ul>
+                    <div class="user">
+                        <div class="user-email">
+                            <h2>{{user.email}}</h2>
+                        </div>
+                        <div class="tg-id">
+                            <div >{{user.telegram_id}}</div>
+                        </div>
+                        <div class="subscriptionGGP">
+                            <div class="title">Подписан на GGP</div>
+                            <label class="check-box">
+                                {% if user.sub_ggp %}
+                                <input type="checkbox" checked>
+                                {% else %}
+                                <input type="checkbox">
+                                {% endif %}
+                                [{{user.sub_ggp}}]
+                            </label>
+
+                        </div>
+                        <div class="subscriptionPercent">
+                            <div class="title">Подписан на проценты</div>
+                            <label class="check-box">
+                                {% if user.sub_ggp_percent %}
+                                    <input type="checkbox" checked>
+                                {% else %}
+                                    <input type="checkbox">
+                                {% endif %}
+                                [{{user.sub_ggp_percent}}]
+                            </label>
+
+                        </div>
+                        <div class="subscrStartEnd">
+                            {% if user.sub_ggp_percent %}
+                            <div class="subscriptionStart">От: <input value="{{user.ggp_percent_begin}}"></div>
+                            <div class="subscriptionEnd">До: <input value ="{{user.ggp_percent_end}}"></div>
+                            {% else %}
+                            <div class="subscriptionStart">От: <input value="{{user.ggp_percent_begin}}" disabled></div>
+                            <div class="subscriptionEnd">До: <input value ="{{user.ggp_percent_end}}" disabled></div>
+                            {% endif%}
+                        </div>
+                        <div class="subscriptionOffline">
+                            <div class="title">Подписан на офлайн</div>
+                            <label class="check-box">
+                                <input type="checkbox">
+                                [{{user.sub_offline}}]
+                            </label>
+
+                        </div>
+                        <div class="subscriptionWR">
+                            <div class="title">Подписан на мировой рекорд</div>
+                            <label class="check-box">
+                                {% if user.sub_world_record %}
+                                <input type="checkbox" checked>[{{user.sub_world_record}}]
+                                {% else %}
+                                <input type="checkbox">[{{user.sub_world_record}}]
+                                {% endif %}
+                            </label>
+
+                        </div>
+                        <div class="regDate">Дата регистрации: {{user.registered_at}}</div>
+                        <div class="role">Роль: {{user.role_id}}</div>
+                        <div class="patch-button">
+                            <button class="button patch-button-submit" data-userid="{{user.id}}">Сохранить изменения</button>
+                        </div>
+                    </div>
                     {% endfor %}
                 </div>
             </div>
         </main>
-        <footer class="footer" role="contentinfo">
-            <div class="container-footer">
-                <p class="footer__title">
-                    Designed by Pavel
-                </p>
-            </div>
-        </footer>
+{% endblock %}
     </div>
-</body>
+    <script src="/static/js/getusers.js"></script>
 
-</html>
