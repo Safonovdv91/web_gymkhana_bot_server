@@ -33,6 +33,12 @@
                             </label>
 
                         </div>
+                        <div>Подписан на: [
+                            {% for sc in user.ggp_sub_classes %}
+                            {{sc.sport_class}}
+                            {% endfor %}
+                            ]
+                        </div>
                         <div class="subscriptionPercent">
                             <div class="title">Подписан на проценты</div>
                             <label class="check-box">
