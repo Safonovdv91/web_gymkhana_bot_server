@@ -61,7 +61,6 @@ class UserService:
         return await crud.update_user(
             session=session, user=user, user_update=user_update, partial=True
         )
-        return user_patched
 
     @staticmethod
     async def user_subscribe_ggp_class(
