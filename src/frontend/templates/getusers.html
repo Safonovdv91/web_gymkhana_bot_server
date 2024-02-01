@@ -44,6 +44,12 @@
                         <li>Подписан на мировой рекорд:<br>[{{user.sub_world_record}}]</li>
                         <li>Дата регистрации:<br>{{user.registered_at}}</li>
                         <li>Роль: {{user.role_id}}</li>
+                        <li>Подписан на: [
+                            {% for sc in user.ggp_sub_classes %}
+                            {{sc.sport_class}}
+                            {% endfor %}
+                            ]
+                        </li>
                     </ul>
                     {% endfor %}
                 </div>
