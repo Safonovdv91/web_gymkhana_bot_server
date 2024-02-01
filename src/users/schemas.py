@@ -61,7 +61,7 @@ class UserInParticul(BaseModel):
     sub_offline: bool | None = None
     sub_ggp: bool | None = None
     sub_world_record: bool | None = None
-    telegram_id: str | None = None
+    # telegram_id: str | None = None
     # role: RoleBase | None = None
     # ggp_sub_classes: list[SportClassResponseOne] | None = None
 
