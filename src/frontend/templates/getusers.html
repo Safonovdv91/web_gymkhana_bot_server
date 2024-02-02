@@ -63,7 +63,9 @@
                         <div class="subscriptionOffline">
                             <div class="title">Подписан на офлайн</div>
                             <label class="check-box">
-                                <input type="checkbox">
+                           {% if user.sub_offline %}
+                                <input type="checkbox" checked> {% else %}
+                                <input type="checkbox"> {% endif %}
                                 [{{user.sub_offline}}]
                             </label>
 
@@ -79,7 +81,7 @@
                             </label>
 
                         </div>
-                        <div class="regDate">Дата регистрации: {{user.registered_at}}</div>
+                        <div class="regDate">Дата регистрации: {{user.registered_at.strftime("%d.%m.%Y|%H:%M:%S")}}</div>
                         <div class="role">Роль: {{user.role_id}}</div>
                         <button class="button patch-button-submit" type="submit" data-userid="{{user.id}}">Сохранить изменения</button>
                     </form>
