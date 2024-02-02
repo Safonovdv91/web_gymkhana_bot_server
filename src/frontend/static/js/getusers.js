@@ -13,7 +13,7 @@
 
     const userid = button.dataset.userid;
 
-    fetch(`/api/v1/users/id=${userid}/subscribe`, {
+    fetch(`${AppConsts.BaseUrl}/api/v1/users/id=${userid}/subscribe`, {
       method: 'PATCH',
       body: JSON.stringify({
         sport_class: "B",
