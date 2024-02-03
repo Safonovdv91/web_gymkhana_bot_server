@@ -268,20 +268,20 @@ async def del_user_by_id(
     response_model=SUserResponseOne,
 )
 async def user_subscribe_ggp(
-    class_name: SportClassSchemaInput,
-    curr_user: User = Depends(current_user),
+    subscribe_patch_ggp: SportClassSchemaInput,
+    # curr_user: User = Depends(current_user),
     session: AsyncSession = Depends(get_async_session),
     user: User = Depends(user_by_id),
 ):
-    main_logger.info(f"[USER][PATCH] user: {curr_user.email} patch")
+    # main_logger.info(f"[USER][PATCH] user: {curr_user.email} patch")
     user = await UserService().user_subscribe_ggp_class(
-        session=session, user_in=user, class_names=class_name.sport_class
+        session=session, user=user, operation=subscribe_patch_ggp
     )
     if user:
         return {
             "status": "Success",
             "data": user,
-            "details": f"User with id: [{user.id}] subscribing [{class_name.sport_class}] success!",
+            "details": f"User with id: [{user.id}] subscribing [{subscribe_patch_ggp.sport_class}] success!",
         }
     return {
         "status": "User is none",
@@ -359,7 +359,7 @@ async def current_user_subscribe_ggp(
 
     user = await user_by_id(session=session, user_id=curr_user.id)
     user = await UserService().user_subscribe_ggp_class(
-        session=session, user_in=user, class_names=class_name.sport_class
+        session=session, user=user, class_names=class_name.sport_class
     )
     if user:
         return {

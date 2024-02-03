@@ -28,17 +28,11 @@ def get_users_page(request: Request, users=Depends(get_users)):
         context={"request": request, "users": users["data"]},
     )
 
+
 @router.get("/grid")
-def get_users_page(
-        request: Request,
-        users=Depends(get_users)
-):
+def get_users_page_grid(request: Request, users=Depends(get_users)):
     return templates.TemplateResponse(
-        name="grid.html",
-        context={
-            "request": request,
-            "users": users["data"]
-        }
+        name="grid.html", context={"request": request, "users": users["data"]}
     )
 
 
