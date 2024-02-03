@@ -242,6 +242,20 @@ h2.text {
     padding: 10px;
 }
 
+.ggp-classes {
+    display: grid;
+    grid-template-columns: repeat(2, auto);
+    align-items: center;
+    padding: 10px;
+}
+
+.classes-letter {
+    display: flex;
+    flex-direction: row;
+    gap: 15px;
+    justify-content: start;
+}
+
 .subscriptionPercent {
     display: grid;
     grid-template-columns: repeat(2, auto);

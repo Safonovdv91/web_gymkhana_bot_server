@@ -13,7 +13,7 @@
 
     const userid = button.dataset.userid;
 
-    fetch(`/api/v1/users/id=${userid}/subscribe`, {
+    fetch(`${AppConsts.BaseUrl}/api/v1/users/id=${userid}/subscribe`, {
       method: 'PATCH',
       body: JSON.stringify({
         sport_class: "B",
@@ -23,7 +23,7 @@
       }
     })
       .then(response => response.json())
-      .then(json => console.log(json.detail))
+      .then(json => console.log(json.data))
   }
 
   let elements = document.getElementsByClassName('patch-button-submit');
@@ -32,7 +32,6 @@
     element.addEventListener('click', onSubmit);
   }
 })();
-
 /*
 function handleFormSubmit(event) {
   // Просим форму не отправлять данные самостоятельно
