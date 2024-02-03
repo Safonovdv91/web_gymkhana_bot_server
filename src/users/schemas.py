@@ -90,7 +90,7 @@ class SUsersResponseMany(SResponse):
 
 
 class SUserResponseOne(SResponse):
-    data: UserOut
+    data: UserOut | None
 
 
 class SUserSearchArgs:
