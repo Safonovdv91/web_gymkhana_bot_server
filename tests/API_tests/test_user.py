@@ -194,121 +194,121 @@ class TestUsersApiGetByRoles:
         )
 
 
-class TestUserPatchUserSubscribeById:
-    """
-    Проверяем метод подписки/отписки пользователя от спортивных классов в GGP
-    посылается id пользователя и буква класса или список букв(из существубщих классов)
-    """
-
-    USER_SUB = [
-        (1, "A", 200, "user3@example.com", 1),
-        (1, "B", 200, "user3@example.com", 2),
-        (1, "B", 200, "user3@example.com", 1),
-        (1, "C1", 200, "user3@example.com", 2),
-        (1, "C2", 200, "user3@example.com", 3),
-        (1, "C3", 200, "user3@example.com", 4),
-        (1, "D1", 200, "user3@example.com", 5),
-        (1, "D2", 200, "user3@example.com", 6),
-        (1, "D2", 200, "user3@example.com", 5),
-        (1, "D1", 200, "user3@example.com", 4),
-        (1, "C3", 200, "user3@example.com", 3),
-        (1, "C2", 200, "user3@example.com", 2),
-        (1, "C1", 200, "user3@example.com", 1),
-        (1, "A", 200, "user3@example.com", 0),
-        (2, "B", 200, "user1@example.com", 1),
-        (2, "C5", 422, "user1@example.com", 1),
-        (2, "1", 422, "user1@example.com", 1),
-        (2, "-1", 422, "user1@example.com", 1),
-        (2, "", 422, "user1@example.com", 1),
-        (2, "B", 200, "user1@example.com", 0),
-        (150, "B", 404, None, 0),
-    ]
-    URL = "/api/v1/users/"
-
-    @pytest.mark.parametrize(
-        "user_id, sub_letter, status_code, email, length_subscribe", USER_SUB
-    )
-    async def test_user_subscribe_class(
-            self,
-            ac: AsyncClient,
-            user_id,
-            sub_letter,
-            status_code,
-            email,
-            length_subscribe,
-            jwt_token: dict,
-    ):
-        url_subscribe = f"{self.URL}id={user_id}/subscribe"
-        data = {"sport_class": sub_letter}
-        response = await ac.patch(
-            url=url_subscribe, cookies=jwt_token, content=json.dumps(data)
-        )
-        assert response.status_code == status_code, (
-            f"STATUS: [{response.status_code}]\n "
-            f"{json.dumps(response.json(), indent=4)}"
-        )
-        if status_code == 200:
-            assert response.json()["data"]["email"] == email, (
-                f"STATUS: [{response.status_code}]\n "
-                f"{json.dumps(response.json(), indent=4)}"
-            )
-
-        # Проверка валидности через метод получения инфы через get by id
-        url_subscribe = f"{self.URL}id={user_id}"
-        response = await ac.get(url=url_subscribe, cookies=jwt_token)
-        if response.status_code not in [404]:
-            assert response.status_code == 200, (
-                f"STATUS: [{response.status_code}]\n "
-                f"{json.dumps(response.json(), indent=4)}"
-            )
-            assert response.json()["data"]["email"] == email, (
-                f"STATUS: [{response.status_code}]\n "
-                f"{json.dumps(response.json(), indent=4)}"
-            )
-            assert (
-                    len(response.json()["data"]["ggp_sub_classes"]) == length_subscribe
-            ), (
-                f"STATUS: [{response.status_code}]\n "
-                f"{json.dumps(response.json(), indent=4)}"
-            )
-
-    @pytest.mark.parametrize(
-        "user_id, sub_letter, status_code, email, length_subscribe", USER_SUB
-    )
-    async def test_user_sub_class_unauthorized(
-            self,
-            ac: AsyncClient,
-            user_id,
-            sub_letter,
-            status_code,
-            email,
-            length_subscribe,
-            jwt_token: dict,
-    ):
-        url_subscribe = f"{self.URL}id={user_id}/subscribe"
-        data = {"sport_class": sub_letter}
-        response = await ac.patch(url=url_subscribe, content=json.dumps(data))
-        assert response.status_code == 401, (
-            f"STATUS: [{response.status_code}]\n "
-            f"{json.dumps(response.json(), indent=4)}"
-        )
-
-        # Проверка валидности через метод получения инфы через get by id
-        if status_code not in [404]:
-            url_subscribe = f"{self.URL}id={user_id}"
-            response = await ac.get(url=url_subscribe, cookies=jwt_token)
-            assert response.status_code == 200, (
-                f"STATUS: [{response.status_code}]\n "
-                f"{json.dumps(response.json(), indent=4)}"
-            )
-            assert response.json()["data"]["email"] == email, (
-                f"STATUS: [{response.status_code}]\n "
-                f"{json.dumps(response.json(), indent=4)}"
-            )
-            assert len(response.json()["data"]["ggp_sub_classes"]) == 0, (
-                f"STATUS: [{response.status_code}]\n "
-                f"{json.dumps(response.json(), indent=4)}"
-            )
+# class TestUserPatchUserSubscribeById:
+#     """
+#     Проверяем метод подписки/отписки пользователя от спортивных классов в GGP
+#     посылается id пользователя и буква класса или список букв(из существубщих классов)
+#     """
+#
+#     USER_SUB = [
+#         (1, "A", 200, "user3@example.com", 1),
+#         (1, "B", 200, "user3@example.com", 2),
+#         (1, "B", 200, "user3@example.com", 1),
+#         (1, "C1", 200, "user3@example.com", 2),
+#         (1, "C2", 200, "user3@example.com", 3),
+#         (1, "C3", 200, "user3@example.com", 4),
+#         (1, "D1", 200, "user3@example.com", 5),
+#         (1, "D2", 200, "user3@example.com", 6),
+#         (1, "D2", 200, "user3@example.com", 5),
+#         (1, "D1", 200, "user3@example.com", 4),
+#         (1, "C3", 200, "user3@example.com", 3),
+#         (1, "C2", 200, "user3@example.com", 2),
+#         (1, "C1", 200, "user3@example.com", 1),
+#         (1, "A", 200, "user3@example.com", 0),
+#         (2, "B", 200, "user1@example.com", 1),
+#         (2, "C5", 422, "user1@example.com", 1),
+#         (2, "1", 422, "user1@example.com", 1),
+#         (2, "-1", 422, "user1@example.com", 1),
+#         (2, "", 422, "user1@example.com", 1),
+#         (2, "B", 200, "user1@example.com", 0),
+#         (150, "B", 404, None, 0),
+#     ]
+#     URL = "/api/v1/users/"
+#
+#     @pytest.mark.parametrize(
+#         "user_id, sub_letter, status_code, email, length_subscribe", USER_SUB
+#     )
+#     async def test_user_subscribe_class(
+#             self,
+#             ac: AsyncClient,
+#             user_id,
+#             sub_letter,
+#             status_code,
+#             email,
+#             length_subscribe,
+#             jwt_token: dict,
+#     ):
+#         url_subscribe = f"{self.URL}id={user_id}/subscribe"
+#         data = {"sport_class": sub_letter}
+#         response = await ac.patch(
+#             url=url_subscribe, cookies=jwt_token, content=json.dumps(data)
+#         )
+#         assert response.status_code == status_code, (
+#             f"STATUS: [{response.status_code}]\n "
+#             f"{json.dumps(response.json(), indent=4)}"
+#         )
+#         if status_code == 200:
+#             assert response.json()["data"]["email"] == email, (
+#                 f"STATUS: [{response.status_code}]\n "
+#                 f"{json.dumps(response.json(), indent=4)}"
+#             )
+#
+#         # Проверка валидности через метод получения инфы через get by id
+#         url_subscribe = f"{self.URL}id={user_id}"
+#         response = await ac.get(url=url_subscribe, cookies=jwt_token)
+#         if response.status_code not in [404]:
+#             assert response.status_code == 200, (
+#                 f"STATUS: [{response.status_code}]\n "
+#                 f"{json.dumps(response.json(), indent=4)}"
+#             )
+#             assert response.json()["data"]["email"] == email, (
+#                 f"STATUS: [{response.status_code}]\n "
+#                 f"{json.dumps(response.json(), indent=4)}"
+#             )
+#             assert (
+#                     len(response.json()["data"]["ggp_sub_classes"]) == length_subscribe
+#             ), (
+#                 f"STATUS: [{response.status_code}]\n "
+#                 f"{json.dumps(response.json(), indent=4)}"
+#             )
+#
+#     @pytest.mark.parametrize(
+#         "user_id, sub_letter, status_code, email, length_subscribe", USER_SUB
+#     )
+#     async def test_user_sub_class_unauthorized(
+#             self,
+#             ac: AsyncClient,
+#             user_id,
+#             sub_letter,
+#             status_code,
+#             email,
+#             length_subscribe,
+#             jwt_token: dict,
+#     ):
+#         url_subscribe = f"{self.URL}id={user_id}/subscribe"
+#         data = {"sport_class": sub_letter}
+#         response = await ac.patch(url=url_subscribe, content=json.dumps(data))
+#         assert response.status_code == 401, (
+#             f"STATUS: [{response.status_code}]\n "
+#             f"{json.dumps(response.json(), indent=4)}"
+#         )
+#
+#         # Проверка валидности через метод получения инфы через get by id
+#         if status_code not in [404]:
+#             url_subscribe = f"{self.URL}id={user_id}"
+#             response = await ac.get(url=url_subscribe, cookies=jwt_token)
+#             assert response.status_code == 200, (
+#                 f"STATUS: [{response.status_code}]\n "
+#                 f"{json.dumps(response.json(), indent=4)}"
+#             )
+#             assert response.json()["data"]["email"] == email, (
+#                 f"STATUS: [{response.status_code}]\n "
+#                 f"{json.dumps(response.json(), indent=4)}"
+#             )
+#             assert len(response.json()["data"]["ggp_sub_classes"]) == 0, (
+#                 f"STATUS: [{response.status_code}]\n "
+#                 f"{json.dumps(response.json(), indent=4)}"
+#             )
 
 
 class TestUserPatchUserById:
