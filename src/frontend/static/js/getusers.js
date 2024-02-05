@@ -23,7 +23,7 @@
       }
     })
       .then(response => response.json())
-      .then(json => console.log(json.data))
+      .then(json => console.log(json.detail))
   }
 
   let elements = document.getElementsByClassName('patch-button-submit');

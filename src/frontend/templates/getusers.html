@@ -16,7 +16,8 @@
                 <form class="user">
                     <div class="user-email">
                         <h2>{{user.email}}</h2>
-                        <button class="button delete-button-submit" type="submit" data-userid="{{user.id}}">Удалить пользователя</button>
+                        <button class="button delete-button-submit" type="submit" data-userid="{{user.id}}">Удалить
+                            пользователя</button>
                     </div>
                     <div class="tg-id">
                         <div>{{user.telegram_id}}</div>
@@ -43,7 +44,6 @@
                             {{user.sub_ggp_percent}}
                         </label>
                     </div>
-
                     <div class="subscriptionGGP">
                         <div class="ggp-classes">
                             Подписан на:
@@ -54,7 +54,6 @@
                             {% endfor %}
                         </div>
                     </div>
-
                     <div class="subscrStartEnd">
                         {% if user.sub_ggp_percent %}
                         <input type="checkbox" checked>
