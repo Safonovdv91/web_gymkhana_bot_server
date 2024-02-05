@@ -222,6 +222,14 @@ h2.text {
     justify-content: space-between;
 }
 
+@media (max-width: 520px) {
+    .user-email {
+        flex-direction: column;
+        font-size: 10px;
+        padding: 5px;
+    }
+}
+
 .delete-button-submit {
     font-weight: 350;
     font-size: 14px;
@@ -233,7 +241,7 @@ h2.text {
 }
 
 .delete-button-submit:hover {
-    background: #774d4d;
+    background: #d62c2c;
 }
 
 @media (max-width: 520px) {
@@ -241,6 +249,112 @@ h2.text {
         font-size: 10px;
         padding: 5px;
     }
+}
+
+
+.A-class-button-submit {
+    font-weight: 350;
+    font-size: 14px;
+    color: white;
+    width: 35px;
+    height: 35px;
+    margin: 2px;
+    text-align: center;
+    border-radius: 16px;
+    background: #888585;
+    cursor: pointer;
+}
+
+.A-class-button-submit:hover {
+    background: #f17575;
+}
+
+.A-class-button-submit:active {
+    background: #f17575;
+}
+
+.B-class-button-submit {
+    font-weight: 350;
+    font-size: 14px;
+    color: white;
+    width: 35px;
+    height: 35px;
+    margin: 2px;
+    text-align: center;
+    border-radius: 16px;
+    background: #888585;
+    cursor: pointer;
+}
+
+.B-class-button-submit:hover {
+    background: #6975dd;
+}
+
+.B-class-button-submit:active {
+    background: #6975dd;
+}
+
+.C-class-button-submit {
+    font-weight: 350;
+    font-size: 14px;
+    color: white;
+    width: 35px;
+    height: 35px;
+    margin: 2px;
+    text-align: center;
+    border-radius: 16px;
+    background: #888585;
+    cursor: pointer;
+}
+
+.C-class-button-submit:hover {
+    background: #54ca1d;
+}
+
+.C-class-button-submit:active {
+    background: #54ca1d;
+}
+
+.D-class-button-submit {
+    font-weight: 350;
+    font-size: 14px;
+    color: white;
+    width: 35px;
+    height: 35px;
+    margin: 2px;
+    text-align: center;
+    border-radius: 20px;
+    background: #888585;
+    cursor: pointer;
+}
+
+.D-class-button-submit:hover {
+    background: #e6b83c;
+}
+
+.D-class-button-submit:active {
+    background: #e6b83c;
+}
+
+.N-class-button-submit {
+    font-weight: 350;
+    font-size: 14px;
+    color: white;
+    width: 35px;
+    height: 35px;
+    margin: 2px;
+    text-align: center;
+    border-radius: 20px;
+    background: #888585;
+    cursor: pointer;
+}
+
+.N-class-button-submit:hover {
+    background: #d8d7d5;
+}
+
+.N-class-button-submit:active {
+    background: #d8d7d5;
 }
 
 .user-email h2 {
