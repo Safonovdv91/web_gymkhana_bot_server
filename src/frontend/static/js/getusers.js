@@ -1,6 +1,6 @@
 
 
-  //медот PATCH запроса
+//медот PATCH запроса
 
 (function asd() {
 
@@ -37,31 +37,38 @@
 
 // метод DELETE запроса
 
+(function basd() {
+
+  function onSubmit(event) {
+
+    event.preventDefault();
+    console.log('Отправка!')
+
+    let button = event.target;
+
+    const userid = button.dataset.userid;
+
+    fetch(`${AppConsts.BaseUrl}/api/v1/users/id=${userid}/delete`, {
+      method: 'DELETE'
+
+    })
+      .then(response => response.json())
+      .then(json => console.log(json))
+  }
+
+  let elements = document.getElementsByClassName('delete-button-submit');
+
+  for (let element of elements) {
+    element.addEventListener('click', onSubmit);
+  }
+})();
 
 
 
-    (function basd() {
+// работа с кнопками классов
 
-      function onSubmit(event) {
-    
-        event.preventDefault();
-        console.log('Отправка!')
-    
-        let button = event.target;
-    
-        const userid = button.dataset.userid;
-    
-        fetch(`${AppConsts.BaseUrl}/api/v1/users/id=${userid}/delete`, {
-          method: 'DELETE'
-          
-        })
-          .then(response => response.json())
-          .then(json => console.log(json))
-      }
-    
-      let elements = document.getElementsByClassName('delete-button-submit');
-    
-      for (let element of elements) {
-        element.addEventListener('click', onSubmit);
-      }
-    })();
+// отмена перезагрузки страницы после нажатия кнопки А
+const form = document.querySelector('.A-class-button-submit')
+form.addEventListener('click', (event) => {
+    event.preventDefault()
+})
