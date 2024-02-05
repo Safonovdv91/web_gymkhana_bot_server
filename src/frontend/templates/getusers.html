@@ -5,57 +5,69 @@
 {% endblock %}
 
 {% block content %}
-    <div class="wrapper">
-        <main class="main" role="main">
-            <div class="container-main">
-                <div class="main__title">
-                    <h2 class="text">Если вы это видите - значит успешно авторизовались и это хорошо...</h2>
-                </div>
-                <div class="main__user">
-                    {% for user in users %}
-                    <form class="user">
-                        <div class="user-email">
-                            <h2>{{user.email}}</h2>
-                        </div>
-                        <div class="tg-id">
-                            <div >{{user.telegram_id}}</div>
-                        </div>
-                        <div class="subscriptionGGP">
-                            <div class="title">Подписан на GGP</div>
-                            <label class="check-box">
-                                {% if user.sub_ggp %}
-                                <input type="checkbox" checked>
-                                {% else %}
-                                <input type="checkbox">
-                                {% endif %}
-                                [{{user.sub_ggp}}]
-                            </label>
-                        </div>
-                        <div class="subscriptionPercent">
-                            <div class="title">Подписан на проценты</div>
-                            <label class="check-box">
-                                {% if user.sub_ggp_percent %}
-                                    <input type="checkbox" checked>
-                                {% else %}
-                                    <input type="checkbox">
-                                {% endif %}
-                                [{{user.sub_ggp_percent}}]
-                            </label>
-                        </div>
-                        <div class="subscrStartEnd">
+<div class="wrapper">
+    <main class="main" role="main">
+        <div class="container-main">
+            <div class="main__title">
+                <h2 class="text">Если вы это видите - значит успешно авторизовались и это хорошо...</h2>
+            </div>
+            <div class="main__user">
+                {% for user in users %}
+                <form class="user">
+                    <div class="user-email">
+                        <h2>{{user.email}}</h2>
+                    </div>
+                    <div class="tg-id">
+                        <div>{{user.telegram_id}}</div>
+                    </div>
+                    <div class="subscriptionGGP">
+                        <div class="title">Подписан на GGP</div>
+                        <label class="check-box">
+                            {% if user.sub_ggp %}
+                            <input type="checkbox" checked>
+                            {% else %}
+                            <input type="checkbox">
+                            {% endif %}
+                            {{user.sub_ggp}}
+                        </label>
+                    </div>
+                    <div class="subscriptionPercent">
+                        <div class="title">Подписан на проценты</div>
+                        <label class="check-box">
                             {% if user.sub_ggp_percent %}
                             <input type="checkbox" checked>
                             {% else %}
-                            <div class="subscriptionStart">От: <input value="{{user.ggp_percent_begin}}" disabled></div>
-                            <div class="subscriptionEnd">До: <input value ="{{user.ggp_percent_end}}" disabled></div>
-                            {% endif%}
+                            <input type="checkbox">
+                            {% endif %}
+                            {{user.sub_ggp_percent}}
+                        </label>
+                    </div>
+
+                    <div class="subscriptionGGP">
+                        <div class="ggp-classes">
+                            Подписан на:
                         </div>
-                        <div class="subscriptionOffline">
-                            <div class="title">Подписан на офлайн</div>
-                            <label class="check-box">
-                                <input type="checkbox">
-                                [{{user.sub_offline}}]
-                            </label>
+                        <div class="classes-letter">
+                            {% for sc in user.ggp_sub_classes %}
+                            {{sc.sport_class}}
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                    <div class="subscrStartEnd">
+                        {% if user.sub_ggp_percent %}
+                        <input type="checkbox" checked>
+                        {% else %}
+                        <div class="subscriptionStart">От: <input value="{{user.ggp_percent_begin}}" disabled></div>
+                        <div class="subscriptionEnd">До: <input value="{{user.ggp_percent_end}}" disabled></div>
+                        {% endif%}
+                    </div>
+                    <div class="subscriptionOffline">
+                        <div class="title">Подписан на офлайн</div>
+                        <label class="check-box">
+                            <input type="checkbox">
+                            {{user.sub_offline}}
+                        </label>
                     </div>
                     <div class="subscrStartEnd">
                         {% if user.sub_ggp_percent %}
@@ -75,15 +87,16 @@
                             {{user.sub_offline}}
                         </label>
 
-                        </div>
-                        <div class="regDate">Дата регистрации: {{user.registered_at}}</div>
-                        <div class="role">Роль: {{user.role_id}}</div>
-                        <button class="button patch-button-submit" type="submit" data-userid="{{user.id}}">Сохранить изменения</button>
-                    </form>
-                    {% endfor %}
-                </div>
+                    </div>
+                    <div class="regDate">Дата регистрации: {{user.registered_at}}</div>
+                    <div class="role">Роль: {{user.role_id}}</div>
+                    <button class="button patch-button-submit" type="submit" data-userid="{{user.id}}">Сохранить
+                        изменения</button>
+                </form>
+                {% endfor %}
             </div>
-        </main>
-    </div>
-    {% endblock %}
+        </div>
+    </main>
+</div>
+{% endblock %}
 <script src="/static/js/getusers.js"></script>
