@@ -14,51 +14,30 @@ def get_base_page(request: Request):
 
 
 @router.get("/current_user")
-def get_users_page(
-        request: Request,
-        users=Depends(get_current_user)
-):
+def get_current_user_page(request: Request, users=Depends(get_current_user)):
     return templates.TemplateResponse(
         name="getusers.html",
-        context={
-            "request": request,
-            "users": [users["data"]]
-        },
+        context={"request": request, "users": [users["data"]]},
     )
 
 
 @router.get("/get_users")
-def get_users_page(
-        request: Request,
-        users=Depends(get_users)
-):
+def get_users_page(request: Request, users=Depends(get_users)):
     return templates.TemplateResponse(
         name="getusers.html",
-        context={
-            "request": request,
-            "users": users["data"]
-        }
+        context={"request": request, "users": users["data"]},
     )
 
+
 @router.get("/grid")
-def get_users_page(
-        request: Request,
-        users=Depends(get_users)
-):
+def get_users_page_grid(request: Request, users=Depends(get_users)):
     return templates.TemplateResponse(
-        name="grid.html",
-        context={
-            "request": request,
-            "users": users["data"]
-        }
+        name="grid.html", context={"request": request, "users": users["data"]}
     )
 
 
 @router.get("/get_users/{user_id}")
-def get_users_page_id(
-        request: Request,
-        usr=Depends(get_user_by_id)
-):
+def get_users_page_id(request: Request, usr=Depends(get_user_by_id)):
     try:
         user_data = usr["data"]
         return templates.TemplateResponse(
@@ -79,6 +58,4 @@ def get_register_page(request: Request):
 async def get_login_page(
     request: Request,
 ):
-    return templates.TemplateResponse(
-        "login.html", {"request": request}
-    )
+    return templates.TemplateResponse("login.html", {"request": request})

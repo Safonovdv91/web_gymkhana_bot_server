@@ -1,3 +1,4 @@
+from fastapi import HTTPException
 from sqlalchemy import select
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -7,6 +8,7 @@ from logger.logger import logger
 
 from ..sport_classes.models import SportClass
 from .models import User
+from .schemas import UserInParticul
 
 
 async def get_user_by_mask(
@@ -89,4 +91,36 @@ async def remove_ggp_class(
         extra = {"user": user, "sport_class": sport_class}
         logger.error(msg=msg, extra=extra, exc_info=True)
 
+    return user
+
+
+async def update_user(
+    session: AsyncSession,
+    user: User,
+    user_update: UserInParticul,
+    partial: bool = False,
+) -> User:
+    try:
+        for name, value in user_update.model_dump(
+            exclude_unset=partial
+        ).items():
+            setattr(user, name, value)
+        await session.commit()
+    except (SQLAlchemyError, Exception) as e:
+        if isinstance(e, SQLAlchemyError):
+            msg = "Database Exc: "
+        else:
+            msg = "Unknown Exc: "
+        msg += "Can not update_user!"
+        extra = {
+            "role:": user.email,
+        }
+        logger.error(msg=msg, extra=extra, exc_info=True)
+        raise HTTPException(
+            status_code=400,
+            detail={
+                "status": "Error",
+                "details": "Error crud update_user",
+            },
+        )
     return user

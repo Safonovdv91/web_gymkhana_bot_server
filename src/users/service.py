@@ -1,11 +1,8 @@
-from typing import List
-
 from sqlalchemy.ext.asyncio import AsyncSession
-
-from logger.logger import logger
 
 from ..roles.models import Role
 from ..sport_classes.crud import get_sport_class_by_name
+from ..sport_classes.schemas import SportClassSchemaInput
 from . import crud
 from .models import User
 
@@ -15,7 +12,6 @@ class UserService:
     async def get_users(
         cls,
         session: AsyncSession,
-        user: User | None = None,
     ) -> list[User] | None:
         users: list[User] | None = await crud.get_users_by_mask(session)
         return users
@@ -55,28 +51,29 @@ class UserService:
         user_delete: User = await crud.delete_user(session, user)
         return user_delete
 
+    @classmethod
+    async def update_user_partial(
+        cls, session: AsyncSession, user: User, user_update
+    ) -> User:
+        return await crud.update_user(
+            session=session, user=user, user_update=user_update, partial=True
+        )
+
     @staticmethod
     async def user_subscribe_ggp_class(
-        session: AsyncSession, user_in: User, class_names: str | List[str]
+        session: AsyncSession, user: User, operation: SportClassSchemaInput
     ) -> User | None:
-        if type(class_names) is str:
-            class_names = [class_names]
-
-        for class_name in class_names:
-            logger.debug(f"Get class_name {class_name}")
-            sport_class = await get_sport_class_by_name(
-                session=session, name=class_name
-            )
-            if sport_class in user_in.ggp_sub_classes:
-                user: User = await crud.remove_ggp_class(
-                    session=session, user=user_in, sport_class=sport_class
-                )
-            else:
+        sport_class = await get_sport_class_by_name(
+            session=session, name=operation.sport_class
+        )
+        if operation.op == "add":
+            if sport_class not in user.ggp_sub_classes:
                 user: User = await crud.append_ggp_class(
-                    session=session, user=user_in, sport_class=sport_class
+                    session=session, user=user, sport_class=sport_class
                 )
-
-            if user:
-                return user
-            else:
-                return None
+        if operation.op == "remove":
+            if sport_class in user.ggp_sub_classes:
+                user: User = await crud.remove_ggp_class(
+                    session=session, user=user, sport_class=sport_class
+                )
+        return user

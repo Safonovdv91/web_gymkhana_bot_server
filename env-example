@@ -4,7 +4,7 @@ TAG=v0.0.1
 SITE_URL=<yours site address>
 SITE_PORT=<your port for localhost dev or empty if prod site>
 
-DB_HOST=db
+DB_HOST=localhost
 DB_PORT=5432
 DB_NAME=postgres
 DB_USER=postgres
