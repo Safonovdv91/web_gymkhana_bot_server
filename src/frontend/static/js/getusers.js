@@ -17,7 +17,7 @@
       method: 'PATCH',
       body: JSON.stringify({
         op: "add",
-        sport_class: "A"
+        sport_class: "C1",
       }),
       headers: {
         'Content-Type': 'application/json; charset=UTF-8'
@@ -66,9 +66,52 @@
 
 
 // работа с кнопками классов
+let elements = document.getElementsByClassName('ggp-classes-sub');
+const cons = () => {
+  elements.classList.add('active')
+}
 
-// отмена перезагрузки страницы после нажатия кнопки А
-const form = document.querySelector('.A-class-button-submit')
-form.addEventListener('click', (event) => {
-    event.preventDefault()
+for (let element of elements) {
+  element.addEventListener('click', cons);
+}
+
+
+
+fetch(`${AppConsts.BaseUrl}/api/v1/users`, {
+  method: 'GET',
+  credentials: 'include',
 })
+  .then(response => {
+
+    return response.json()
+  })
+  .then(json => {
+
+    json.data.forEach(user => {
+      let userId = user.id
+      let formUser = document.getElementsByClassName('user');
+      for (let elem of formUser) {                                       // перебор html форм class="user"
+        let formId = elem.getAttribute('data-userid')
+        if (userId == formId) {
+
+          let ggpClasses = elem.getElementsByClassName('ggp-classes-sub');
+          for (let elem of ggpClasses) {
+            console.log(elem.textContent)
+
+
+            user.ggp_sub_classes.forEach(classLetter => {
+              console.log(classLetter.sport_class)
+              if (elem.textContent == classLetter.sport_class) {
+                elem.classList.add('active')
+              }
+            })
+          }
+        }
+      }
+    });
+
+
+  })
+  .catch(error => console.log(error))
+
+

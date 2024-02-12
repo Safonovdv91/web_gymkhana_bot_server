@@ -49,16 +49,16 @@ window.onclick = function(event) {
 
 
 
-fetch('http://127.0.0.1:9000/api/v1/users/current',  {
+fetch('http://127.0.0.1:9000/api/v1/users/current', {
   method: 'GET',
   credentials: 'include',
 })
-      .then(response => {
-        console.log(response)
-        return response.json()
-      })
-      .then(json => console.log(json))
-      .catch(error => console.log(error))
+  .then(response => {
+    console.log(response)
+    return response.json()
+  })
+  .then(json => console.log(json))
+  .catch(error => console.log(error))
 
 
 
