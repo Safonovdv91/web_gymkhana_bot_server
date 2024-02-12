@@ -13,7 +13,7 @@
         </div>
         <div class="main__user">
             {% for user in users %}
-            <form class="user">
+            <form class="user" data-userid="{{user.id}}">
                 <div class="user-email">
                     <h2>{{user.email}}</h2>
                     <button class="button delete-button-submit" type="submit" data-userid="{{user.id}}">Удалить
@@ -55,16 +55,16 @@
                     </div>
                 </div>
                 <div class="class-buttons">
-                    <button class="button A-class-button-submit" type="button" data-userid="{{user.id}}">A</button>
-                    <button class="button B-class-button-submit" type="button" data-userid="{{user.id}}">B</button>
-                    <button class="button C-class-button-submit" type="button" data-userid="{{user.id}}">C1</button>
-                    <button class="button C-class-button-submit" type="button" data-userid="{{user.id}}">C2</button>
-                    <button class="button C-class-button-submit" type="button" data-userid="{{user.id}}">C3</button>
-                    <button class="button D-class-button-submit" type="button" data-userid="{{user.id}}">D1</button>
-                    <button class="button D-class-button-submit" type="button" data-userid="{{user.id}}">D2</button>
-                    <button class="button D-class-button-submit" type="button" data-userid="{{user.id}}">D3</button>
-                    <button class="button D-class-button-submit" type="button" data-userid="{{user.id}}">D4</button>
-                    <button class="button N-class-button-submit" type="button" data-userid="{{user.id}}">N</button>
+                    <button class="button ggp-classes-sub A-class-button-submit active" type="button" data-userid="{{user.id}}">A</button>
+                    <button class="button ggp-classes-sub B-class-button-submit" type="button" data-userid="{{user.id}}">B</button>
+                    <button class="button ggp-classes-sub C1-class-button-submit" type="button" data-userid="{{user.id}}">C1</button>
+                    <button class="button ggp-classes-sub C2-class-button-submit" type="button" data-userid="{{user.id}}">C2</button>
+                    <button class="button ggp-classes-sub C3-class-button-submit" type="button" data-userid="{{user.id}}">C3</button>
+                    <button class="button ggp-classes-sub D1-class-button-submit" type="button" data-userid="{{user.id}}">D1</button>
+                    <button class="button ggp-classes-sub D2-class-button-submit" type="button" data-userid="{{user.id}}">D2</button>
+                    <button class="button ggp-classes-sub D3-class-button-submit" type="button" data-userid="{{user.id}}">D3</button>
+                    <button class="button ggp-classes-sub D4-class-button-submit" type="button" data-userid="{{user.id}}">D4</button>
+                    <button class="button ggp-classes-sub N-class-button-submit" type="button" data-userid="{{user.id}}">N</button>
                 </div>
                 <div class="subscrStartEnd">
                     {% if user.sub_ggp_percent %}

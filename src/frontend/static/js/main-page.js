@@ -16,7 +16,7 @@ function myFunction3() {
 }
 
 // Закройте выпадающее меню, если пользователь щелкает за его пределами
-window.onclick = function(event) {
+window.onclick = function (event) {
   if (!event.target.matches('.hi__listDropBth')) {
     var dropdowns = document.getElementsByClassName("drop__content");
     var i;
@@ -49,16 +49,16 @@ window.onclick = function(event) {
 
 
 
-fetch('http://127.0.0.1:9000/api/v1/users/current',  {
+fetch('http://127.0.0.1:9000/api/v1/users/current', {
   method: 'GET',
   credentials: 'include',
 })
-      .then(response => {
-        console.log(response)
-        return response.json()
-      })
-      .then(json => console.log(json))
-      .catch(error => console.log(error))
+  .then(response => {
+    console.log(response)
+    return response.json()
+  })
+  .then(json => console.log(json))
+  .catch(error => console.log(error))
 
 
 

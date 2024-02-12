@@ -17,7 +17,7 @@
       method: 'PATCH',
       body: JSON.stringify({
         op: "add",
-        sport_class: "A"
+        sport_class: "C3"
       }),
       headers: {
         'Content-Type': 'application/json; charset=UTF-8'
@@ -70,5 +70,48 @@
 // отмена перезагрузки страницы после нажатия кнопки А
 const form = document.querySelector('.A-class-button-submit')
 form.addEventListener('click', (event) => {
-    event.preventDefault()
+  event.preventDefault()
 })
+
+
+
+/*
+fetch('http://127.0.0.1:8000/api/v1/users', {
+  method: 'GET',
+  credentials: 'include',
+})
+  .then(response => {
+
+    return response.json()
+  })
+  .then(json => {
+
+    json.data.forEach(user => {
+      let userId = user.id
+      let formUser = document.getElementsByClassName('user');
+      for (let elem of formUser) {                                       // перебор html форм class="user"
+        let formId = elem.getAttribute('data-userid')
+        if (userId == formId) {
+
+          let ggpClasses = elem.getElementsByClassName('ggp-classes-sub');
+          for (let elem of ggpClasses) {
+            console.log(elem.textContent)
+            if (elem.textContent == user.ggp_sub_classes) {
+              console.log(elem)
+            }
+
+            for 
+
+          }
+
+
+          console.log(user.ggp_sub_classes)
+        }
+      }
+    });
+
+
+  })
+  .catch(error => console.log(error))
+
+  */

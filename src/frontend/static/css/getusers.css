@@ -269,11 +269,7 @@ h2.text {
     cursor: pointer;
 }
 
-.A-class-button-submit:hover {
-    background: #f17575;
-}
-
-.A-class-button-submit:active {
+.A-class-button-submit:hover, .A-class-button-submit.active {
     background: #f17575;
 }
 
@@ -294,11 +290,11 @@ h2.text {
     background: #6975dd;
 }
 
-.B-class-button-submit:active {
+.B-class-button-submit.active {
     background: #6975dd;
 }
 
-.C-class-button-submit {
+.C1-class-button-submit, .C2-class-button-submit, .C3-class-button-submit {
     font-weight: 350;
     font-size: 14px;
     color: white;
@@ -311,15 +307,15 @@ h2.text {
     cursor: pointer;
 }
 
-.C-class-button-submit:hover {
+.C1-class-button-submit:hover, .C2-class-button-submit:hover, .C3-class-button-submit:hover {
     background: #54ca1d;
 }
 
-.C-class-button-submit:active {
+.C1-class-button-submit:active, .C2-class-button-submit:active, .C3-class-button-submit:active {
     background: #54ca1d;
 }
 
-.D-class-button-submit {
+.D1-class-button-submit, .D2-class-button-submit, .D3-class-button-submit, .D4-class-button-submit {
     font-weight: 350;
     font-size: 14px;
     color: white;
