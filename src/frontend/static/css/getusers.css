@@ -85,24 +85,23 @@ h6 {
 
 /* обнуление стилей */
 
+html, body {
+    height: 100%;
+}
+
 body {
     font-family: 'Roboto', serif;
 
 }
 
 .wrapper {
-    overflow: hidden;
     display: flex;
-    flex-direction: column;
-    min-height: 100%;
-}
-
-.content {
-    background-image: url(../assets/getusers_background-min.png);
+	flex-direction: column;
+	min-height: 100%;
 }
 
 .container-head {
-    flex: 0 0 auto;
+    flex: 0;
     background: #202020;
     display: grid;
     grid-template-columns: 0.5fr 0.25fr 1fr;
@@ -129,7 +128,6 @@ body {
     align-self: center;
     justify-self: left;
     padding: 10px;
-
 }
 
 .header__title {
@@ -154,20 +152,26 @@ body {
     }
 }
 
-main {
-    flex: 1 0 auto;
+.content {
     background-image: url(../assets/getusers_background.png);
+    flex: 1 0 auto;
+    height: 100%;
+}
+
+.main {
+    display: flex;
+    flex-direction: column;
+    min-height: 100%;
 }
 
 .container-main {
     display: flex;
-    flex-direction: column;
+    flex-direction: column; 
 }
 
 .main__title {
     display: flex;
     justify-content: center;
-
 }
 
 h2.text {
@@ -486,7 +490,7 @@ h2.text {
 }
 
 footer {
-    flex: 0 0 auto;
+    flex-shrink: 0;
     display: flex;
     width: 100%;
     height: 30px;

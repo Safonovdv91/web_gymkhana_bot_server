@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,34 +9,40 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="icon" href="../static/assets/rabbitIco.png">
-    <link rel="stylesheet" href="../static/css/base.css">
+    <link rel="stylesheet" href="../static/css/getusers.css">
     {% block head %}{% endblock %}
     <title>Rabbit MG</title>
 </head>
+
 <body>
-    <div class="container-head" role="banner">
-        <div class="header__image">
-            <img src="../static/assets/logo_rabbit.png">
+    <div class="wrapper">
+        <div class="container-head">
+            <div class="header__image">
+                <img src="../static/assets/logo_rabbit.png">
+            </div>
+            <div class="header__text">
+                RMG
+            </div>
+            <div class="header__title">
+                <p>Все зарегистрированные пользователи</p>
+            </div>
         </div>
-        <div class="header__text">
-            RMG
+        <div class="content" id="content">
+            <div class="main">
+                {% block content %}{% endblock %}
+            </div>
         </div>
-        <div class="header__title">
-            <p>Все зарегистрированные пользователи</p>
-        </div>
+        <footer class="footer" role="contentinfo">
+            <div class="container-footer">
+                <p class="footer__title">
+                    Designed by Pavel
+                </p>
+            </div>
+        </footer>
     </div>
-    <div id="content">
-        {% block content %}{% endblock %}
-    </div>
-    <footer class="footer" role="contentinfo">
-        <div class="container-footer">
-            <p class="footer__title">
-                Designed by Pavel
-            </p>
-        </div>
-    </footer>
     <noscript>Turn on JS</noscript>
     <script src="/static/js/app-const.js"></script>
     <script src="/static/js/getusers.js"></script>
 </body>
+
 </html>
