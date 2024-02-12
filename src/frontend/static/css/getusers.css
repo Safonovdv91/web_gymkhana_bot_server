@@ -311,7 +311,7 @@ h2.text {
     background: #54ca1d;
 }
 
-.C1-class-button-submit:active, .C2-class-button-submit:active, .C3-class-button-submit:active {
+.C1-class-button-submit.active, .C2-class-button-submit.active, .C3-class-button-submit.active {
     background: #54ca1d;
 }
 

@@ -17,7 +17,8 @@
       method: 'PATCH',
       body: JSON.stringify({
         op: "add",
-        sport_class: "C3"
+        sport_class: "B",
+        sport_class: "A",
       }),
       headers: {
         'Content-Type': 'application/json; charset=UTF-8'
@@ -66,17 +67,18 @@
 
 
 // работа с кнопками классов
+let elements = document.getElementsByClassName('ggp-classes-sub');
+const cons = () => {
+  elements.classList.add('active')
+}
 
-// отмена перезагрузки страницы после нажатия кнопки А
-const form = document.querySelector('.A-class-button-submit')
-form.addEventListener('click', (event) => {
-  event.preventDefault()
-})
+for (let element of elements) {
+  element.addEventListener('click', cons);
+}
 
 
 
-/*
-fetch('http://127.0.0.1:8000/api/v1/users', {
+fetch(`${AppConsts.BaseUrl}/api/v1/users`, {
   method: 'GET',
   credentials: 'include',
 })
@@ -96,16 +98,15 @@ fetch('http://127.0.0.1:8000/api/v1/users', {
           let ggpClasses = elem.getElementsByClassName('ggp-classes-sub');
           for (let elem of ggpClasses) {
             console.log(elem.textContent)
-            if (elem.textContent == user.ggp_sub_classes) {
-              console.log(elem)
-            }
 
-            for 
 
+            user.ggp_sub_classes.forEach(classLetter => {
+              console.log(classLetter.sport_class)
+              if (elem.textContent == classLetter.sport_class) {
+                elem.classList.add('active')
+              }
+            })
           }
-
-
-          console.log(user.ggp_sub_classes)
         }
       }
     });
@@ -114,4 +115,4 @@ fetch('http://127.0.0.1:8000/api/v1/users', {
   })
   .catch(error => console.log(error))
 
-  */
+
