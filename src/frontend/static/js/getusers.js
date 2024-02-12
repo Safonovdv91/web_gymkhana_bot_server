@@ -65,16 +65,16 @@
 
 
 
-// работа с кнопками классов
-let elements = document.getElementsByClassName('ggp-classes-sub');
-const cons = () => {
-  elements.classList.add('active')
+
+const elements = document.getElementsByClassName('ggp-classes-sub')
+
+function handleClickFunction(event) {
+  event.target.classList.toggle('active'); 
 }
 
 for (let element of elements) {
-  element.addEventListener('click', cons);
+element.addEventListener('click', handleClickFunction)
 }
-
 
 
 fetch(`${AppConsts.BaseUrl}/api/v1/users`, {
