@@ -99,7 +99,7 @@
                             {{user.sub_offline}}
                         </label>
                     </div>
-                    <div class="regDate">Дата регистрации: {{user.registered_at}}</div>
+                    <div class="regDate">Дата регистрации: {{user.registered_at.strftime("%d.%m.%Y|%H:%M:%S")}}</div>
                     <div class="role">Роль: {{user.role_id}}</div>
                     <button class="button patch-button-submit" type="submit" data-userid="{{user.id}}">Сохранить
                         изменения</button>
