@@ -14,7 +14,7 @@ class UserAdmin(ModelView, model=User):
     category = "accounts"
     can_create = True
     can_edit = True
-    can_delete = False
+    can_delete = True
     can_view_details = True
 
 
@@ -23,6 +23,7 @@ class RoleAdmin(ModelView, model=Role):
     name_plural = "Роли"
     icon = "fa-solid fa-address-book"
     column_list = [Role.id, Role.name, Role.description, Role.users]
+    can_delete = False
 
 
 class SportClassAdmin(ModelView, model=SportClass):
