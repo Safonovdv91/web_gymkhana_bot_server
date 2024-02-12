@@ -17,8 +17,7 @@
       method: 'PATCH',
       body: JSON.stringify({
         op: "add",
-        sport_class: "B",
-        sport_class: "A",
+        sport_class: "C1",
       }),
       headers: {
         'Content-Type': 'application/json; charset=UTF-8'
