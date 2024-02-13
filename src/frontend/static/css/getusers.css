@@ -269,7 +269,8 @@ h2.text {
     cursor: pointer;
 }
 
-.A-class-button-submit:hover, .A-class-button-submit.active {
+.A-class-button-submit:hover,
+.A-class-button-submit.active {
     background: #f17575;
 }
 
@@ -286,15 +287,14 @@ h2.text {
     cursor: pointer;
 }
 
-.B-class-button-submit:hover {
-    background: #6975dd;
-}
-
+.B-class-button-submit:hover,
 .B-class-button-submit.active {
     background: #6975dd;
 }
 
-.C1-class-button-submit, .C2-class-button-submit, .C3-class-button-submit {
+.C1-class-button-submit,
+.C2-class-button-submit,
+.C3-class-button-submit {
     font-weight: 350;
     font-size: 14px;
     color: white;
@@ -307,15 +307,19 @@ h2.text {
     cursor: pointer;
 }
 
-.C1-class-button-submit:hover, .C2-class-button-submit:hover, .C3-class-button-submit:hover {
+.C1-class-button-submit:hover,
+.C2-class-button-submit:hover,
+.C3-class-button-submit:hover
+.C1-class-button-submit.active,
+.C2-class-button-submit.active,
+.C3-class-button-submit.active {
     background: #54ca1d;
 }
 
-.C1-class-button-submit.active, .C2-class-button-submit.active, .C3-class-button-submit.active {
-    background: #54ca1d;
-}
-
-.D1-class-button-submit, .D2-class-button-submit, .D3-class-button-submit, .D4-class-button-submit {
+.D1-class-button-submit,
+.D2-class-button-submit,
+.D3-class-button-submit,
+.D4-class-button-submit {
     font-weight: 350;
     font-size: 14px;
     color: white;
@@ -328,11 +332,14 @@ h2.text {
     cursor: pointer;
 }
 
-.D-class-button-submit:hover {
-    background: #e6b83c;
-}
-
-.D-class-button-submit:active {
+.D1-class-button-submit:hover, 
+.D2-class-button-submit:hover,
+.D3-class-button-submit:hover,
+.D4-class-button-submit:hover
+.D1-class-button-submit:active,
+.D2-class-button-submit:active,
+.D3-class-button-submit:active,
+.D4-class-button-submit:active {
     background: #e6b83c;
 }
 
@@ -349,10 +356,7 @@ h2.text {
     cursor: pointer;
 }
 
-.N-class-button-submit:hover {
-    background: #d8d7d5;
-}
-
+.N-class-button-submit:hover,
 .N-class-button-submit:active {
     background: #d8d7d5;
 }
@@ -405,8 +409,10 @@ h2.text {
 }
 
 .subscrStartEnd {
-    display: grid;
+    display: none;
     grid-template-columns: repeat(2, auto);
+    align-items: center;
+    padding: 10px;
 }
 
 @media (max-width: 520px) {
