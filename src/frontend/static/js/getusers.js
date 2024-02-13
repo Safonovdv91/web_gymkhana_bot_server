@@ -32,11 +32,10 @@ function updateSubGGPClasses(user) {
       }
     }
 
+// функция подписки на классы в соответствии с логикой
 function patchSubGGPClasses(event,operation,literal) {
     let button = event.target;
     const userid = button.dataset.userid;
-//    const myObj = {user_id: userid, operation: operation, literal: literal};
-//    console.log(myObj);
     fetch(`${AppConsts.BaseUrl}/api/v1/users/id=${userid}/subscribe`, {
       method: 'PATCH',
       body: JSON.stringify({
@@ -49,51 +48,19 @@ function patchSubGGPClasses(event,operation,literal) {
     })
       .then(response => response.json())
       .then(json => console.log(json.details))
-//      .then(() => {
-//      updateStatementGGPSubscribing();
-//  })
-
 }
 
-
-function subscribeGGPA(event) {
-// Сдесь делаем проверку, если у кнопки есть свойство active - то выполняем функцию   patchSubGGPClasses(event,"add","A");
-  console.log('Подписываемся на А')
-  patchSubGGPClasses(event,"add","A");
-// иначе
-//  patchSubGGPClasses(event,"remove","A");
-//  console.log('Отписываемся от А')
-
-}
-function subscribeGGPB(event) {
-  patchSubGGPClasses(event,"add","B");
-}
-
-function subscribeGGPC1(event) {
-  patchSubGGPClasses(event,"add","C1");
-}
-
-// Блок отписок
-function unsubscribeGGPA(event) {
-  console.log('Отписываемся от А')
-  patchSubGGPClasses(event,"remove","A");
-}
-
-function unsubscribeGGPB(event) {
-  patchSubGGPClasses(event,"remove","B");
-}
-function unsubscribeGGPC1(event) {
-  patchSubGGPClasses(event,"remove","C1");
-}
-
+// Переключатель свечения кнопки и выбора метода
 function handleClickFunction(event) {
   event.target.classList.toggle('active');
+  if (event.target.getAttribute('class').includes('active')) {
+    patchSubGGPClasses(event,'add', event.target.innerText)
+  } else {
+    patchSubGGPClasses(event,'remove', event.target.innerText)
+  }
 }
 
-
-
-// метод DELETE запроса
-
+// метод DELETE запроса - это переделать
 (function basd() {
 
   function onSubmit(event) {
@@ -120,37 +87,10 @@ function handleClickFunction(event) {
   }
 })();
 
-
-
-// работа с кнопками перекрашивает их при нажании
+updateStatementGGPSubscribing()
 const elements = document.getElementsByClassName('ggp-classes-sub')
-
 
 for (let element of elements) {
 element.addEventListener('click', handleClickFunction)
 }
-//
-
-updateStatementGGPSubscribing()
-
-let subA = document.getElementById('ggpA');
-let subB = document.getElementById('ggpB');
-let subC1 = document.getElementById('ggpC1');
-
-let unsubA = document.getElementById('ggpA');
-let unsubB = document.getElementById('ggpB');
-let unsubC1 = document.getElementById('ggpC1');
-
-subA.addEventListener('click', subscribeGGPA);
-subB.addEventListener('click', subscribeGGPB);
-subC1.addEventListener('click', subscribeGGPC1);
-
-unsubA.addEventListener('click', unsubscribeGGPA);
-unsubB.addEventListener('click', unsubscribeGGPB);
-unsubC1.addEventListener('click', unsubscribeGGPC1);
-
-//медот PATCH запроса
-
-
-
 

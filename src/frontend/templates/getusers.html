@@ -56,7 +56,7 @@
                 </div>
                 <div class="class-buttons">
                     {% for each in ["A", "B", "C1", "C2", "C3", "D1", "D2", "D3", "D4","N"] %}
-                        <button id="ggp{{each}}" class="button ggp-classes-sub {{each}}-class-button-submit" type="button" data-userid="{{user.id}}">{{each}}</button>
+                        <button id="{{user.id}}ggp{{each}}" class="button ggp-classes-sub {{each}}-class-button-submit" type="button" data-userid="{{user.id}}">{{each}}</button>
                     {% endfor %}
                 </div>
                 <div class="subscrStartEnd" >
