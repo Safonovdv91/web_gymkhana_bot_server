@@ -281,7 +281,7 @@ async def user_subscribe_ggp(
         return {
             "status": "Success",
             "data": user,
-            "details": f"User with id: [{user.id}] subscribing [{subscribe_patch_ggp.sport_class}] success!",
+            "details": f"User with id: [{user.id}] {subscribe_patch_ggp.op} [{subscribe_patch_ggp.sport_class}] success!",
         }
     return {
         "status": "User is none",
