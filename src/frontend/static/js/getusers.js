@@ -36,33 +36,17 @@ function patchSubGGPClasses(event,operation,literal) {
       .then(response => response.json())
       .then(json => console.log(json.details))
 
-
-
-
 }
 
-  function onSubmitGGPClasses(event) {
-      patchSubGGPClasses(event,"add","A");
-  }
+function onSubmitGGPClasses(event) {
+  patchSubGGPClasses(event,"add","A");
+}
 
-
-//медот PATCH запроса
-(function asd() {
-
-  function onSubmit(event) {
-
+function unsubscribeGGPA(event) {
     event.preventDefault();
-    console.log('Отправка!')
-
     patchSubGGPClasses(event,"remove","A");
   }
 
-  let elements = document.getElementsByClassName('patch-button-submit');
-
-  for (let element of elements) {
-    element.addEventListener('click', onSubmit);
-  }
-})();
 
 
 //(function sub_A() {
@@ -159,9 +143,21 @@ fetch(`${AppConsts.BaseUrl}/api/v1/users`, {
 
 
 let subA = document.getElementsByClassName('button ggp-classes-sub A-class-button-submit');
+let subB = document.getElementsByClassName('button ggp-classes-sub B-class-button-submit');
+let subC1 = document.getElementsByClassName('button ggp-classes-sub C1-class-button-submit');
+
+let unsubA = document.getElementsByClassName('patch-button-submit');
+
 subA[0].addEventListener('click', onSubmitGGPClasses);
+subB[0].addEventListener('click', onSubmitGGPClasses);
+subC1[0].addEventListener('click', onSubmitGGPClasses);
+
+unsubA[0].addEventListener('click', unsubscribeGGPA);
+
 //медот PATCH запроса
 
+
+//медот PATCH запроса
 
 
 
