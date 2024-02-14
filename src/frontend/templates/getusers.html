@@ -93,7 +93,7 @@
                     </label>
                 </div>
                 <div class="regDate">Дата регистрации: {{user.registered_at.strftime("%d.%m.%Y|%H:%M:%S")}}</div>
-                <div class="role">Роль: {{user.role_id}}</div>
+                <div class="role">Роль: {{user.role.name}}</div>
                 <button class="button patch-button-submit" type="submit" data-userid="{{user.id}}">Сохранить
                     изменения</button>
             </form>
