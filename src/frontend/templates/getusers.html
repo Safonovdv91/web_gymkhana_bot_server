@@ -53,19 +53,11 @@
                         {{sc.sport_class}}
                         {% endfor %}
                     </div>
-
                 </div>
                 <div class="class-buttons">
-                    <button class="button ggp-classes-sub A-class-button-submit" type="button" data-userid="{{user.id}}">A</button>
-                    <button class="button ggp-classes-sub B-class-button-submit" type="button" data-userid="{{user.id}}">B</button>
-                    <button class="button ggp-classes-sub C1-class-button-submit" type="button" data-userid="{{user.id}}">C1</button>
-                    <button class="button ggp-classes-sub C2-class-button-submit" type="button" data-userid="{{user.id}}">C2</button>
-                    <button class="button ggp-classes-sub C3-class-button-submit" type="button" data-userid="{{user.id}}">C3</button>
-                    <button class="button ggp-classes-sub D1-class-button-submit" type="button" data-userid="{{user.id}}">D1</button>
-                    <button class="button ggp-classes-sub D2-class-button-submit" type="button" data-userid="{{user.id}}">D2</button>
-                    <button class="button ggp-classes-sub D3-class-button-submit" type="button" data-userid="{{user.id}}">D3</button>
-                    <button class="button ggp-classes-sub D4-class-button-submit" type="button" data-userid="{{user.id}}">D4</button>
-                    <button class="button ggp-classes-sub N-class-button-submit" type="button" data-userid="{{user.id}}">N</button>
+                    {% for each in ["A", "B", "C1", "C2", "C3", "D1", "D2", "D3", "D4","N"] %}
+                        <button id="{{user.id}}ggp{{each}}" class="button ggp-classes-sub {{each}}-class-button-submit" type="button" data-userid="{{user.id}}">{{each}}</button>
+                    {% endfor %}
                 </div>
                 <div class="subscrStartEnd" >
                     {% if user.sub_ggp_percent %}
