@@ -63,7 +63,7 @@ async def add_default_values():
 
     DEFAULT_ROLES ={
         "Owner": "Can change role all users/admins, delete or create",
-        "Admin": "Administrator can del users, and change user's settings",
+        "Admin": "Administrator can del users, and change users settings",
         "User": "Can only change himself settings",
         "Guest": "Unknown person, can nothing",
     }
