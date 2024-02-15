@@ -164,7 +164,7 @@ h2.text {
 .N-class-button-submit:hover{
     box-shadow: 0 0 10px #d8d7d5;
 }
-.N-class-button-submit:active {
+.N-class-button-submit.active {
     background: #d8d7d5;
     box-shadow: 0 0 10px #d8d7d5;
 }
