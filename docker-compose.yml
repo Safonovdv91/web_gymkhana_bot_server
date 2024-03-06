@@ -11,33 +11,34 @@ services:
 #      - ./src/conf.d:/etc/nginx/conf.d
 #    networks:
 #      - custom2
-  db:
-    container_name: "rabbit_mg_DB"
-    image: postgres:15.4-alpine
-    restart: always
-    environment:
-      - POSTGRES_USER=${DB_USER}
-      - POSTGRES_PASSWORD=${DB_PASS}
-      - POSTGRES_DB=${DB_NAME}
-      - POSTGRES_PORT=${DB_PORT}
-    ports:
-      - "9001:5432"
-    volumes:
-      - /work/pg_data:/var/lib/postgresql/data
-    networks:
-      - rmg-net
+#  db:
+#    container_name: "rabbit_mg_DB"
+#    image: postgres:15.4-alpine
+#    restart: always
+#    environment:
+#      - POSTGRES_USER=${DB_USER}
+#      - POSTGRES_PASSWORD=${DB_PASS}
+#      - POSTGRES_DB=${DB_NAME}
+#      - POSTGRES_PORT=${DB_PORT}
+#    ports:
+#      - "9001:5432"
+#    volumes:
+#      - /work/pg_data:/var/lib/postgresql/data
+#    networks:
+#      - rmg-net
   app:
     build:
       context: .
 #    image: softikdimon/web_gymkhana_bot_server-app:${TAG}
     container_name: "fastapi_app"
-    command: ["/app/app.sh"]
+    command: gunicorn src.main:app --workers 1 --worker-class uvicorn.workers.UvicornWorker --bind=0.0.0.0:8000
+#    command: ["/app/app.sh"]
 #    volumes:
 #      - ./src/frontend:/app/src/frontend
     ports:
       - "9000:8000"
-    depends_on:
-      - db
+#    depends_on:
+#      - db
     networks:
       - rmg-net
 
