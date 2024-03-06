@@ -45,8 +45,3 @@ services:
 networks:
   rmg-net:
     driver: bridge
-
-
-
-
-
