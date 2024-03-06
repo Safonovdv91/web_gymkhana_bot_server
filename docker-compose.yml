@@ -22,8 +22,6 @@ services:
       - POSTGRES_PORT=${DB_PORT}
     ports:
       - "9001:5432"
-#    volumes:
-#      - pg_data:/var/lib/postgresql
     volumes:
       - /work/pg_data:/var/lib/postgresql/data
     networks:
@@ -47,8 +45,6 @@ networks:
   rmg-net:
     driver: bridge
 
-#volumes:
-#  pg_data:
 
 
 
