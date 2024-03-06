@@ -11,21 +11,23 @@ services:
 #      - ./src/conf.d:/etc/nginx/conf.d
 #    networks:
 #      - custom2
-#  db:
-#    container_name: "rabbit_mg_DB"
-#    image: postgres:15.4-alpine
-#    restart: always
-#    environment:
-#      - POSTGRES_USER=${DB_USER}
-#      - POSTGRES_PASSWORD=${DB_PASS}
-#      - POSTGRES_DB=${DB_NAME}
-#      - POSTGRES_PORT=${DB_PORT}
-#    ports:
-#      - "9001:5432"
+  db:
+    container_name: "rabbit_mg_DB"
+    image: postgres:15.4-alpine
+    restart: always
+    environment:
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASS}
+      - POSTGRES_DB=${DB_NAME}
+      - POSTGRES_PORT=${DB_PORT}
+    ports:
+      - "9001:5432"
 #    volumes:
 #      - pg_data:/var/lib/postgresql
-#    networks:
-#      - custom2
+    volumes:
+      - /work/pg_data:/var/lib/postgresql/data
+    networks:
+      - rmg-net
   app:
     build:
       context: .
@@ -36,8 +38,8 @@ services:
 #      - ./src/frontend:/app/src/frontend
     ports:
       - "9000:8000"
-#    depends_on:
-#      - db
+    depends_on:
+      - db
     networks:
       - rmg-net
 
@@ -45,8 +47,8 @@ networks:
   rmg-net:
     driver: bridge
 
-volumes:
-  pg_data:
+#volumes:
+#  pg_data:
 
 
 
