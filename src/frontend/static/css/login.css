@@ -96,9 +96,7 @@ main {
   align-items: center;
 }
 
-input {
-  width: 80%;
-  padding-left: 10px;
+.form-fields input {
   height: 26.082px;
   flex-shrink: 0;
   color: #FFF;
@@ -108,8 +106,7 @@ input {
   font-weight: 200;
   line-height: normal;
   background-color: rgba(20, 20, 20, 0);
-  margin-left: 46px;
-  margin-bottom: 1px;
+
 }
 input:focus {
   outline: none;
@@ -124,10 +121,10 @@ input:focus {
 }
 
 .main-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   opacity: 0;
-  max-width: 394px;
-  width: 390px;
-  height: 376px;
   flex-shrink: 0;
   border-radius: 10px;
   background: rgba(20, 20, 20, 0.97);
@@ -160,15 +157,12 @@ input:focus {
 @media (max-width: 570px) {
   .main-form {
     width: 67%;
-    height: 320px;
   }
   
 }
 
 .form-title {
-  margin-left: 95px;
-  margin-top: 34px;
-  margin-bottom: 45px;
+  margin-top: 20px;
   color: #FFF;
   text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   font-family: Rubik;
@@ -176,10 +170,7 @@ input:focus {
   font-style: normal;
   font-weight: 500;
   line-height: normal;
-  width: 201px;
-  height: 37.828px;
   flex-shrink: 0;
-  text-align: right;
 }
 
 @media (max-width: 570px) {
@@ -190,18 +181,29 @@ input:focus {
   
 }
 
+.form-fields {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.form-field {
+    padding-top: 20px;
+}
+
 hr {
-  width: 313px;
+  width: 70%;
   height: 1px;
   background: #FFF;
-  margin-left: 46px;
-  margin-bottom: 12px;
+  margin-top: 5px;
+
 }
 
 @media (max-width: 570px) {
   hr {
-    width: 80%;
-    margin: 0px 0px 0px 15px;
+    width: 70%;
   }
 
 }
@@ -218,7 +220,7 @@ hr {
   padding-top: 6px;
   padding-bottom: 7px;
   margin-bottom: 13px;
-  margin-top: 40px;
+  margin-top: 20px;
 }
 
 .button-row {
@@ -228,7 +230,6 @@ hr {
 }
 
 .button {
-  margin: 0px auto;
   display: block;
   font-weight: 350;
   font-size: 20px;
@@ -236,8 +237,8 @@ hr {
   border-radius: 5px;
   background: #FE4E17;
   cursor: pointer;
-  height: 63.017px;
-  justify-content: start;
+  padding: 10px;
+  width: 40%;
 }
 
 .button:hover {
@@ -251,21 +252,38 @@ a.button {
 @media (max-width: 570px) {
   input.button {
     font-size: 16px;
-    width: 65%;
-    height: 40px;
   }
 }
 
-.pasForget {
+.toregform {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin: 20px;
+}
+
+.toregform > p, a {
   color: #686868;
-  font-family: Rubik;
   font-size: 14px;
   font-style: normal;
   font-weight: 400;
   line-height: normal;
   padding-left: 2px;
   padding-right: 2px;
-  display: flex;
   justify-content: center;
-  margin-top: 20px;
+  margin: 10px 2px;
+}
+
+.toreg {
+  text-decoration: underline;
+}
+
+@media (max-width: 570px) {
+  .toregform {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  
 }
