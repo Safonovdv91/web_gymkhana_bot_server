@@ -100,8 +100,8 @@ main {
 
 input {
   width: 80%;
-  padding-left: 10px;
   height: 26.082px;
+  margin-top: 10px;
   flex-shrink: 0;
   color: #FFF;
   font-size: 16px;
@@ -109,14 +109,13 @@ input {
   font-weight: 200;
   line-height: normal;
   background-color: rgba(20, 20, 20, 0);
-  margin-left: 46px;
-  margin-bottom: 1px;
 }
 
 @media (max-width: 570px) {
   input {
     font-size: 14px;
     margin: 5px;
+
   }
   
 }
@@ -192,18 +191,32 @@ input {
   
 }
 
+.form-fields {
+display: flex;
+flex-direction: column;
+align-items: center;
+
+}
+
+
+.form-field {
+  display: flex;
+  align-items: start;
+  width: 80%;
+}
+
+
+
 hr {
   width: 313px;
+  margin-top: 2px;
   height: 1px;
   background: #FFF;
-  margin-left: 46px;
-  margin-bottom: 12px;
 }
 
 @media (max-width: 570px) {
   hr {
     width: 80%;
-    margin: 0px 0px 0px 15px;
   }
 
 }
