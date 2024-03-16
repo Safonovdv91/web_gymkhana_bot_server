@@ -98,7 +98,7 @@ app.include_router(router_sport_class)
 
 @app.get("/")
 async def redirect_to_docs():
-    return RedirectResponse(url="/registration")
+    return RedirectResponse(url="/current_user")
 
 
 admin = Admin(app, engine)
