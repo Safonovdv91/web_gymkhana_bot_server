@@ -108,13 +108,13 @@ main {
   background-color: rgba(20, 20, 20, 0);
 
 }
-input:focus {
+.form-field input:focus {
   outline: none;
   border: #4446bb;
 }
 
 @media (max-width: 570px) {
-  input {
+  .form-field input {
     font-size: 14px;
     margin: 5px;
   }
@@ -190,14 +190,14 @@ input:focus {
 }
 
 .form-field {
-    padding-top: 20px;
+    margin-top: 10px;
 }
 
 hr {
   width: 70%;
   height: 1px;
   background: #FFF;
-  margin-top: 5px;
+  margin-top: 1px;
 
 }
 
