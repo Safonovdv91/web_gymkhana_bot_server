@@ -89,7 +89,7 @@ for (let i = 0; i < coll.length; i++) {
 const elements = document.getElementsByClassName('ggp-classes-sub')
 
 function handleClickFunction(event) {
-  event.target.classList.toggle('active'); 
+  event.target.classList.toggle('active');
 }
 
 for (let element of elements) {
@@ -135,3 +135,44 @@ fetch(`${AppConsts.BaseUrl}/api/v1/users`, {
   .catch(error => console.log(error))
 
 
+// delete-post-запрос
+
+const exit = document.getElementById('patch-button-exit')
+exit.addEventListener('click', onSubmitExit);
+
+// объявляем константу с URL-адресом, на котрый будет отправляться запрос
+const requestURL = `${AppConsts.BaseUrl}/auth/jwt/logout`;
+
+// создаём функцию, в которой объявляем переменные, условие и делаем запрос
+async function onSubmitExit(event) {
+
+  //отмена действия браузера, чтобы он ничего не делал, пока юзер на нажмёт на кнопку
+  event.preventDefault();
+
+  // создаётся ф-я запроса методом FETCH, с Асинхронным запросом
+  let response = await fetch(requestURL, {
+    method: 'POST',
+    headers: {
+      'Accept': 'application/json'
+      },
+      body: JSON.stringify({})
+  });
+
+
+
+  // проверка статуса для вывода сообщения о результате выполнения запроса(ошибка или успех)
+  if (response.status == 200) {
+    alert('Success')
+    window.location = "login";
+
+  } else if (response.status == 204) {
+    alert('No content')
+    window.location = "login";
+
+  } else if (response.status == 401) {
+
+    alert('Inactive user');
+
+  } else console.log('Что-то пошло нетак, обратитесь в поддержку');
+
+};

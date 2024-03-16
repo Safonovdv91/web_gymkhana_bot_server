@@ -22,7 +22,6 @@
             <div class="tg-id">
                 <div>{{user.telegram_id}}</div>
             </div>
-
             <div class="subscriptionGGP">
                 <div class="title">Подписаться на GGP</div>
                 <label class="check-box">
@@ -46,14 +45,9 @@
                 </label>
             </div>
             <div class="sub-classes">
-                <div class="subscriptionGGP">
+                <div class="subscription-class">
                     <div class="ggp-classes">
                         Подписаться на классы
-                    </div>
-                    <div class="collaps">
-                        {% for sc in user.ggp_sub_classes %}
-                        {{sc.sport_class}}
-                        {% endfor %}
                     </div>
                 </div>
                 <button class="collaps">hide</button>
