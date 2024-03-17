@@ -78,7 +78,7 @@ function patchSubGGPClasses(event,operation,literal) {
     })
       .then(response => response.json())
       .then(json => console.log(json.details))
-}
+}}})
 
 // Переключатель свечения кнопки и выбора метода
 function handleClickFunction(event) {
@@ -189,8 +189,6 @@ async function onSubmitExit(event) {
       body: JSON.stringify({})
   });
 
-
-
   // проверка статуса для вывода сообщения о результате выполнения запроса(ошибка или успех)
   if (response.status == 200) {
     alert('Success')
@@ -203,6 +201,7 @@ async function onSubmitExit(event) {
   } else if (response.status == 401) {
 
     alert('Inactive user');
+    window.location = "login";
 
   } else console.log('Что-то пошло нетак, обратитесь в поддержку');
 
