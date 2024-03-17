@@ -161,6 +161,10 @@ h2.text {
     z-index: 0;
 }
 
+.sub-classes {
+
+}
+
 .subscription-class {
     display: inline;
     align-items: center;
@@ -193,7 +197,7 @@ h2.text {
     justify-content: end;
 }
 
-.ggp-classes-sub {
+.A-class-button-submit {
     font-weight: 350;
     font-size: 14px;
     color: white;
@@ -204,7 +208,6 @@ h2.text {
     border-radius: 16px;
     background: #888585;
     cursor: pointer;
-
 }
 
 .A-class-button-submit:hover{
