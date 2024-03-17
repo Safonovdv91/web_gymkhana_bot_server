@@ -1,7 +1,7 @@
 #!/bin/bash
 
 echo "Ждём запуск БД"
-sleep 2
+sleep 5
 echo "Накатываем миграции в БД"
 echo "******"
 alembic upgrade head

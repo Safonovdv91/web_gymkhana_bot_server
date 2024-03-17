@@ -210,61 +210,95 @@ h2.text {
     cursor: pointer;
 }
 
-.A-class-button-submit:hover{
-    box-shadow: 0 0 10px #f17575;
-}
-
+.A-class-button-submit:hover,
 .A-class-button-submit.active {
     background: #f17575;
-    box-shadow: 0 0 10px #f17575;
 }
 
-.B-class-button-submit:hover{
-    box-shadow: 0 0 10px #6975dd;
+.B-class-button-submit {
+    font-weight: 350;
+    font-size: 14px;
+    color: white;
+    width: 35px;
+    height: 35px;
+    margin: 2px;
+    text-align: center;
+    border-radius: 16px;
+    background: #888585;
+    cursor: pointer;
 }
 
+.B-class-button-submit:hover,
 .B-class-button-submit.active {
     background: #6975dd;
-    box-shadow: 0 0 10px #6975dd;
 }
 
+.C1-class-button-submit,
+.C2-class-button-submit,
+.C3-class-button-submit {
+    font-weight: 350;
+    font-size: 14px;
+    color: white;
+    width: 35px;
+    height: 35px;
+    margin: 2px;
+    text-align: center;
+    border-radius: 16px;
+    background: #888585;
+    cursor: pointer;
+}
 
 .C1-class-button-submit:hover,
 .C2-class-button-submit:hover,
 .C3-class-button-submit:hover .C1-class-button-submit.active,
-.C3-class-button-submit:hover {
-    box-shadow: 0 0 10px #54ca1d;
-}
-
-.C1-class-button-submit.active,
 .C2-class-button-submit.active,
 .C3-class-button-submit.active {
     background: #54ca1d;
-    box-shadow: 0 0 10px #54ca1d;
+}
 
+.D1-class-button-submit,
+.D2-class-button-submit,
+.D3-class-button-submit,
+.D4-class-button-submit {
+    font-weight: 350;
+    font-size: 14px;
+    color: white;
+    width: 35px;
+    height: 35px;
+    margin: 2px;
+    text-align: center;
+    border-radius: 20px;
+    background: #888585;
+    cursor: pointer;
 }
 
 .D1-class-button-submit:hover,
 .D2-class-button-submit:hover,
 .D3-class-button-submit:hover,
-.D4-class-button-submit:hover {
-    box-shadow: 0 0 10px #e6b83c;
-}
-
-.D1-class-button-submit.active,
-.D2-class-button-submit.active,
-.D3-class-button-submit.active,
-.D4-class-button-submit.active {
+.D4-class-button-submit:hover,
+.D1-class-button-submit:active,
+.D2-class-button-submit:active,
+.D3-class-button-submit:active,
+.D4-class-button-submit:active {
     background: #e6b83c;
-    box-shadow: 0 0 10px #e6b83c;
 }
 
-.N-class-button-submit:hover{
-    box-shadow: 0 0 10px #d8d7d5;
+.N-class-button-submit {
+    font-weight: 350;
+    font-size: 14px;
+    color: white;
+    width: 35px;
+    height: 35px;
+    margin: 2px;
+    text-align: center;
+    border-radius: 20px;
+    background: #888585;
+    cursor: pointer;
 }
-.N-class-button-submit.active {
+
+.N-class-button-submit:hover,
+.N-class-button-submit:active {
     background: #d8d7d5;
-    box-shadow: 0 0 10px #d8d7d5;
 }
 
 .user-email h2 {

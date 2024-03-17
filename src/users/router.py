@@ -67,7 +67,7 @@ async def get_users(
 async def get_users_all_info(
     search_args: SUserSearchArgs = Depends(),
     session: AsyncSession = Depends(get_async_session),
-    curr_user: User = Depends(current_user),
+    # curr_user: User = Depends(current_user),
 ):
     # main_logger.info(
     #     f"[USER][GET] user: {curr_user.email} get users [ALL INFO]"
@@ -97,7 +97,7 @@ async def get_users_all_info(
     response_model=SUserResponseOne,
 )
 async def get_user_by_id(
-    curr_user: User = Depends(current_user),
+    # curr_user: User = Depends(current_user),
     user: User = Depends(user_by_id),
 ):
     # main_logger.info(
@@ -281,7 +281,7 @@ async def user_subscribe_ggp(
         return {
             "status": "Success",
             "data": user,
-            "details": f"User with id: [{user.id}] {subscribe_patch_ggp.op} [{subscribe_patch_ggp.sport_class}] success!",
+            "details": f"User with id: [{user.id}] subscribing [{subscribe_patch_ggp.sport_class}] success!",
         }
     return {
         "status": "User is none",
@@ -309,8 +309,8 @@ async def user_subscribe_ggp(
     response_model=SUserResponseOne,
 )
 async def user_patch_by_id(
+    #    curr_user: User = Depends(current_user),
     user_update: UserInParticul,
-    curr_user: User = Depends(current_user),
     session: AsyncSession = Depends(get_async_session),
     user: User = Depends(user_by_id),
 ):

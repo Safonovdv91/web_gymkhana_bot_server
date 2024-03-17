@@ -31,7 +31,7 @@ async function onSubmit(event) {
     alert('Successful Response')
   } else if (response.status == 204) {
     alert('Авторизация прошла успешно')
-    window.location = "current_user"
+    window.location = "get_users"
 
   } else if (response.status == 400) {
 
