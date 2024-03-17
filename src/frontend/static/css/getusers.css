@@ -199,7 +199,7 @@ h2.text {
     color: white;
     width: 35px;
     height: 35px;
-    margin: 6px;
+    margin: 2px;
     text-align: center;
     border-radius: 16px;
     background: #888585;
@@ -208,7 +208,7 @@ h2.text {
 }
 
 .A-class-button-submit:hover{
-    box-shadow: 0 0 8px #f17575;
+    box-shadow: 0 0 10px #f17575;
 }
 
 .A-class-button-submit.active {
