@@ -161,10 +161,6 @@ h2.text {
     z-index: 0;
 }
 
-.sub-classes {
-
-}
-
 .subscription-class {
     display: inline;
     align-items: center;
@@ -197,21 +193,22 @@ h2.text {
     justify-content: end;
 }
 
-.A-class-button-submit {
+.ggp-classes-sub {
     font-weight: 350;
     font-size: 14px;
     color: white;
     width: 35px;
     height: 35px;
-    margin: 2px;
+    margin: 6px;
     text-align: center;
     border-radius: 16px;
     background: #888585;
     cursor: pointer;
+
 }
 
 .A-class-button-submit:hover{
-    box-shadow: 0 0 10px #f17575;
+    box-shadow: 0 0 8px #f17575;
 }
 
 .A-class-button-submit.active {
