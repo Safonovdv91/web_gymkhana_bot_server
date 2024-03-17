@@ -1,3 +1,4 @@
+
 .content {
     background-image: url(../assets/getusers_background.png);
     flex: 1 0 auto;
@@ -12,7 +13,7 @@
 
 .container-main {
     display: flex;
-    flex-direction: column;
+    flex-direction: column; 
 }
 
 .main__title {
@@ -98,14 +99,7 @@ h2.text {
     }
 }
 
-.subscriptionGGP {
-    display: grid;
-    grid-template-columns: repeat(2, auto);
-    align-items: center;
-    padding: 10px;
-}
-
-.toggle-bg {
+.toggle-bg{
     background: #ccc;
     display: block;
     float: left;
@@ -117,84 +111,40 @@ h2.text {
     box-shadow: 0 1px 0 #fff, inset 0 0 2px #d7dee3, inset 0 1px 0 #d7dee3, inset 0 1px 5px #d7dee3;
 }
 
-.toggle-bg input {
+.toggle-bg input{
     height: 28px;
     left: 0;
     margin: 0;
-    opacity: 0;
+    opacity: 0; 
     padding: 0;
     position: absolute;
-    top: -10px;
+    top: -10px; 
     width: 36px;
-    z-index: 2;
+    z-index: 2; 
 }
 
-.switch {
+.switch{
     background: #ccc;
     display: block;
     float: left;
     height: 14px;
-    left: -1px;
-    /* Это – начальная точка. При добавлении border radius немного виден фон, если использовать left: 0;, поэтому лучше всего применить -1px.*/
+    left: -1px; /* Это – начальная точка. При добавлении border radius немного виден фон, если использовать left: 0;, поэтому лучше всего применить -1px.*/
     position: relative;
-    top: -3px;
-    /* ...Чтобы отцентрировать его по вертикали */
+    top: -3px; /* ...Чтобы отцентрировать его по вертикали */
     width: 14px;
-    z-index: 1;
-    /* Помните, он должен быть под невидимыми input-ами */
+    z-index: 1; /* Помните, он должен быть под невидимыми input-ами */
     border-radius: 8px;
     transition: left .2s ease;
 }
 
-.toggle-bg input:checked~.switch {
-    left: -1px;
-}
-
-/* Исходная позиция тумблера */
-.toggle-bg input~:checked~.switch {
-    left: 13px;
-    background: #FE4E17;
-}
-
-/*окончательная относительная позиция переключателя */
-.toggle-bg input:checked {
-    z-index: 0;
-}
-
-.sub-classes {
-
-}
-
-.subscription-class {
-    display: inline;
-    align-items: center;
-    justify-content: start;
-}
-
-.collaps {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-}
+.toggle-bg input:checked~.switch{ left: -1px; } /* Исходная позиция тумблера */
+.toggle-bg input~:checked~.switch{ left: 13px; background: #FE4E17; } /*окончательная относительная позиция переключателя */
+.toggle-bg input:checked{ z-index: 0; }
 
 .class-buttons {
-    display: flex;
     max-height: 0;
     overflow: hidden;
     transition: max-height 0.2s ease-out;
-}
-
-.ggp-classes {
-    display: flex;
-    align-items: center;
-    padding: 10px;
-}
-
-.classes-letter {
-    display: flex;
-    flex-direction: row;
-    gap: 15px;
-    justify-content: end;
 }
 
 .A-class-button-submit {
@@ -250,7 +200,8 @@ h2.text {
 
 .C1-class-button-submit:hover,
 .C2-class-button-submit:hover,
-.C3-class-button-submit:hover .C1-class-button-submit.active,
+.C3-class-button-submit:hover
+.C1-class-button-submit.active,
 .C2-class-button-submit.active,
 .C3-class-button-submit.active {
     background: #54ca1d;
@@ -272,7 +223,7 @@ h2.text {
     cursor: pointer;
 }
 
-.D1-class-button-submit:hover,
+.D1-class-button-submit:hover, 
 .D2-class-button-submit:hover,
 .D3-class-button-submit:hover,
 .D4-class-button-submit:hover,
@@ -303,7 +254,7 @@ h2.text {
 
 .user-email h2 {
     display: inline-flex;
-    justify-content: center;
+    justify-content: center ;
     border: #9F9F9F solid 1px;
     border-radius: 3px;
     font-size: 26px;
@@ -321,6 +272,25 @@ h2.text {
     display: none;
 }
 
+.subscriptionGGP {
+    display: grid;
+    grid-template-columns: repeat(2, auto);
+    align-items: center;
+    padding: 10px;
+}
+
+.ggp-classes {
+    display: grid;
+    align-items: center;
+    justify-content: start;
+}
+
+.classes-letter {
+    display: flex;
+    flex-direction: row;
+    gap: 15px;
+    justify-content: end;
+}
 
 .subscriptionPercent {
     display: grid;
