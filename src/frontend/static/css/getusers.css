@@ -36,6 +36,7 @@ h2.text {
 }
 
 .main__user {
+    grid-area: user;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -97,54 +98,6 @@ h2.text {
         font-size: 10px;
         padding: 5px;
     }
-}
-
-.toggle-bg{
-    background: #ccc;
-    display: block;
-    float: left;
-    height: 7px;
-    position: relative;
-    width: 26px;
-    margin: 20px;
-    border-radius: 8px;
-    box-shadow: 0 1px 0 #fff, inset 0 0 2px #d7dee3, inset 0 1px 0 #d7dee3, inset 0 1px 5px #d7dee3;
-}
-
-.toggle-bg input{
-    height: 28px;
-    left: 0;
-    margin: 0;
-    opacity: 0; 
-    padding: 0;
-    position: absolute;
-    top: -10px; 
-    width: 36px;
-    z-index: 2; 
-}
-
-.switch{
-    background: #ccc;
-    display: block;
-    float: left;
-    height: 14px;
-    left: -1px; /* Это – начальная точка. При добавлении border radius немного виден фон, если использовать left: 0;, поэтому лучше всего применить -1px.*/
-    position: relative;
-    top: -3px; /* ...Чтобы отцентрировать его по вертикали */
-    width: 14px;
-    z-index: 1; /* Помните, он должен быть под невидимыми input-ами */
-    border-radius: 8px;
-    transition: left .2s ease;
-}
-
-.toggle-bg input:checked~.switch{ left: -1px; } /* Исходная позиция тумблера */
-.toggle-bg input~:checked~.switch{ left: 13px; background: #FE4E17; } /*окончательная относительная позиция переключателя */
-.toggle-bg input:checked{ z-index: 0; }
-
-.class-buttons {
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.2s ease-out;
 }
 
 .A-class-button-submit {

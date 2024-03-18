@@ -6,123 +6,110 @@
 
 
 
-{% block content %}
-<div class="container-main">
-    <div class="main__title">
-        <h2 class="text">Если вы это видите - значит успешно авторизовались и это хорошо...</h2>
-    </div>
-    <div class="main__user">
-        {% for user in users %}
-        <form class="user" data-userid="{{user.id}}">
-            <div class="user-email">
-                <h2>{{user.email}}</h2>
-                <button class="button delete-button-submit" type="submit" data-userid="{{user.id}}">Удалить
-                </button>
-            </div>
-            <div class="tg-id">
-                <div>{{user.telegram_id}}</div>
-            </div>
-
-            <div class="subscriptionGGP">
-                <div class="title">Подписаться на GGP</div>
-                <label class="check-box">
-                    {% if user.sub_ggp %}
-                    <input type="checkbox" checked>
-                    {% else %}
-                    <input type="checkbox">
-                    {% endif %}
-                    {{user.sub_ggp}}
-                </label>
-            </div>
-            <div class="subscriptionPercent">
-                <div class="title">Подписаться на проценты</div>
-                <label class="check-box">
-                    {% if user.sub_ggp_percent %}
-                    <input type="checkbox" checked>
-                    {% else %}
-                    <input type="checkbox">
-                    {% endif %}
-                    {{user.sub_ggp_percent}}
-                </label>
-            </div>
-            <div class="sub-classes">
+    {% block content %}
+    <div class="container-main">
+        <div class="main__title">
+            <h2 class="text">Если вы это видите - значит успешно авторизовались и это хорошо...</h2>
+        </div>
+        <div class="main__user">
+            {% for user in users %}
+            <form class="user" data-userid="{{user.id}}">
+                <div class="user-email">
+                    <h2>{{user.email}}</h2>
+                    <button class="button delete-button-submit" type="submit" data-userid="{{user.id}}">Удалить
+                    </button>
+                </div>
+                <div class="tg-id">
+                    <div>{{user.telegram_id}}</div>
+                </div>
+                <div class="subscriptionGGP">
+                    <div class="title">Подписан на GGP</div>
+                    <label class="check-box">
+                        {% if user.sub_ggp %}
+                        <input type="checkbox" checked>
+                        {% else %}
+                        <input type="checkbox">
+                        {% endif %}
+                        {{user.sub_ggp}}
+                    </label>
+                </div>
+                <div class="subscriptionPercent">
+                    <div class="title">Подписан на проценты</div>
+                    <label class="check-box">
+                        {% if user.sub_ggp_percent %}
+                        <input type="checkbox" checked>
+                        {% else %}
+                        <input type="checkbox">
+                        {% endif %}
+                        {{user.sub_ggp_percent}}
+                    </label>
+                </div>
                 <div class="subscriptionGGP">
                     <div class="ggp-classes">
-                        Подписаться на классы
+                        Подписан на:
                     </div>
-                    <div class="collaps">
+                    <div class="classes-letter">
                         {% for sc in user.ggp_sub_classes %}
                         {{sc.sport_class}}
                         {% endfor %}
                     </div>
-                </div>
-                <button class="collaps">hide</button>
-                <div class="class-buttons">
-                    <button class="button ggp-classes-sub A-class-button-submit" type="button"
-                        data-userid="{{user.id}}">A</button>
-                    <button class="button ggp-classes-sub B-class-button-submit" type="button"
-                        data-userid="{{user.id}}">B</button>
-                    <button class="button ggp-classes-sub C1-class-button-submit" type="button"
-                        data-userid="{{user.id}}">C1</button>
-                    <button class="button ggp-classes-sub C2-class-button-submit" type="button"
-                        data-userid="{{user.id}}">C2</button>
-                    <button class="button ggp-classes-sub C3-class-button-submit" type="button"
-                        data-userid="{{user.id}}">C3</button>
-                    <button class="button ggp-classes-sub D1-class-button-submit" type="button"
-                        data-userid="{{user.id}}">D1</button>
-                    <button class="button ggp-classes-sub D2-class-button-submit" type="button"
-                        data-userid="{{user.id}}">D2</button>
-                    <button class="button ggp-classes-sub D3-class-button-submit" type="button"
-                        data-userid="{{user.id}}">D3</button>
-                    <button class="button ggp-classes-sub D4-class-button-submit" type="button"
-                        data-userid="{{user.id}}">D4</button>
-                    <button class="button ggp-classes-sub N-class-button-submit" type="button"
-                        data-userid="{{user.id}}">N</button>
-                </div>
-            </div>
-            <div class="subscrStartEnd">
-                {% if user.sub_ggp_percent %}
-                <input type="checkbox" checked>
-                {% else %}
-                <div class="subscriptionStart">От: <input value="{{user.ggp_percent_begin}}" disabled></div>
-                <div class="subscriptionEnd">До: <input value="{{user.ggp_percent_end}}" disabled></div>
-                {% endif%}
-            </div>
-            <div class="subscriptionOffline">
-                <div class="title">Подписаться на офлайн</div>
-                <label class="check-box">
-                    <input type="checkbox">
-                    {{user.sub_offline}}
-                </label>
-            </div>
-            <div class="subscrStartEnd">
-                {% if user.sub_ggp_percent %}
-                <div class="subscriptionStart">От: <input value="{{user.ggp_percent_begin}}"></div>
-                <div class="subscriptionEnd">До: <input value="{{user.ggp_percent_end}}"></div>
-                {% else %}
-                <div class="subscriptionStart">От: <input value="{{user.ggp_percent_begin}}" disabled></div>
-                <div class="subscriptionEnd">До: <input value="{{user.ggp_percent_end}}" disabled></div>
-                {% endif%}
-            </div>
-            <div class="subscriptionOffline">
-                <div class="title">Подписаться на офлайн</div>
-                <label class="check-box">
-                    {% if user.sub_offline %}
-                    <input type="checkbox" checked> {% else %}
-                    <input type="checkbox"> {% endif %}
-                    {{user.sub_offline}}
-                </label>
-            </div>
-            <div class="regDate">Дата регистрации: {{user.registered_at.strftime("%d.%m.%Y|%H:%M:%S")}}</div>
-            <div class="role">Роль: {{user.role_id}}</div>
-            <button class="button patch-button-submit" type="submit" data-userid="{{user.id}}">Сохранить
-                изменения</button>
-        </form>
-        {% endfor %}
 
+                </div>
+                <div class="class-buttons">
+                    <button class="button ggp-classes-sub A-class-button-submit" type="button" data-userid="{{user.id}}">A</button>
+                    <button class="button ggp-classes-sub B-class-button-submit" type="button" data-userid="{{user.id}}">B</button>
+                    <button class="button ggp-classes-sub C1-class-button-submit" type="button" data-userid="{{user.id}}">C1</button>
+                    <button class="button ggp-classes-sub C2-class-button-submit" type="button" data-userid="{{user.id}}">C2</button>
+                    <button class="button ggp-classes-sub C3-class-button-submit" type="button" data-userid="{{user.id}}">C3</button>
+                    <button class="button ggp-classes-sub D1-class-button-submit" type="button" data-userid="{{user.id}}">D1</button>
+                    <button class="button ggp-classes-sub D2-class-button-submit" type="button" data-userid="{{user.id}}">D2</button>
+                    <button class="button ggp-classes-sub D3-class-button-submit" type="button" data-userid="{{user.id}}">D3</button>
+                    <button class="button ggp-classes-sub D4-class-button-submit" type="button" data-userid="{{user.id}}">D4</button>
+                    <button class="button ggp-classes-sub N-class-button-submit" type="button" data-userid="{{user.id}}">N</button>
+                </div>
+                <div class="subscrStartEnd" >
+                    {% if user.sub_ggp_percent %}
+                    <input type="checkbox" checked>
+                    {% else %}
+                    <div class="subscriptionStart">От: <input value="{{user.ggp_percent_begin}}" disabled></div>
+                    <div class="subscriptionEnd">До: <input value="{{user.ggp_percent_end}}" disabled></div>
+                    {% endif%}
+                </div>
+                <div class="subscriptionOffline">
+                    <div class="title">Подписан на офлайн</div>
+                    <label class="check-box">
+                        <input type="checkbox">
+                        {{user.sub_offline}}
+                    </label>
+                </div>
+                <div class="subscrStartEnd">
+                    {% if user.sub_ggp_percent %}
+                    <div class="subscriptionStart">От: <input value="{{user.ggp_percent_begin}}"></div>
+                    <div class="subscriptionEnd">До: <input value="{{user.ggp_percent_end}}"></div>
+                    {% else %}
+                    <div class="subscriptionStart">От: <input value="{{user.ggp_percent_begin}}" disabled></div>
+                    <div class="subscriptionEnd">До: <input value="{{user.ggp_percent_end}}" disabled></div>
+                    {% endif%}
+                </div>
+                <div class="subscriptionOffline">
+                    <div class="title">Подписан на офлайн</div>
+                    <label class="check-box">
+                        {% if user.sub_offline %}
+                        <input type="checkbox" checked> {% else %}
+                        <input type="checkbox"> {% endif %}
+                        {{user.sub_offline}}
+                    </label>
+                </div>
+                <div class="regDate">Дата регистрации: {{user.registered_at.strftime("%d.%m.%Y|%H:%M:%S")}}</div>
+                <div class="role">Роль: {{user.role_id}}</div>
+                <button class="button patch-button-submit" type="submit" data-userid="{{user.id}}">Сохранить
+                    изменения</button>
+            </form>
+            {% endfor %}
+
+        </div>
     </div>
-</div>
-{% endblock %}
+    {% endblock %}
 </div>
 
 <script src="/static/js/getusers.js"></script>

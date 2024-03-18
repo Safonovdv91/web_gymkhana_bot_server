@@ -1,25 +1,5 @@
 
 
-// сворачивание кнопок классов
-
-
-let coll = document.getElementsByClassName('collaps')
-
-for (let i = 0; i < coll.length; i++) {
-  coll[i].addEventListener('click', function (event) {
-    event.preventDefault();
-    console.log('click')
-    this.classList.toggle('active');
-    let content = this.nextElementSibling;
-    if (content.style.maxHeight) {
-      content.style.maxHeight = null;
-    } else {
-      content.style.maxHeight = content.scrollHeight + 'px'
-    }
-  })
-}
-
-
 //медот PATCH запроса
 
 (function asd() {
@@ -93,7 +73,7 @@ function handleClickFunction(event) {
 }
 
 for (let element of elements) {
-  element.addEventListener('click', handleClickFunction)
+element.addEventListener('click', handleClickFunction)
 }
 
 
