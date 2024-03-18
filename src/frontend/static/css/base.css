@@ -91,8 +91,7 @@ html, body {
 }
 
 body {
-    font-family: 'Roboto', serif;
-
+    font-family: 'Rubic', serif;
 }
 
 .wrapper {
@@ -105,9 +104,10 @@ body {
     flex: 0;
     background: #202020;
     display: grid;
-    grid-template-columns: 0.5fr 0.25fr 1fr;
+    grid-template-columns: 0.5fr 0.25fr 0.5fr 0.5fr;
+    align-items: center;
     grid-template-areas:
-        "logo text title"
+        "logo text title exit"
 }
 
 .header__image {
@@ -151,6 +151,19 @@ body {
     .header__title {
         display: none;
     }
+}
+
+.patch-button-exit {
+    grid-area: exit;
+    font-weight: 350;
+    font-size: 20px;
+    color: white;
+    border-radius: 5px;
+    background: #FE4E17;
+    cursor: pointer;
+    height: 40px;
+    padding: 10px;
+    align-self: center;
 }
 
 footer {
