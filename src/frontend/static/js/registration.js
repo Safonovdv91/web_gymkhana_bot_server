@@ -26,7 +26,7 @@ let checkForm = (password, pw2) => {
 };
 
 // объявляем константу с URL-адресом, на котрый будет отправляться запрос
-const requestURL =`${AppConsts.BaseUrl}/auth/register` ;// 'http://127.0.0.1:8000/auth/register';
+const requestURL = `${AppConsts.BaseUrl}/auth/register`;// 'http://127.0.0.1:8000/auth/register';
 
 // создаём функцию, в которой объявляем переменные, условие и делаем запрос
 async function onSubmit(event) {
@@ -64,7 +64,7 @@ async function onSubmit(event) {
     console.log(JSON.stringify(result));
 
     // проверка статуса для вывода сообщения о результате выполнения запроса(ошибка или успех)
-    if (response.status == 400 ) {
+    if (response.status == 400) {
       alert('Такой пользователь уже существует')
 
 
@@ -73,8 +73,8 @@ async function onSubmit(event) {
 
     } else if (response.status == 201) {
 
-        alert('Вы успешно зарегистрировались');
-        window.location = "login"
+      alert('Вы успешно зарегистрировались');
+      window.location = "login"
     } else console.log('Что-то пошло нетак, обратитесь в поддержку');
 
   };
