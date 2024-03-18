@@ -16,7 +16,7 @@ function myFunction3() {
 }
 
 // Закройте выпадающее меню, если пользователь щелкает за его пределами
-window.onclick = function(event) {
+window.onclick = function (event) {
   if (!event.target.matches('.hi__listDropBth')) {
     var dropdowns = document.getElementsByClassName("drop__content");
     var i;
