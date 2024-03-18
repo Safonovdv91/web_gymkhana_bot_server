@@ -40,5 +40,3 @@ async function onSubmit(event) {
   } else alert('Обратитесь в поддержку')
 
 }
-
-
