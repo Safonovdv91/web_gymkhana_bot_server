@@ -75,16 +75,25 @@ h2.text {
 .user-email {
     display: flex;
     flex-direction: row;
-    gap: 20px;
-    justify-content: space-between;
+    align-items: center;
+    justify-content: space-around;
+    gap: 10px;
+}
+
+.user-email h2 {
+    font-size: 24px;
+    padding: 5px;
+    border: 1px solid #dddada;
+    border-radius: 10px;
+
 }
 
 @media (max-width: 520px) {
     .user-email {
-        flex-direction: column;
-        
         padding: 5px;
+        justify-content: space-between;
     }
+
     .user-email h2 {
         font-size: 18px;
     }
@@ -97,7 +106,8 @@ h2.text {
     border-radius: 5px;
     background: #808080;
     cursor: pointer;
-    padding: 10px;
+    padding: 5px;
+    align-self: end;
 }
 
 .delete-button-submit:hover {
@@ -106,7 +116,7 @@ h2.text {
 
 @media (max-width: 520px) {
     .delete-button-submit {
-        font-size: 10px;
+        font-size: 12px;
         padding: 5px;
     }
 }
@@ -176,7 +186,7 @@ h2.text {
 
 }
 
-    
+
 .subscriptionPercent {
     display: flex;
     flex-direction: row;
@@ -256,9 +266,7 @@ h2.text {
 }
 
 @media (max-width: 520px) {
-    .class-buttons {
-        
-    }
+    .class-buttons {}
 }
 
 .ggp-classes {
@@ -297,7 +305,7 @@ h2.text {
     }
 }
 
-.A-class-button-submit:hover{
+.A-class-button-submit:hover {
     box-shadow: 0 0 8px #f17575;
 }
 
@@ -306,7 +314,7 @@ h2.text {
     box-shadow: 0 0 10px #f17575;
 }
 
-.B-class-button-submit:hover{
+.B-class-button-submit:hover {
     box-shadow: 0 0 10px #6975dd;
 }
 
@@ -346,9 +354,10 @@ h2.text {
     box-shadow: 0 0 10px #e6b83c;
 }
 
-.N-class-button-submit:hover{
+.N-class-button-submit:hover {
     box-shadow: 0 0 10px #d8d7d5;
 }
+
 .N-class-button-submit.active {
     background: #d8d7d5;
     box-shadow: 0 0 10px #d8d7d5;
@@ -404,9 +413,7 @@ h2.text {
     }
 }
 
-.role {
-
-}
+.role {}
 
 .title {
     justify-self: start;
