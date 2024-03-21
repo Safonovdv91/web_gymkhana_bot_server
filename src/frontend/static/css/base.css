@@ -104,20 +104,17 @@ body {
 .container-head {
     flex: 0;
     background: #202020;
-    display: grid;
+    display: flex;
     align-items: center;
-    grid-template-areas:
-        "logo text title exit"
+    justify-content: center;
 }
 
 .header__image {
-    grid-area: logo;
     justify-self: right;
     align-self: center;
 }
 
 .header__text {
-    grid-area: text;
     color: #FFF;
     text-shadow: 0px 3px 3px rgba(181, 181, 181, 0.50);
     font-family: Rubik;
@@ -139,14 +136,13 @@ body {
 }
 
 .header__title {
-    grid-area: title;
     display: flex;
-    justify-content: center;
+    justify-content: start;
     align-items: center;
     color: #9F9F9F;
     font-size: 24px;
     font-weight: 400;
-    text-align: center;
+    text-align: start;
     padding: 10px;
 }
 
@@ -159,7 +155,6 @@ body {
 }
 
 .patch-button-exit {
-    grid-area: exit;
     display: flex;
     justify-content: center;
     align-items: center;
