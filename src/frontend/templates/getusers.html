@@ -4,104 +4,123 @@
 <link rel="stylesheet" href="../static/css/getusers.css">
 {% endblock %}
 
-    {% block content %}
-    <div class="container-main">
-        <div class="main__title">
-            <h2 class="text">Если вы это видите - значит успешно авторизовались и это хорошо...</h2>
-        </div>
-        <div class="main__user">
-            {% for user in users %}
-            <form class="user" data-userid="{{user.id}}">
-                <div class="user-email">
-                    <h2>{{user.email}}</h2>
-                    <button class="button delete-button-submit" type="submit" data-userid="{{user.id}}">Удалить
-                    </button>
-                </div>
-                <div class="tg-id">
-                    <div>{{user.telegram_id}}</div>
-                </div>
-                <div class="subscriptionGGP">
-                    <div class="title">Подписаться на GGP</div>
-                    <label class="check-box">
+{% block content %}
+<div class="container-main">
+    <div class="main__title">
+        <h2 class="text">Если вы это видите - значит успешно авторизовались и это хорошо...</h2>
+    </div>
+    <div class="main__user">
+        {% for user in users %}
+        <form class="user" data-userid="{{user.id}}">
+            <div class="user-email">
+                <h2>{{user.email}}</h2>
+                <button class="button delete-button-submit" type="submit" data-userid="{{user.id}}">Удалить
+                </button>
+            </div>
+            <div class="tg-id">
+                <div>{{user.telegram_id}}</div>
+            </div>
+            <div class="subscriptionGGP">
+                <div class="title">Подписаться на GGP</div>
+                <label class="check-box">
+
+                    <span class="toggle-bg">
+                        <input type="radio" name="toggleGGP" value="off">
+                        <input type="radio" name="toggleGGP" value="on">
+                        <span class="switch"></span>
+                    </span>
+                    <!-- блок кода, который отправляет запрос на подписку
                         {% if user.sub_ggp %}
                         <input type="checkbox" checked>
                         {% else %}
                         <input type="checkbox">
                         {% endif %}
-                        {{user.sub_ggp}}
-                    </label>
-                </div>
-                <div class="subscriptionPercent">
-                    <div class="title">Подписаться на проценты</div>
-                    <label class="check-box">
+                        {{user.sub_ggp}}-->
+                </label>
+            </div>
+            <div class="subscriptionPercent">
+                <div class="title">Подписаться на проценты</div>
+                <label class="check-box">
+
+                    <span class="toggle-bg">
+                        <input type="radio" name="togglePercent" value="off">
+                        <input type="radio" name="togglePercent" value="on">
+                        <span class="switch"></span>
+                    </span>
+                    <!-- блок кода, который отправляет запрос на подписку
                         {% if user.sub_ggp_percent %}
                         <input type="checkbox" checked>
                         {% else %}
                         <input type="checkbox">
                         {% endif %}
-                        {{user.sub_ggp_percent}}
-                    </label>
+                        {{user.sub_ggp_percent}}-->
+                </label>
+            </div>
+            <div class="subscription-class">
+                <div class="ggp-classes">
+                    Подписаться на классы
                 </div>
-                <div class="subscriptionGGP">
-                    <div class="ggp-classes">
-                        Подписаться на:
-                    </div>
-                    <div class="classes-letter">
-                        {% for sc in user.ggp_sub_classes %}
-                        {{sc.sport_class}}
-                        {% endfor %}
-                    </div>
+                <!--<div class="classes-letter">
+                    {% for sc in user.ggp_sub_classes %}
+                    {{sc.sport_class}}
+                    {% endfor %}
+                </div>-->
 
-                </div>
+                <label class="toggle-bgCollapse">
+                    <input type="radio" name="toggleClass" value="off">
+                    <input type="radio" name="toggleClass" value="on">
+                    <span class="switchCollapse"></span>
+                </label>
+
                 <div class="class-buttons">
                     {% for each in ["A", "B", "C1", "C2", "C3", "D1", "D2", "D3", "D4","N"] %}
                     <button id="{{user.id}}ggp{{each}}" class="button ggp-classes-sub {{each}}-class-button-submit"
                         type="button" data-userid="{{user.id}}">{{each}}</button>
                     {% endfor %}
                 </div>
-                <div class="subscrStartEnd" >
-                    {% if user.sub_ggp_percent %}
-                    <input type="checkbox" checked>
-                    {% else %}
-                    <div class="subscriptionStart">От: <input value="{{user.ggp_percent_begin}}" disabled></div>
-                    <div class="subscriptionEnd">До: <input value="{{user.ggp_percent_end}}" disabled></div>
-                    {% endif%}
-                </div>
-                <div class="subscriptionOffline">
-                    <div class="title">Подписаться на офлайн</div>
-                    <label class="check-box">
-                        <input type="checkbox">
-                        {{user.sub_offline}}
-                    </label>
-                </div>
-                <div class="subscrStartEnd">
-                    {% if user.sub_ggp_percent %}
-                    <div class="subscriptionStart">От: <input value="{{user.ggp_percent_begin}}"></div>
-                    <div class="subscriptionEnd">До: <input value="{{user.ggp_percent_end}}"></div>
-                    {% else %}
-                    <div class="subscriptionStart">От: <input value="{{user.ggp_percent_begin}}" disabled></div>
-                    <div class="subscriptionEnd">До: <input value="{{user.ggp_percent_end}}" disabled></div>
-                    {% endif%}
-                </div>
-                <div class="subscriptionOffline">
-                    <div class="title">Подписаться на офлайн</div>
-                    <label class="check-box">
-                        {% if user.sub_offline %}
-                        <input type="checkbox" checked> {% else %}
-                        <input type="checkbox"> {% endif %}
-                        {{user.sub_offline}}
-                    </label>
-                </div>
-                <div class="regDate">Дата регистрации: {{user.registered_at.strftime("%d.%m.%Y|%H:%M:%S")}}</div>
-                <div class="role">Роль: {{user.role_id}}</div>
-                <button class="button patch-button-submit" type="submit" data-userid="{{user.id}}">Сохранить
-                    изменения</button>
-            </form>
-            {% endfor %}
+            </div>
+            <div class="subscrStartEnd">
+                {% if user.sub_ggp_percent %}
+                <input type="checkbox" checked>
+                {% else %}
+                <div class="subscriptionStart">От: <input value="{{user.ggp_percent_begin}}" disabled></div>
+                <div class="subscriptionEnd">До: <input value="{{user.ggp_percent_end}}" disabled></div>
+                {% endif%}
+            </div>
+            <div class="subscriptionOffline">
+                <div class="title">Подписаться на офлайн</div>
+                <label class="check-box">
+                    
+                    <span class="toggle-bg">
+                        <input type="radio" name="toggleOffline" value="off">
+                        <input type="radio" name="toggleOffline" value="on">
+                        <span class="switch"></span>
+                    </span>
 
-        </div>
+                    <!--{{user.sub_offline}}-->
+                </label>
+            </div>
+            <div class="subscrStartEnd">
+                {% if user.sub_ggp_percent %}
+                <div class="subscriptionStart">От: <input value="{{user.ggp_percent_begin}}"></div>
+                <div class="subscriptionEnd">До: <input value="{{user.ggp_percent_end}}"></div>
+                {% else %}
+                <div class="subscriptionStart">От: <input value="{{user.ggp_percent_begin}}" disabled></div>
+                <div class="subscriptionEnd">До: <input value="{{user.ggp_percent_end}}" disabled></div>
+                {% endif%}
+            </div>
+
+            <div class="regDate">Дата регистрации: {{user.registered_at.strftime("%d.%m.%Y|%H:%M:%S")}}</div>
+            <div class="role">Роль: {{user.role_id}}</div>
+
+            <!-- кнопка сохранить изменения
+                <button class="button patch-button-submit" type="submit" data-userid="{{user.id}}">Сохранить
+                    изменения</button>  -->
+        </form>
+        {% endfor %}
+
     </div>
-    {% endblock %}
 </div>
+{% endblock %}
 
 <script src="/static/js/getusers.js"></script>

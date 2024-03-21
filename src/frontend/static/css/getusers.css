@@ -53,6 +53,7 @@ h2.text {
     padding: 20px;
     margin: 10px;
     grid-template-rows: repeat(10, auto);
+    max-width: 550px;
 }
 
 @media (max-width: 520px) {
@@ -98,18 +99,11 @@ h2.text {
     }
 }
 
-.subscriptionGGP {
-    display: grid;
-    grid-template-columns: repeat(2, auto);
-    align-items: center;
-    padding: 10px;
-}
-
 .toggle-bg {
     background: #ccc;
     display: block;
     float: left;
-    height: 7px;
+    height: 8px;
     position: relative;
     width: 26px;
     margin: 20px;
@@ -134,7 +128,7 @@ h2.text {
     display: block;
     float: left;
     height: 14px;
-    left: -1px;
+    left: -2px;
     /* Это – начальная точка. При добавлении border radius немного виден фон, если использовать left: 0;, поэтому лучше всего применить -1px.*/
     position: relative;
     top: -3px;
@@ -144,10 +138,11 @@ h2.text {
     /* Помните, он должен быть под невидимыми input-ами */
     border-radius: 8px;
     transition: left .2s ease;
+    margin: 1px;
 }
 
 .toggle-bg input:checked~.switch {
-    left: -1px;
+    left: -2px;
 }
 
 /* Исходная позиция тумблера */
@@ -161,26 +156,94 @@ h2.text {
     z-index: 0;
 }
 
-.subscription-class {
-    display: inline;
-    align-items: center;
-    justify-content: start;
-}
-
-.collaps {
-    display: inline-flex;
+.subscriptionGGP {
+    display: flex;
+    flex-direction: row;
     align-items: center;
     justify-content: center;
+    padding: 10px;
+}
+
+.subscriptionPercent {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+}
+
+.subscription-class {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.toggle-bgCollapse {
+    background: #ccc;
+    display: block;
+    float: left;
+    height: 8px;
+    position: relative;
+    width: 26px;
+    margin: 20px;
+    border-radius: 8px;
+    box-shadow: 0 1px 0 #fff, inset 0 0 2px #d7dee3, inset 0 1px 0 #d7dee3, inset 0 1px 5px #d7dee3;
+}
+
+.toggle-bgCollapse input {
+    height: 28px;
+    left: 0;
+    margin: 0;
+    opacity: 0;
+    padding: 0;
+    position: absolute;
+    top: -10px;
+    width: 36px;
+    z-index: 2;
+}
+
+.switchCollapse {
+    background: #ccc;
+    display: block;
+    float: left;
+    height: 14px;
+    left: -2px;
+    /* Это – начальная точка. При добавлении border radius немного виден фон, если использовать left: 0;, поэтому лучше всего применить -1px.*/
+    position: relative;
+    top: -3px;
+    /* ...Чтобы отцентрировать его по вертикали */
+    width: 14px;
+    z-index: 1;
+    /* Помните, он должен быть под невидимыми input-ами */
+    border-radius: 8px;
+    transition: left .2s ease;
+    margin: 1px;
+}
+
+.toggle-bgCollapse input:checked~.switchCollapse {
+    left: -2px;
+}
+
+/* Исходная позиция тумблера */
+.toggle-bgCollapse input~:checked~.switchCollapse {
+    left: 13px;
+    background: #FE4E17;
+}
+
+/*окончательная относительная позиция переключателя */
+.toggle-bgCollapse input:checked {
+    z-index: 0;
 }
 
 .class-buttons {
     display: flex;
-
+    max-height: 0;
+    overflow: hidden;
     transition: max-height 0.2s ease-out;
 }
 
 .ggp-classes {
-    display: flex;
+    display: inline;
     align-items: center;
     padding: 10px;
 }
@@ -283,14 +346,6 @@ h2.text {
     display: none;
 }
 
-
-.subscriptionPercent {
-    display: grid;
-    grid-template-columns: repeat(2, auto);
-    align-items: center;
-    padding: 10px;
-}
-
 .subscrStartEnd {
     display: none;
     grid-template-columns: repeat(2, auto);
@@ -314,9 +369,10 @@ h2.text {
 }
 
 .subscriptionOffline {
-    display: grid;
-    grid-template-columns: repeat(2, auto);
+    display: flex;
+    flex-direction: row;
     align-items: center;
+    justify-content: center;
     padding: 10px;
 }
 
@@ -355,6 +411,7 @@ h2.text {
     justify-self: start;
 }
 
+/* стили кнопки сохранить изменения
 .patch-button-submit {
     margin: 0px auto;
     display: block;
@@ -372,4 +429,4 @@ h2.text {
     .patch-button-submit {
         font-size: 12px;
     }
-}
+}*/

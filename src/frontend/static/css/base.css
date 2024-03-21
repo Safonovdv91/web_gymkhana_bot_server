@@ -166,6 +166,10 @@ body {
     align-self: center;
 }
 
+.patch-button-exit:hover {
+    background: #c53d13;
+}
+
 footer {
     flex-shrink: 0;
     display: flex;

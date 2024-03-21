@@ -59,7 +59,7 @@ var rmg = rmg || {};
     event.preventDefault();
     console.log('click');
 
-    this.classList.toggle('active');
+    this.classList.toggle('checked');
     let content = this.nextElementSibling;
 
     if (content.style.maxHeight) {
@@ -99,9 +99,9 @@ var rmg = rmg || {};
     }
   }
 
-  // Создаём функцию, в которой объявляем переменные, условие и делаем запрос
+  // Кнопка разлогиниться
   async function onExit(event) {
-    // отмена действия браузера, чтобы он ничего не делал, пока юзер на нажмёт на кнопку
+
     event.preventDefault();
 
     // объявляем константу с URL-адресом, на котрый будет отправляться запрос
@@ -120,9 +120,6 @@ var rmg = rmg || {};
     if (response.status == 200 || response.status == 204) {
       alert('Success');
       window.location = "login";
-    } else if (response.status == 401) {
-      alert('Inactive user');
-      window.location = "login";
 
     } else console.log('Что-то пошло нетак, обратитесь в поддержку');
   };
@@ -130,7 +127,7 @@ var rmg = rmg || {};
   // Добавляем обработчики событий.
   function addEventListeners() {
     // Сворачивание кнопок классов
-    let collapseButtons = document.getElementsByClassName('collaps');
+    let collapseButtons = document.getElementsByClassName('toggle-bgCollapse');
     for (let collapseButton of collapseButtons) {
       collapseButton.addEventListener('click', onCollapse);
     }
