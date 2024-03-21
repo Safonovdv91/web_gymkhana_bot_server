@@ -59,7 +59,7 @@ var rmg = rmg || {};
     event.preventDefault();
     console.log('click');
 
-    this.classList.toggle('active');
+    this.classList.toggle('checked');
     let content = this.nextElementSibling;
 
     if (content.style.maxHeight) {
@@ -127,7 +127,7 @@ var rmg = rmg || {};
   // Добавляем обработчики событий.
   function addEventListeners() {
     // Сворачивание кнопок классов
-    let collapseButtons = document.getElementsByClassName('collaps');
+    let collapseButtons = document.getElementsByClassName('toggle-bgCollapse');
     for (let collapseButton of collapseButtons) {
       collapseButton.addEventListener('click', onCollapse);
     }
