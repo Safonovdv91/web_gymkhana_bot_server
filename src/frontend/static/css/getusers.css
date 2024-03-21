@@ -42,6 +42,12 @@ h2.text {
     gap: 10px;
 }
 
+@media (max-width: 520px) {
+    .main__user {
+        font-size: 14px;
+    }
+}
+
 .user {
     display: grid;
     background: rgba(20, 20, 20, 0.80);
@@ -50,15 +56,18 @@ h2.text {
     font-size: 20px;
     font-weight: 400;
     text-align: center;
-    padding: 20px;
-    margin: 10px;
+    padding: 10px;
+    gap: 5px;
     grid-template-rows: repeat(10, auto);
     max-width: 550px;
 }
 
 @media (max-width: 520px) {
     .user {
-        min-width: 300px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
         font-size: 14px;
     }
 }
@@ -66,15 +75,27 @@ h2.text {
 .user-email {
     display: flex;
     flex-direction: row;
-    gap: 20px;
-    justify-content: space-between;
+    align-items: center;
+    justify-content: space-around;
+    gap: 10px;
+}
+
+.user-email h2 {
+    font-size: 24px;
+    padding: 5px;
+    border: 1px solid #dddada;
+    border-radius: 10px;
+
 }
 
 @media (max-width: 520px) {
     .user-email {
-        flex-direction: column;
-        font-size: 10px;
         padding: 5px;
+        justify-content: space-between;
+    }
+
+    .user-email h2 {
+        font-size: 18px;
     }
 }
 
@@ -85,7 +106,8 @@ h2.text {
     border-radius: 5px;
     background: #808080;
     cursor: pointer;
-    padding: 10px;
+    padding: 5px;
+    align-self: end;
 }
 
 .delete-button-submit:hover {
@@ -94,7 +116,7 @@ h2.text {
 
 @media (max-width: 520px) {
     .delete-button-submit {
-        font-size: 10px;
+        font-size: 12px;
         padding: 5px;
     }
 }
@@ -118,7 +140,7 @@ h2.text {
     opacity: 0;
     padding: 0;
     position: absolute;
-    top: -10px;
+    top: -19px;
     width: 36px;
     z-index: 2;
 }
@@ -161,21 +183,22 @@ h2.text {
     flex-direction: row;
     align-items: center;
     justify-content: center;
-    padding: 10px;
+
 }
+
 
 .subscriptionPercent {
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: center;
-    padding: 10px;
 }
 
 .subscription-class {
     display: flex;
     flex-direction: column;
     align-items: center;
+
 }
 
 .toggle-bgCollapse {
@@ -185,7 +208,7 @@ h2.text {
     height: 8px;
     position: relative;
     width: 26px;
-    margin: 20px;
+    margin: 10px;
     border-radius: 8px;
     box-shadow: 0 1px 0 #fff, inset 0 0 2px #d7dee3, inset 0 1px 0 #d7dee3, inset 0 1px 5px #d7dee3;
 }
@@ -242,10 +265,13 @@ h2.text {
     transition: max-height 0.2s ease-out;
 }
 
+@media (max-width: 520px) {
+    .class-buttons {}
+}
+
 .ggp-classes {
     display: inline;
     align-items: center;
-    padding: 10px;
 }
 
 .classes-letter {
@@ -269,7 +295,17 @@ h2.text {
 
 }
 
-.A-class-button-submit:hover{
+@media (max-width: 520px) {
+    .ggp-classes-sub {
+        width: 28px;
+        height: 28px;
+        margin: 3px;
+        text-align: center;
+        border-radius: 13px;
+    }
+}
+
+.A-class-button-submit:hover {
     box-shadow: 0 0 8px #f17575;
 }
 
@@ -278,7 +314,7 @@ h2.text {
     box-shadow: 0 0 10px #f17575;
 }
 
-.B-class-button-submit:hover{
+.B-class-button-submit:hover {
     box-shadow: 0 0 10px #6975dd;
 }
 
@@ -318,27 +354,13 @@ h2.text {
     box-shadow: 0 0 10px #e6b83c;
 }
 
-.N-class-button-submit:hover{
+.N-class-button-submit:hover {
     box-shadow: 0 0 10px #d8d7d5;
 }
+
 .N-class-button-submit.active {
     background: #d8d7d5;
     box-shadow: 0 0 10px #d8d7d5;
-}
-
-.user-email h2 {
-    display: inline-flex;
-    justify-content: center;
-    border: #9F9F9F solid 1px;
-    border-radius: 3px;
-    font-size: 26px;
-    padding: 10px;
-}
-
-@media (max-width: 520px) {
-    .user-email h2 {
-        font-size: 18px;
-    }
 }
 
 .tg-id {
@@ -373,14 +395,12 @@ h2.text {
     flex-direction: row;
     align-items: center;
     justify-content: center;
-    padding: 10px;
 }
 
 .subscriptionWR {
     display: grid;
     grid-template-columns: repeat(2, auto);
     align-items: center;
-    padding: 10px;
 }
 
 .regDate {
@@ -393,19 +413,7 @@ h2.text {
     }
 }
 
-.role {
-    padding: 10px;
-}
-
-.check-box {
-    justify-self: end;
-    align-self: center;
-}
-
-.check-box input {
-    accent-color: #FE4E17;
-    margin: 10px;
-}
+.role {}
 
 .title {
     justify-self: start;
