@@ -18,6 +18,6 @@ jobs:
         echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
         ssh-keyscan -H ${{ secrets.SSH_HOST }} > ~/.ssh/known_hosts
     - name: connect and pull
-      run: ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "cd ${{ secrets.TEST_DIR }} && git checkout ${{ secrets.MAIN_BRANCH }} && git pull && ./rebuild_server.sh && exit"
+      run: ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "cd ${{ secrets.TEST_DIR }} && git fetch origin pull/${{ github.event.pull_request.number }}/head:pr-${{ github.event.pull_request.number }} && git checkout pr-${{ github.event.pull_request.number }} && ./rebuild_server.sh && exit"
     - name: cleanup
       run: rm -rf ~/.ssh
