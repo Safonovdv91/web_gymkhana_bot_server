@@ -99,9 +99,9 @@ var rmg = rmg || {};
     }
   }
 
-  // Создаём функцию, в которой объявляем переменные, условие и делаем запрос
+  // Кнопка разлогиниться
   async function onExit(event) {
-    // отмена действия браузера, чтобы он ничего не делал, пока юзер на нажмёт на кнопку
+
     event.preventDefault();
 
     // объявляем константу с URL-адресом, на котрый будет отправляться запрос
@@ -119,9 +119,6 @@ var rmg = rmg || {};
     // проверка статуса для вывода сообщения о результате выполнения запроса(ошибка или успех)
     if (response.status == 200 || response.status == 204) {
       alert('Success');
-      window.location = "login";
-    } else if (response.status == 401) {
-      alert('Inactive user');
       window.location = "login";
 
     } else console.log('Что-то пошло нетак, обратитесь в поддержку');

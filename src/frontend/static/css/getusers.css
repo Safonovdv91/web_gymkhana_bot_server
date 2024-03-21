@@ -355,6 +355,7 @@ h2.text {
     justify-self: start;
 }
 
+/* стили кнопки сохранить изменения
 .patch-button-submit {
     margin: 0px auto;
     display: block;
@@ -372,4 +373,4 @@ h2.text {
     .patch-button-submit {
         font-size: 12px;
     }
-}
+}*/
