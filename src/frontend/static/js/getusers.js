@@ -59,7 +59,7 @@ var rmg = rmg || {};
     event.preventDefault();
     console.log('click');
 
-    this.classList.toggle('checked');
+    this.classList.toggle('active');
     let content = this.nextElementSibling;
 
     if (content.style.maxHeight) {

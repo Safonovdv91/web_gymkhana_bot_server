@@ -86,7 +86,8 @@ h6 {
 /* обнуление стилей */
 
 
-html, body {
+html,
+body {
     height: 100%;
 }
 
@@ -96,15 +97,14 @@ body {
 
 .wrapper {
     display: flex;
-	flex-direction: column;
-	min-height: 100%;
+    flex-direction: column;
+    min-height: 100%;
 }
 
 .container-head {
     flex: 0;
     background: #202020;
     display: grid;
-    grid-template-columns: 0.5fr 0.25fr 0.5fr 0.5fr;
     align-items: center;
     grid-template-areas:
         "logo text title exit"
@@ -127,34 +127,42 @@ body {
     letter-spacing: 3px;
     font-size: 24px;
     align-self: center;
-    justify-self: left;
+    justify-self: start;
     padding: 10px;
 }
 
-.header__title {
-    grid-area: title;
-    justify-self: left;
-    align-self: center;
-    color: #9F9F9F;
-    font-size: 24px;
-    font-weight: 400;
-}
-
 @media (max-width: 520px) {
-    .header__title {
-        font-size: 18px;
+    .header__text {
+        padding: 5px;
     }
 
 }
 
+.header__title {
+    grid-area: title;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #9F9F9F;
+    font-size: 24px;
+    font-weight: 400;
+    text-align: center;
+    padding: 10px;
+}
+
 @media (max-width: 520px) {
     .header__title {
-        display: none;
+        font-size: 16px;
+        font-weight: 200;
+        text-align: center;
     }
 }
 
 .patch-button-exit {
     grid-area: exit;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     font-weight: 350;
     font-size: 20px;
     color: white;
@@ -162,12 +170,20 @@ body {
     background: #FE4E17;
     cursor: pointer;
     height: 40px;
-    padding: 10px;
+    margin: 5px;
+    padding: 5px;
     align-self: center;
 }
 
 .patch-button-exit:hover {
     background: #c53d13;
+}
+
+@media (max-width: 520px) {
+    .patch-button-exit {
+        font-size: 14px;
+        height: 30px;
+    }
 }
 
 footer {
