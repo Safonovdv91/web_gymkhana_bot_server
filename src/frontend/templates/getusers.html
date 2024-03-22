@@ -58,6 +58,12 @@
             <div class="subscription-class">
                 <div class="ggp-classes">
                     Подписаться на классы
+
+                    <label class="checkbox-ios collapse">
+                        <input type="checkbox">
+                        <span class="checkbox-ios-switch"></span>
+                    </label>
+
                 </div>
                 <!--<div class="classes-letter">
                     {% for sc in user.ggp_sub_classes %}
@@ -65,12 +71,7 @@
                     {% endfor %}
                 </div>-->
 
-                <label class="checkbox-ios collapse">
-                    <input type="checkbox">
-                    <span class="checkbox-ios-switch"></span>
-                </label>
-
-                <div class="class-buttons">
+                <div class="class-buttons" id="class-buttons">
                     {% for each in ["A", "B", "C1", "C2", "C3", "D1", "D2", "D3", "D4","N"] %}
                     <button id="{{user.id}}ggp{{each}}" class="button ggp-classes-sub {{each}}-class-button-submit"
                         type="button" data-userid="{{user.id}}">{{each}}</button>
