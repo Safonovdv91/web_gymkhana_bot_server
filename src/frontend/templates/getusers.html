@@ -24,11 +24,11 @@
                 <div class="title">Подписаться на GGP</div>
                 <label class="check-box">
 
-                    <span class="toggle-bg">
-                        <input type="radio" name="toggleGGP" value="off">
-                        <input type="radio" name="toggleGGP" value="on">
-                        <span class="switch"></span>
-                    </span>
+                    <label class="checkbox-ios">
+                        <input type="checkbox">
+                        <span class="checkbox-ios-switch"></span>
+                    </label>
+                    
                     <!-- блок кода, который отправляет запрос на подписку
                         {% if user.sub_ggp %}
                         <input type="checkbox" checked>
@@ -42,11 +42,10 @@
                 <div class="title">Подписаться на проценты</div>
                 <label class="check-box">
 
-                    <span class="toggle-bg">
-                        <input type="radio" name="togglePercent" value="off">
-                        <input type="radio" name="togglePercent" value="on">
-                        <span class="switch"></span>
-                    </span>
+                    <label class="checkbox-ios">
+                        <input type="checkbox">
+                        <span class="checkbox-ios-switch"></span>
+                    </label>
                     <!-- блок кода, который отправляет запрос на подписку
                         {% if user.sub_ggp_percent %}
                         <input type="checkbox" checked>
@@ -66,10 +65,9 @@
                     {% endfor %}
                 </div>-->
 
-                <label class="toggle-bgCollapse">
-                    <input type="radio" name="toggleClass" value="off">
-                    <input type="radio" name="toggleClass" value="on">
-                    <span class="switchCollapse"></span>
+                <label class="checkbox-ios collapse">
+                    <input type="checkbox">
+                    <span class="checkbox-ios-switch"></span>
                 </label>
 
                 <div class="class-buttons">
@@ -91,11 +89,10 @@
                 <div class="title">Подписаться на офлайн</div>
                 <label class="check-box">
                     
-                    <span class="toggle-bg">
-                        <input type="radio" name="toggleOffline" value="off">
-                        <input type="radio" name="toggleOffline" value="on">
-                        <span class="switch"></span>
-                    </span>
+                    <label class="checkbox-ios">
+                        <input type="checkbox">
+                        <span class="checkbox-ios-switch"></span>
+                    </label>
 
                     <!--{{user.sub_offline}}-->
                 </label>
