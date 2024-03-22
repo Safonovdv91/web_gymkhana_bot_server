@@ -2,7 +2,7 @@ var rmg = rmg || {};
 
 (function () {
 
-  // Метод обновления состояния буковки подписки класса.
+  // Метод обновления свечения буковки подписки класса.
   function updateSubGGPClasses(user) {
     let userId = user.id;
     let formUsers = document.getElementsByClassName('user');
@@ -14,7 +14,7 @@ var rmg = rmg || {};
         for (let ggpClass of ggpClasses) {
           console.log(ggpClass.textContent);
           user.ggp_sub_classes.forEach(classLetter => {
-            console.log(classLetter.sport_class);
+            //console.log(classLetter.sport_class);
             if (ggpClass.textContent == classLetter.sport_class) {
               ggpClass.classList.add('active');
             }
@@ -22,6 +22,12 @@ var rmg = rmg || {};
         }
       }
     }
+  }
+
+  // функция сохранения статуса чекбокса
+  function updateSub_GGP() {
+    const sub_ggp_on = document.getElementById('checkbox-ios');
+    console.log(sub_ggp_on.textContent);
   }
 
   // Получить пользователей.
@@ -35,6 +41,7 @@ var rmg = rmg || {};
     }).then(json => {
       json.data.forEach(user => {
         updateSubGGPClasses(user);
+        updateSub_GGP(user);
       });
     }).catch(error => console.log(error));
   }
@@ -88,6 +95,25 @@ var rmg = rmg || {};
       .then(json => console.log(json.details));
   }
 
+  // функция патч-запроса при нажатии на чек-бокс
+  function patchSub_GGP(event, sub_ggp_on) {
+    let button = event.target;
+    const userid = button.dataset.userid;
+    console.log(userid);
+
+    //медот PATCH запроса
+    fetch(`${AppConsts.BaseUrl}/api/v1/users/id=${userid}/patch`, {
+      method: 'PATCH',
+      body: JSON.stringify({
+        sub_ggp: sub_ggp_on,
+      }),
+      headers: {
+        'Content-Type': 'application/json; charset=UTF-8'
+      }
+    }).then(response => response.json())
+      .then(json => console.log(json.data));
+  }
+
   // Переключатель свечения кнопки и выбора метода.
   function onToggleSubGGpClasses(event) {
     event.target.classList.toggle('active');
@@ -96,6 +122,17 @@ var rmg = rmg || {};
       patchSubGGPClasses(event, 'add', event.target.innerText);
     } else {
       patchSubGGPClasses(event, 'remove', event.target.innerText);
+    }
+  }
+
+  // переключатель чекбокса
+  function onToggleSub_GGP(event) {
+    event.target.classList.toggle('active');
+
+    if (event.target.getAttribute('class').includes('active')) {
+      patchSub_GGP(event, 'true');
+    } else {
+      patchSub_GGP(event, 'false');
     }
   }
 
@@ -142,6 +179,9 @@ var rmg = rmg || {};
     for (let toggleButton of toggleButtons) {
       toggleButton.addEventListener('click', onToggleSubGGpClasses);
     }
+
+    const toggleButton_GGP = document.getElementById('checkbox-ios')
+    toggleButton_GGP.addEventListener('click', onToggleSub_GGP);
 
     const exitButton = document.getElementById('patch-button-exit');
     exitButton.addEventListener('click', onExit);
