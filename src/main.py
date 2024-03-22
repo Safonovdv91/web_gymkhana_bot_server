@@ -4,7 +4,7 @@ import uvicorn
 from fastapi import FastAPI, HTTPException, Request
 from sqladmin import Admin
 from starlette.middleware.cors import CORSMiddleware
-from starlette.responses import RedirectResponse, JSONResponse
+from starlette.responses import JSONResponse, RedirectResponse
 from starlette.staticfiles import StaticFiles
 
 from logger.logger import init_logger
@@ -12,7 +12,8 @@ from src.admin_panel.views import RoleAdmin, SportClassAdmin, UserAdmin
 from src.auth.auth_config import auth_backend, fastapi_users
 from src.config import SITE_PORT, SITE_URL
 from src.database import engine
-from src.pages.routers import router as page_router, templates
+from src.pages.routers import router as page_router
+from src.pages.routers import templates
 from src.roles.router import router_role
 from src.sport_classes.router import router as router_sport_class
 from src.users.router import router as auth_router
