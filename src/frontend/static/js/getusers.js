@@ -127,7 +127,7 @@ var rmg = rmg || {};
   // Добавляем обработчики событий.
   function addEventListeners() {
     // Сворачивание кнопок классов
-    let collapseButtons = document.getElementsByClassName('toggle-bgCollapse');
+    let collapseButtons = document.getElementsByClassName('collapse');
     for (let collapseButton of collapseButtons) {
       collapseButton.addEventListener('click', onCollapse);
     }
@@ -155,3 +155,5 @@ var rmg = rmg || {};
   // Инициализируем rmg.users.
   init();
 })();
+
+

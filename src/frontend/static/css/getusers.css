@@ -121,74 +121,98 @@ h2.text {
     }
 }
 
-.toggle-bg {
-    background: #ccc;
-    display: block;
-    float: left;
-    height: 8px;
-    position: relative;
-    width: 26px;
-    margin: 20px;
-    border-radius: 8px;
-    box-shadow: 0 1px 0 #fff, inset 0 0 2px #d7dee3, inset 0 1px 0 #d7dee3, inset 0 1px 5px #d7dee3;
+.check-box {
+    display: flex;
+    align-items: center;
 }
 
-.toggle-bg input {
-    height: 28px;
-    left: 0;
-    margin: 0;
-    opacity: 0;
-    padding: 0;
-    position: absolute;
-    top: -19px;
-    width: 36px;
-    z-index: 2;
+.checkbox-ios {
+	display: inline-block;    
+	height: 28px;    
+	line-height: 28px;  
+	margin-right: 10px;      
+	position: relative;
+	vertical-align: middle;
+	font-size: 14px;
+	user-select: none;	
+    padding-top: 5px;
 }
 
-.switch {
-    background: #ccc;
-    display: block;
-    float: left;
-    height: 14px;
-    left: -2px;
-    /* Это – начальная точка. При добавлении border radius немного виден фон, если использовать left: 0;, поэтому лучше всего применить -1px.*/
-    position: relative;
-    top: -3px;
-    /* ...Чтобы отцентрировать его по вертикали */
-    width: 14px;
-    z-index: 1;
-    /* Помните, он должен быть под невидимыми input-ами */
-    border-radius: 8px;
-    transition: left .2s ease;
-    margin: 1px;
+.checkbox-ios .checkbox-ios-switch {
+	position: relative;	
+	display: inline-block;
+	box-sizing: border-box;			
+	width: 36px;	
+	height: 18px;
+	border: 1px solid rgba(0, 0, 0, .1);
+	border-radius: 25%/50%;	
+	vertical-align: top;
+	background: #eee;
+	transition: .2s;
 }
-
-.toggle-bg input:checked~.switch {
-    left: -2px;
+.checkbox-ios .checkbox-ios-switch:before {
+	content: '';
+	position: absolute;
+	top: 1px;
+	left: 1px;	
+	display: inline-block;
+	width: 14px;	
+	height: 14px;
+	border-radius: 50%;
+	background: white;
+	box-shadow: 0 3px 5px rgba(0, 0, 0, .3);
+	transition: .15s;
 }
-
-/* Исходная позиция тумблера */
-.toggle-bg input~:checked~.switch {
-    left: 13px;
-    background: #FE4E17;
+.checkbox-ios input[type=checkbox] {
+	display: block;	
+	width: 0;
+	height: 0;	
+	position: absolute;
+	z-index: -1;
+	opacity: 0;
 }
-
-/*окончательная относительная позиция переключателя */
-.toggle-bg input:checked {
-    z-index: 0;
+.checkbox-ios input[type=checkbox]:not(:disabled):active + .checkbox-ios-switch:before {
+	box-shadow: inset 0 0 2px rgba(0, 0, 0, .3);
+}
+.checkbox-ios input[type=checkbox]:checked + .checkbox-ios-switch {
+	background: #ff5623;
+}
+.checkbox-ios input[type=checkbox]:checked + .checkbox-ios-switch:before {
+	transform:translateX(18px);
+}
+ 
+/* Hover */
+.checkbox-ios input[type="checkbox"]:not(:disabled) + .checkbox-ios-switch {
+	cursor: pointer;
+	border-color: rgba(0, 0, 0, .3);
+}
+ 
+/* Disabled */
+.checkbox-ios input[type=checkbox]:disabled + .checkbox-ios-switch {
+	filter: grayscale(70%);
+	border-color: rgba(0, 0, 0, .1);
+}
+.checkbox-ios input[type=checkbox]:disabled + .checkbox-ios-switch:before {
+	background: #eee;
+}
+ 
+/* Focus */
+.checkbox-ios.focused .checkbox-ios-switch:before {
+	box-shadow: inset 0px 0px 4px #ff5623;
 }
 
 .subscriptionGGP {
     display: flex;
+    gap: 10px;
     flex-direction: row;
     align-items: center;
     justify-content: center;
 
 }
 
-
 .subscriptionPercent {
     display: flex;
+    gap: 10px;
     flex-direction: row;
     align-items: center;
     justify-content: center;
@@ -196,66 +220,10 @@ h2.text {
 
 .subscription-class {
     display: flex;
+    gap: 10px;
     flex-direction: column;
     align-items: center;
 
-}
-
-.toggle-bgCollapse {
-    background: #ccc;
-    display: block;
-    float: left;
-    height: 8px;
-    position: relative;
-    width: 26px;
-    margin: 10px;
-    border-radius: 8px;
-    box-shadow: 0 1px 0 #fff, inset 0 0 2px #d7dee3, inset 0 1px 0 #d7dee3, inset 0 1px 5px #d7dee3;
-}
-
-.toggle-bgCollapse input {
-    height: 28px;
-    left: 0;
-    margin: 0;
-    opacity: 0;
-    padding: 0;
-    position: absolute;
-    top: -10px;
-    width: 36px;
-    z-index: 2;
-}
-
-.switchCollapse {
-    background: #ccc;
-    display: block;
-    float: left;
-    height: 14px;
-    left: -2px;
-    /* Это – начальная точка. При добавлении border radius немного виден фон, если использовать left: 0;, поэтому лучше всего применить -1px.*/
-    position: relative;
-    top: -3px;
-    /* ...Чтобы отцентрировать его по вертикали */
-    width: 14px;
-    z-index: 1;
-    /* Помните, он должен быть под невидимыми input-ами */
-    border-radius: 8px;
-    transition: left .2s ease;
-    margin: 1px;
-}
-
-.toggle-bgCollapse input:checked~.switchCollapse {
-    left: -2px;
-}
-
-/* Исходная позиция тумблера */
-.toggle-bgCollapse input~:checked~.switchCollapse {
-    left: 13px;
-    background: #FE4E17;
-}
-
-/*окончательная относительная позиция переключателя */
-.toggle-bgCollapse input:checked {
-    z-index: 0;
 }
 
 .class-buttons {
@@ -392,6 +360,7 @@ h2.text {
 
 .subscriptionOffline {
     display: flex;
+    gap: 10px;
     flex-direction: row;
     align-items: center;
     justify-content: center;
