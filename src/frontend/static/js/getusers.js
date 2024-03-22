@@ -60,7 +60,7 @@ var rmg = rmg || {};
     console.log('click');
 
     this.classList.toggle('active');
-    let content = this.nextElementSibling;
+    let content = document.getElementById('class-buttons')
 
     if (content.style.maxHeight) {
       content.style.maxHeight = null;
