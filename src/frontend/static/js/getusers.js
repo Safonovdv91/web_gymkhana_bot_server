@@ -27,7 +27,7 @@ var rmg = rmg || {};
   // Получить пользователей.
   function getUsers() {
     console.log('Обновляем данные о GGP');
-    fetch(`/api/v1/users`, {
+    fetch(`${AppConsts.BaseUrl}/api/v1/users`, {
       method: 'GET',
       credentials: 'include',
     }).then(response => {
@@ -48,7 +48,7 @@ var rmg = rmg || {};
     let userid = button.dataset.userid;
 
     // метод DELETE запроса - это переделать
-    fetch(`/api/v1/users/id=${userid}/delete`, {
+    fetch(`${AppConsts.BaseUrl}/api/v1/users/id=${userid}/delete`, {
       method: 'DELETE'
     }).then(response => response.json())
       .then(json => console.log(json));
@@ -75,7 +75,7 @@ var rmg = rmg || {};
     const userid = button.dataset.userid;
 
     //медот PATCH запроса
-    fetch(`/api/v1/users/id=${userid}/subscribe`, {
+    fetch(`${AppConsts.BaseUrl}/api/v1/users/id=${userid}/subscribe`, {
       method: 'PATCH',
       body: JSON.stringify({
         op: operation,
@@ -105,7 +105,7 @@ var rmg = rmg || {};
     event.preventDefault();
 
     // объявляем константу с URL-адресом, на котрый будет отправляться запрос
-    const requestLogoutURL = `/auth/jwt/logout`;
+    const requestLogoutURL = `${AppConsts.BaseUrl}/auth/jwt/logout`;
 
     // создаётся ф-я запроса методом FETCH, с Асинхронным запросом
     let response = await fetch(requestLogoutURL, {
