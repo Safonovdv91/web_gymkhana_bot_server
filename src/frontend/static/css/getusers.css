@@ -1,7 +1,10 @@
 .content {
     background-image: url(../assets/getusers_background.png);
+    background-size: cover;
     flex: 1 0 auto;
     height: 100%;
+    display: flex;
+    flex-direction: column;
 }
 
 .main {
@@ -57,7 +60,7 @@ h2.text {
     font-weight: 400;
     text-align: center;
     padding: 10px;
-    gap: 5px;
+    gap: 8px;
     grid-template-rows: repeat(10, auto);
     max-width: 550px;
 }
