@@ -4,7 +4,6 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-SERVER_STATE = os.environ.get("SERVER_STATE")
 LOG_LEVEL = os.environ.get("LOG_LEVEL")
 LOGGER_LOKI_URL = os.environ.get("LOGGER_LOKI_URL")
 
@@ -31,6 +30,10 @@ SECRET_AUTH = os.environ.get("SECRET_AUTH")
 
 SECRET_AUTH_MANAGER = os.environ.get("SECRET_AUTH_MANAGER")
 
+# service information
+SERVER_STATE = os.environ.get("SERVER_STATE")
+PULL_REQUEST=os.environ.get("PR_NUMBER")
+
 # Передача переменной окружения в JavaScript
 with open("src/frontend/static/js/app-const.js", "w") as f:
-    f.write(f"const AppConsts = {{\n'BaseUrl': '{BASE_URL}'\n}} ")
+    f.write(f"const AppConsts = {{\n'BaseUrl': '{BASE_URL}'\n}}\n")
