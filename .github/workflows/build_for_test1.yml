@@ -25,7 +25,7 @@ jobs:
       run: ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "cd ${{ secrets.TEST_DIR }} &&
         git fetch origin pull/${{ github.event.pull_request.number }}/head:pr-${{ github.event.pull_request.number }} &&
         git checkout pr-${{ github.event.pull_request.number }} &&
-        PR_NUMBER=${{ github.event.pull_request.number }}
+        PR_NUMBER=${PR_NUMBER}
         BRANCH_NAME=${{ github.event.pull_request.base.ref }}
         ./rebuild_server.sh &&
         exit"
