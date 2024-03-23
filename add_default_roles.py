@@ -61,7 +61,7 @@ async def add_default_values():
         "N": "Sportsman speed rate: 160+%",
     }
 
-    DEFAULT_ROLES ={
+    DEFAULT_ROLES = {
         "Owner": "Can change role all users/admins, delete or create",
         "Admin": "Administrator can del users, and change users settings",
         "User": "Can only change himself settings",
@@ -69,12 +69,12 @@ async def add_default_values():
     }
 
     logger.info("Adding roles ...")
-    for k,v in DEFAULT_ROLES.items():
+    for k, v in DEFAULT_ROLES.items():
         await add_role(k, v)
     logger.info("Adding DEFAULT ROLES complete! success")
 
     logger.info("Adding sport_classes...")
-    for k,v in DEFAULT_SPORT_CLASSES.items():
+    for k, v in DEFAULT_SPORT_CLASSES.items():
         await add_sport_class(k, v)
     logger.info("Adding DEFAULT SPORT CLASSES complete! success")
 

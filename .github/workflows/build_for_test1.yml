@@ -17,7 +17,17 @@ jobs:
         install -m 600 -D /dev/null ~/.ssh/id_rsa
         echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
         ssh-keyscan -H ${{ secrets.SSH_HOST }} > ~/.ssh/known_hosts
+    - name: Set PR number as an environment variable
+      run: echo "PR_NUMBER=${{ github.event.pull_request.number }}" >> $GITHUB_ENV
+    - name: Set Branch name as an environment variable
+      run: echo "BRANCH_NAME=${{ github.head_ref }}" >> $GITHUB_ENV
     - name: connect and pull
-      run: ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "cd ${{ secrets.TEST_DIR }} && git fetch origin pull/${{ github.event.pull_request.number }}/head:pr-${{ github.event.pull_request.number }} && git checkout pr-${{ github.event.pull_request.number }} && ./rebuild_server.sh && exit"
+      run: ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "cd ${{ secrets.TEST_DIR }} &&
+        git fetch origin pull/${{ github.event.pull_request.number }}/head:pr-${{ github.event.pull_request.number }} &&
+        git checkout pr-${{ github.event.pull_request.number }} &&
+        PR_NUMBER=${PR_NUMBER}
+        BRANCH_NAME=${BRANCH_NAME}
+        ./rebuild_server.sh &&
+        exit"
     - name: cleanup
       run: rm -rf ~/.ssh
