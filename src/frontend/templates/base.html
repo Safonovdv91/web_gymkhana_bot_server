@@ -31,7 +31,8 @@
             </div>
         </div>
         <div class="content" id="content">
-            <div class="server-state-style" align="right">{{ SERVER_STATE }} {{PULL_REQUEST}}</div>
+            <div class="server-state-style" align="right">{{ SERVER_STATE }}</div>
+            <div class="server-state-style" align="right">{{ BRANCH_NAME }} {{PULL_REQUEST}}</div>
             <div class="main">
                 {% block content %}{% endblock %}
             </div>

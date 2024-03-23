@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException, Request
 from starlette.templating import Jinja2Templates
 
-from src.config import SERVER_STATE, PULL_REQUEST
+from src.config import SERVER_STATE, PULL_REQUEST, BRANCH_NAME
 from src.users.router import get_current_user, get_user_by_id, get_users
 
 
@@ -21,7 +21,9 @@ def get_current_user_page(request: Request, users=Depends(get_current_user)):
     return templates.TemplateResponse(
         name="getusers.html",
         context={
+            "PULL_REQUEST": PULL_REQUEST,
             "SERVER_STATE": SERVER_STATE,
+            "BRANCH_NAME": BRANCH_NAME,
             "request": request,
             "users": [users["data"]],
         },
@@ -35,6 +37,7 @@ def get_users_page(request: Request, users=Depends(get_users)):
         context={
             "PULL_REQUEST": PULL_REQUEST,
             "SERVER_STATE": SERVER_STATE,
+            "BRANCH_NAME": BRANCH_NAME,
             "request": request,
             "users": users["data"],
         },
@@ -46,7 +49,9 @@ def get_users_page_grid(request: Request, users=Depends(get_users)):
     return templates.TemplateResponse(
         name="grid.html",
         context={
+            "PULL_REQUEST": PULL_REQUEST,
             "SERVER_STATE": SERVER_STATE,
+            "BRANCH_NAME": BRANCH_NAME,
             "request": request,
             "users": users["data"],
         },
@@ -61,6 +66,7 @@ def get_users_page_id(request: Request, usr=Depends(get_user_by_id)):
             name="getusers.html",
             context={
                 "PULL_REQUEST": PULL_REQUEST,
+                "BRANCH_NAME": BRANCH_NAME,
                 "SERVER_STATE": SERVER_STATE,
                 "request": request,
                 "users": [user_data],
