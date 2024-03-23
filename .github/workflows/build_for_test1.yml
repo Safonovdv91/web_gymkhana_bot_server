@@ -20,7 +20,7 @@ jobs:
     - name: Set PR number as an environment variable
       run: echo "PR_NUMBER=${{ github.event.pull_request.number }}" >> $GITHUB_ENV
     - name: Set Branch name as an environment variable
-      run: echo "BRANCH_NAME=${{ github.ref }}" >> $GITHUB_ENV
+      run: echo "BRANCH_NAME=${{ github.event.pull_request.base.ref }}" >> $GITHUB_ENV
     - name: connect and pull
       run: ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "cd ${{ secrets.TEST_DIR }} &&
         git fetch origin pull/${{ github.event.pull_request.number }}/head:pr-${{ github.event.pull_request.number }} &&
