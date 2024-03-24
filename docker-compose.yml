@@ -26,22 +26,23 @@ services:
      - /work/pg_data:/var/lib/postgresql/data
    networks:
      - rmg-net
-  app:
-      SERVER_STATE: DEVELOPMENT
-      PR_NUMBER: ${PR_NUMBER}
-      BRANCH_NAME: ${BRANCH_NAME}
+ app:
+   environment:
+     - SERVER_STATE=DEVELOPMENT
+     - PR_NUMBER=${PR_NUMBER}
+     - BRANCH_NAME=${BRANCH_NAME}
     build:
       context: .
 #    image: softikdimon/web_gymkhana_bot_server-app:${TAG}
     container_name: "fastapi_app"
-    command: gunicorn src.main:app --workers 1 --worker-class uvicorn.workers.UvicornWorker --bind=0.0.0.0:8000
-#    command: ["/app/app.sh"]
+#    command: gunicorn src.main:app --workers 1 --worker-class uvicorn.workers.UvicornWorker --bind=0.0.0.0:8000
+    command: ["/app/app.sh"]
 #    volumes:
 #      - ./src/frontend:/app/src/frontend
     ports:
       - "9000:8000"
-#    depends_on:
-#      - db
+    depends_on:
+      - db
     networks:
       - rmg-net
 
