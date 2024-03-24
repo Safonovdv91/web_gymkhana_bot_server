@@ -52,17 +52,18 @@ h2.text {
 }
 
 .user {
-    display: grid;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     background: rgba(20, 20, 20, 0.80);
     border-radius: 10px;
     color: #dddada;
     font-size: 20px;
     font-weight: 400;
-    text-align: center;
     padding: 10px;
     gap: 8px;
-    grid-template-rows: repeat(10, auto);
-    max-width: 550px;
+    max-width: 490px;
 }
 
 @media (max-width: 520px) {
@@ -99,28 +100,6 @@ h2.text {
 
     .user-email h2 {
         font-size: 18px;
-    }
-}
-
-.delete-button-submit {
-    font-weight: 350;
-    font-size: 14px;
-    color: white;
-    border-radius: 5px;
-    background: #808080;
-    cursor: pointer;
-    padding: 5px;
-    align-self: end;
-}
-
-.delete-button-submit:hover {
-    background: #d62c2c;
-}
-
-@media (max-width: 520px) {
-    .delete-button-submit {
-        font-size: 12px;
-        padding: 5px;
     }
 }
 
@@ -197,23 +176,25 @@ h2.text {
     position: absolute;
     margin-top: -19px;
     margin-left: -9px;
-    width: 25px;
-    height: 25px;
+    width: 20px;
+    height: 20px;
   }
 
 .tooltip-toggle {
     border: none;
-    background-color: #83b3d3;
-    padding: 0;
-    margin: 0;
     display: block;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
   }
 
   .tooltip-icon {
-    background-color: #83b3d3;
+    background-color: #d5e6f1;
     display: block;
-    font-size: 14px;
-
+    font-size: 12px;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
   }
   
   .tooltip-toggle:hover .tooltip-icon {
@@ -266,7 +247,7 @@ h2.text {
     overflow: hidden;
     transition: max-height 0.2s ease-out;
     max-width: 50%;
-flex-wrap: wrap;
+    flex-wrap: wrap;
 }
 
 @media (max-width: 520px) {
@@ -424,6 +405,29 @@ flex-wrap: wrap;
     justify-self: start;
 }
 
+.delete-button-submit {
+    align-self: center;
+    font-weight: 350;
+    font-size: 14px;
+    color: white;
+    border-radius: 5px;
+    background: #808080;
+    cursor: pointer;
+    padding: 5px;
+    width: 20%;
+}
+
+.delete-button-submit:hover {
+    background: #d62c2c;
+}
+
+@media (max-width: 520px) {
+    .delete-button-submit {
+        font-size: 12px;
+        padding: 5px;
+    }
+}
+
 /* стили кнопки сохранить изменения
 .patch-button-submit {
     margin: 0px auto;
@@ -443,3 +447,70 @@ flex-wrap: wrap;
         font-size: 12px;
     }
 }*/
+
+.btn {
+    align-self: center;
+    font-weight: 350;
+    font-size: 14px;
+    color: white;
+    border-radius: 5px;
+    background: #808080;
+    cursor: pointer;
+    padding: 5px;
+    width: 20%;
+}
+
+.btn:hover {
+    background: #d62c2c;
+}
+
+.modal-overlay {
+    position: fixed;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #252323c2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
+    opacity: 0;
+    visibility: hidden;
+}
+
+.modal-overlay-visible {
+    opacity: 1;
+    visibility: visible;
+    transition: all 0.3s ease-in-out;
+}
+
+.modal {
+    display: none;
+}
+
+.yes-no-btns {
+    display: flex;
+    flex-direction: row;
+}
+
+.modal-visible {
+    flex-direction: column;
+    background-color: #ffffffe3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 5%;
+    width: 20%;
+    height: 10%;
+    margin-top: -50%;
+}
+
+@media (max-width: 520px) {
+
+    .modal-visible {
+        width: 40%;
+    }
+
+}
