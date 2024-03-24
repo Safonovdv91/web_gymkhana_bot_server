@@ -24,11 +24,7 @@ var rmg = rmg || {};
     }
   }
 
-  // функция сохранения статуса чекбокса
-  function updateSub_GGP() {
-    const sub_ggp_on = document.getElementById('checkbox-ios');
-    console.log(sub_ggp_on.textContent);
-  }
+  // функция получения статуса чекбокса при загрузке страницы
 
   // Получить пользователей.
   function getUsers() {
@@ -41,7 +37,6 @@ var rmg = rmg || {};
     }).then(json => {
       json.data.forEach(user => {
         updateSubGGPClasses(user);
-        updateSub_GGP(user);
       });
     }).catch(error => console.log(error));
   }
@@ -95,13 +90,13 @@ var rmg = rmg || {};
       .then(json => console.log(json.details));
   }
 
-  // функция патч-запроса при нажатии на чек-бокс
+  // функции патч-запроса при нажатии на чек-бокс
+  // на GGP
   function patchSub_GGP(event, sub_ggp_on) {
     let button = event.target;
     const userid = button.dataset.userid;
     console.log(userid);
 
-    //медот PATCH запроса
     fetch(`${AppConsts.BaseUrl}/api/v1/users/id=${userid}/patch`, {
       method: 'PATCH',
       body: JSON.stringify({
@@ -125,7 +120,7 @@ var rmg = rmg || {};
     }
   }
 
-  // переключатель чекбокса
+  // переключатели чекбоксов
   function onToggleSub_GGP(event) {
     event.target.classList.toggle('active');
 
@@ -180,7 +175,7 @@ var rmg = rmg || {};
       toggleButton.addEventListener('click', onToggleSubGGpClasses);
     }
 
-    const toggleButton_GGP = document.getElementById('checkbox-ios')
+    const toggleButton_GGP = document.getElementById('checkbox-iosGGP')
     toggleButton_GGP.addEventListener('click', onToggleSub_GGP);
 
     const exitButton = document.getElementById('patch-button-exit');
@@ -195,5 +190,73 @@ var rmg = rmg || {};
   // Инициализируем rmg.users.
   init();
 })();
+
+// блок патч-запроса подписки на проценты
+
+  // слушатель нажатия на чекбокс
+  const toggleButton_percent = document.getElementById('checkbox-iosPercent')
+  toggleButton_percent.addEventListener('click', onToggleSub_percent);
+
+  // функция инициирующая запрос
+  function onToggleSub_percent(event) {
+    event.target.classList.toggle('active');
+
+    if (event.target.getAttribute('class').includes('active')) {
+      patchSub_percent(event, 'true');
+    } else {
+      patchSub_percent(event, 'false');
+    }
+  }
+
+  // патч запрос на сервер для вкл/выкл подписки на проценты
+  function patchSub_percent(event, percent_on) {
+    let button = event.target;
+    const userid = button.dataset.userid;
+
+    fetch(`${AppConsts.BaseUrl}/api/v1/users/id=${userid}/patch`, {
+      method: 'PATCH',
+      body: JSON.stringify({
+        sub_ggp_percent: percent_on,
+      }),
+      headers: {
+        'Content-Type': 'application/json; charset=UTF-8'
+      }
+    }).then(response => response.json())
+      .then(json => console.log(json.data));
+  }
+
+// блок патч-запроса подписки на оффлайн
+  // слушатель нажатия на чекбокс
+  const toggleButton_offline = document.getElementById('checkbox-iosOffline')
+  toggleButton_offline.addEventListener('click', onToggleSub_offline);
+
+  // функция инициирующая запрос
+  function onToggleSub_offline(event) {
+    event.target.classList.toggle('active');
+
+    if (event.target.getAttribute('class').includes('active')) {
+      patchSub_offline(event, 'true');
+    } else {
+      patchSub_offline(event, 'false');
+    }
+  }
+
+  // патч запрос на сервер для вкл/выкл подписки на проценты
+  function patchSub_offline(event, offline_on) {
+    let button = event.target;
+    const userid = button.dataset.userid;
+
+    fetch(`${AppConsts.BaseUrl}/api/v1/users/id=${userid}/patch`, {
+      method: 'PATCH',
+      body: JSON.stringify({
+        sub_offline: offline_on,
+      }),
+      headers: {
+        'Content-Type': 'application/json; charset=UTF-8'
+      }
+    }).then(response => response.json())
+      .then(json => console.log(json.data));
+  }
+
 
 
