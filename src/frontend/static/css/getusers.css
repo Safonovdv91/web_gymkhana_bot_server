@@ -447,3 +447,55 @@ h2.text {
         font-size: 12px;
     }
 }*/
+
+.btn {
+    align-self: center;
+    font-weight: 350;
+    font-size: 14px;
+    color: white;
+    border-radius: 5px;
+    background: #808080;
+    cursor: pointer;
+    padding: 5px;
+    width: 20%;
+}
+
+.btn:hover {
+    background: #d62c2c;
+}
+
+.modal-overlay {
+    position: fixed;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #252323c2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
+    opacity: 0;
+    visibility: hidden;
+}
+
+.modal-overlay-visible {
+    opacity: 1;
+    visibility: visible;
+    transition: all 0.3s ease-in-out;
+}
+
+.modal {
+    display: none;
+}
+
+.modal-visible {
+    display: block;
+    background-color: #fff;
+    width: 200px;
+    height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

@@ -193,70 +193,95 @@ var rmg = rmg || {};
 
 // блок патч-запроса подписки на проценты
 
-  // слушатель нажатия на чекбокс
-  const toggleButton_percent = document.getElementById('checkbox-iosPercent')
-  toggleButton_percent.addEventListener('click', onToggleSub_percent);
+// слушатель нажатия на чекбокс
+const toggleButton_percent = document.getElementById('checkbox-iosPercent')
+toggleButton_percent.addEventListener('click', onToggleSub_percent);
 
-  // функция инициирующая запрос
-  function onToggleSub_percent(event) {
-    event.target.classList.toggle('active');
+// функция инициирующая запрос
+function onToggleSub_percent(event) {
+  event.target.classList.toggle('active');
 
-    if (event.target.getAttribute('class').includes('active')) {
-      patchSub_percent(event, 'true');
-    } else {
-      patchSub_percent(event, 'false');
+  if (event.target.getAttribute('class').includes('active')) {
+    patchSub_percent(event, 'true');
+  } else {
+    patchSub_percent(event, 'false');
+  }
+}
+
+// патч запрос на сервер для вкл/выкл подписки на проценты
+function patchSub_percent(event, percent_on) {
+  let button = event.target;
+  const userid = button.dataset.userid;
+
+  fetch(`${AppConsts.BaseUrl}/api/v1/users/id=${userid}/patch`, {
+    method: 'PATCH',
+    body: JSON.stringify({
+      sub_ggp_percent: percent_on,
+    }),
+    headers: {
+      'Content-Type': 'application/json; charset=UTF-8'
     }
-  }
-
-  // патч запрос на сервер для вкл/выкл подписки на проценты
-  function patchSub_percent(event, percent_on) {
-    let button = event.target;
-    const userid = button.dataset.userid;
-
-    fetch(`${AppConsts.BaseUrl}/api/v1/users/id=${userid}/patch`, {
-      method: 'PATCH',
-      body: JSON.stringify({
-        sub_ggp_percent: percent_on,
-      }),
-      headers: {
-        'Content-Type': 'application/json; charset=UTF-8'
-      }
-    }).then(response => response.json())
-      .then(json => console.log(json.data));
-  }
+  }).then(response => response.json())
+    .then(json => console.log(json.data));
+}
 
 // блок патч-запроса подписки на оффлайн
-  // слушатель нажатия на чекбокс
-  const toggleButton_offline = document.getElementById('checkbox-iosOffline')
-  toggleButton_offline.addEventListener('click', onToggleSub_offline);
+// слушатель нажатия на чекбокс
+const toggleButton_offline = document.getElementById('checkbox-iosOffline')
+toggleButton_offline.addEventListener('click', onToggleSub_offline);
 
-  // функция инициирующая запрос
-  function onToggleSub_offline(event) {
-    event.target.classList.toggle('active');
+// функция инициирующая запрос
+function onToggleSub_offline(event) {
+  event.target.classList.toggle('active');
 
-    if (event.target.getAttribute('class').includes('active')) {
-      patchSub_offline(event, 'true');
-    } else {
-      patchSub_offline(event, 'false');
+  if (event.target.getAttribute('class').includes('active')) {
+    patchSub_offline(event, 'true');
+  } else {
+    patchSub_offline(event, 'false');
+  }
+}
+
+// патч запрос на сервер для вкл/выкл подписки на проценты
+function patchSub_offline(event, offline_on) {
+  let button = event.target;
+  const userid = button.dataset.userid;
+
+  fetch(`${AppConsts.BaseUrl}/api/v1/users/id=${userid}/patch`, {
+    method: 'PATCH',
+    body: JSON.stringify({
+      sub_offline: offline_on,
+    }),
+    headers: {
+      'Content-Type': 'application/json; charset=UTF-8'
     }
-  }
+  }).then(response => response.json())
+    .then(json => console.log(json.data));
+}
 
-  // патч запрос на сервер для вкл/выкл подписки на проценты
-  function patchSub_offline(event, offline_on) {
-    let button = event.target;
-    const userid = button.dataset.userid;
+// блок модального окна
 
-    fetch(`${AppConsts.BaseUrl}/api/v1/users/id=${userid}/patch`, {
-      method: 'PATCH',
-      body: JSON.stringify({
-        sub_offline: offline_on,
-      }),
-      headers: {
-        'Content-Type': 'application/json; charset=UTF-8'
-      }
-    }).then(response => response.json())
-      .then(json => console.log(json.data));
-  }
+const btns = document.querySelectorAll('.btn');
+const modalOverlay = document.querySelector('.modal-overlay')
+const modals = document.querySelector('.modal')
 
+btns.forEach((el) => {
+  el.addEventListener('click', (e) => {
+    let path = e.currentTarget.getAttribute('data-path');
 
+    document.querySelector(`[data-target="${path}"]`).classList.add('modal-visible')
+    modalOverlay.classList.add('modal-overlay-visible');
+  });
+});
 
+// выход из модального окна
+modalOverlay.addEventListener('click', (e) => {
+
+  if (e.target == modalOverlay) {
+    modalOverlay.classList.remove('modal-overlay-visible');
+  };
+  document.addEventListener('keydown', function (event) {
+    if (event.which === 27) {
+      modalOverlay.classList.remove('modal-overlay-visible');
+    }
+  });
+});
