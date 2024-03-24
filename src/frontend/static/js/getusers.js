@@ -273,15 +273,18 @@ btns.forEach((el) => {
   });
 });
 
-// выход из модального окна
+// выход из модального окна по клику в пустоту
 modalOverlay.addEventListener('click', (e) => {
 
   if (e.target == modalOverlay) {
     modalOverlay.classList.remove('modal-overlay-visible');
   };
-  document.addEventListener('keydown', function (event) {
-    if (event.which === 27) {
-      modalOverlay.classList.remove('modal-overlay-visible');
-    }
-  });
+});
+
+// выход из модального окна по нажатию на эскейп
+document.addEventListener('keydown', (event) => {
+
+  if (event.which === 27) {
+    modalOverlay.classList.remove('modal-overlay-visible');
+  }
 });

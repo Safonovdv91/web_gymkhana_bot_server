@@ -490,12 +490,27 @@ h2.text {
     display: none;
 }
 
+.yes-no-btns {
+    display: flex;
+    flex-direction: row;
+}
+
 .modal-visible {
-    display: block;
-    background-color: #fff;
-    width: 200px;
-    height: 200px;
+    flex-direction: column;
+    background-color: #ffffffe3;
     display: flex;
     align-items: center;
     justify-content: center;
+    border-radius: 5%;
+    width: 20%;
+    height: 10%;
+    margin-top: -50%;
+}
+
+@media (max-width: 520px) {
+
+    .modal-visible {
+        width: 40%;
+    }
+
 }
