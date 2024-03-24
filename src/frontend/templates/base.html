@@ -31,6 +31,10 @@
             </div>
         </div>
         <div class="content" id="content">
+            {% if SERVER_STATE != "PRODUCT" %}
+            <div class="server-state-style" align="right">{{ SERVER_STATE }}</div>
+            <div class="server-state-style" align="right">{{ BRANCH_NAME }} {{PULL_REQUEST}}</div>
+            {% endif %}
             <div class="main">
                 {% block content %}{% endblock %}
             </div>
