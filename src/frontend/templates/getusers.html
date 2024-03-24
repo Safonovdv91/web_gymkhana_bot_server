@@ -14,8 +14,7 @@
         <form class="user" data-userid="{{user.id}}">
             <div class="user-email">
                 <h2>{{user.email}}</h2>
-                <button class="button delete-button-submit" type="submit" data-userid="{{user.id}}">Удалить
-                </button>
+                
             </div>
             <div class="tg-id">
                 <div>{{user.telegram_id}}</div>
@@ -87,14 +86,15 @@
                     {% endfor %}
                 </div>
             </div>
-            <div class="subscrStartEnd">
+           <!-- <div class="subscrStartEnd">
                 {% if user.sub_ggp_percent %}
-                <input type="checkbox" checked>
+                
                 {% else %}
                 <div class="subscriptionStart">От: <input value="{{user.ggp_percent_begin}}" disabled></div>
                 <div class="subscriptionEnd">До: <input value="{{user.ggp_percent_end}}" disabled></div>
                 {% endif%}
-            </div>
+            </div>-->
+            
             <div class="subscriptionOffline">
                 <div class="title">Подписаться на офлайн</div>
                 <label class="check-box">
@@ -119,7 +119,8 @@
 
             <div class="regDate">Дата регистрации: {{user.registered_at.strftime("%d.%m.%Y|%H:%M:%S")}}</div>
             <div class="role">Роль: {{user.role_id}}</div>
-
+            <button class="button delete-button-submit" type="submit" data-userid="{{user.id}}">Удалить
+            </button>
             <!-- кнопка сохранить изменения
                 <button class="button patch-button-submit" type="submit" data-userid="{{user.id}}">Сохранить
                     изменения</button>  -->
