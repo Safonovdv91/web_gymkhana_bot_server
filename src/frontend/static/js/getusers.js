@@ -43,6 +43,7 @@ var rmg = rmg || {};
 
   // Удалить пользователя.
   function onDelete(event) {
+
     event.preventDefault();
     console.log('Отправка!')
 
@@ -54,6 +55,15 @@ var rmg = rmg || {};
       method: 'DELETE'
     }).then(response => response.json())
       .then(json => console.log(json));
+  }
+
+
+  function onModalDelete(onClick) {
+
+    onClick.preventDefault();
+    console.log('click');
+
+
   }
 
   // Свернуть/Развернуть классы спортсменов.
@@ -164,13 +174,48 @@ var rmg = rmg || {};
       collapseButton.addEventListener('click', onCollapse);
     }
 
+    /*let modalDeleteButtons = document.getElementsByClassName('btn');
+    for (let modalDeleteButton of modalDeleteButtons) {
+      modalDeleteButton.addEventListener('click', onModalDelete);
+    }*/
+
+    // блок модального окна
+    const btns = document.querySelectorAll('.btn');
+    const modalOverlay = document.querySelector('.modal-overlay');
+
+    btns.forEach((el) => {
+      el.addEventListener('click', (e) => {
+        e.preventDefault();
+        let path = e.currentTarget.getAttribute('data-path');
+
+        document.querySelector(`[data-target="${path}"]`).classList.add('modal-visible')
+        modalOverlay.classList.add('modal-overlay-visible');
+      });
+    });
+
+    // выход из модального окна по клику в пустоту
+    modalOverlay.addEventListener('click', (e) => {
+
+      if (e.target == modalOverlay) {
+        modalOverlay.classList.remove('modal-overlay-visible');
+      };
+    });
+
+    // выход из модального окна по нажатию на эскейп
+    document.addEventListener('keydown', (event) => {
+
+      if (event.which === 27) {
+        modalOverlay.classList.remove('modal-overlay-visible');
+      }
+    });
+
+
     let deleteButtons = document.getElementsByClassName('delete-button-submit');
     for (let deleteButton of deleteButtons) {
       deleteButton.addEventListener('click', onDelete);
     }
 
     const toggleButtons = document.getElementsByClassName('ggp-classes-sub')
-
     for (let toggleButton of toggleButtons) {
       toggleButton.addEventListener('click', onToggleSubGGpClasses);
     }
@@ -258,33 +303,4 @@ function patchSub_offline(event, offline_on) {
     .then(json => console.log(json.data));
 }
 
-// блок модального окна
 
-const btns = document.querySelectorAll('.btn');
-const modalOverlay = document.querySelector('.modal-overlay')
-const modals = document.querySelector('.modal')
-
-btns.forEach((el) => {
-  el.addEventListener('click', (e) => {
-    let path = e.currentTarget.getAttribute('data-path');
-
-    document.querySelector(`[data-target="${path}"]`).classList.add('modal-visible')
-    modalOverlay.classList.add('modal-overlay-visible');
-  });
-});
-
-// выход из модального окна по клику в пустоту
-modalOverlay.addEventListener('click', (e) => {
-
-  if (e.target == modalOverlay) {
-    modalOverlay.classList.remove('modal-overlay-visible');
-  };
-});
-
-// выход из модального окна по нажатию на эскейп
-document.addEventListener('keydown', (event) => {
-
-  if (event.which === 27) {
-    modalOverlay.classList.remove('modal-overlay-visible');
-  }
-});

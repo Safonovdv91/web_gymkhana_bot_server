@@ -120,33 +120,28 @@
             <div class="regDate">Дата регистрации: {{user.registered_at.strftime("%d.%m.%Y|%H:%M:%S")}}</div>
             <div class="role">Роль: {{user.role_id}}</div>
 
-            <button class="button delete-button-submit" type="submit" data-userid="{{user.id}}">Удалить
+            <button class="button btn" type="submit" data-path="exit" id="btn">Удалить
             </button>
+            <div class="modals">
+                <div class="modal-overlay">
+                    <div class="modal" data-target="exit">
+                        Are U sure, bitch?
+                        <div class="yes-no-btns">
+                            <input type="submit" name="submit" value="Yes" class="patch-button-delete delete-button-submit" data-userid="{{user.id}}">
+                            <input type="submit" name="submit" value="No" class="patch-button-delete">
+                        </div>
+                    </div>
+                </div>
+            </div>
             <!-- кнопка сохранить изменения
                 <button class="button patch-button-submit" type="submit" data-userid="{{user.id}}">Сохранить
                     изменения</button>  -->
         </form>
-
-    </div>
-    <button class="btn" data-path="exit">exit</button>
-
-
-    <div class="modals">
-        <div class="modal-overlay">
-            <div class="modal" data-target="exit">
-
-                Are U sure, bitch?
-                <div class="yes-no-btns">
-                    <input type="submit" name="submit" value="Yes" class="patch-button-exit">
-                    <input type="submit" name="submit" value="No" class="patch-button-exit">
-                </div>
-            </div>
-        </div>
-
-    </div>
-
     {% endfor %}
 
+
+    </div>
+    <!--<button class="btn" data-path="exit">exit</button>-->
 
 
 </div>
