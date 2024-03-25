@@ -109,58 +109,65 @@ h2.text {
 }
 
 .checkbox-ios {
-	display: inline-block;    
-	height: 28px;    
-	line-height: 28px;  
-	margin-right: 10px;      
-	position: relative;
-	vertical-align: middle;
-	font-size: 14px;
-	user-select: none;	
+    display: inline-block;
+    height: 28px;
+    line-height: 28px;
+    margin-right: 10px;
+    position: relative;
+    vertical-align: middle;
+    font-size: 14px;
+    user-select: none;
     padding-top: 5px;
 }
 
 .checkbox-ios .checkbox-ios-switch {
-	position: relative;	
-	display: inline-block;
-	box-sizing: border-box;			
-	width: 36px;	
-	height: 18px;
-	border: 1px solid rgba(0, 0, 0, .1);
-	border-radius: 25%/50%;	
-	vertical-align: top;
-	background: #eee;
-	transition: .2s;
+    position: relative;
+    display: inline-block;
+    box-sizing: border-box;
+    width: 36px;
+    height: 18px;
+    border: 1px solid rgba(0, 0, 0, .1);
+    border-radius: 25%/50%;
+    vertical-align: top;
+    background: #eee;
+    transition: .2s;
 }
+
 .checkbox-ios .checkbox-ios-switch:before {
-	content: '';
-	position: absolute;
-	top: 1px;
-	left: 1px;	
-	display: inline-block;
-	width: 14px;	
-	height: 14px;
-	border-radius: 50%;
-	background: white;
-	box-shadow: 0 3px 5px rgba(0, 0, 0, .3);
-	transition: .15s;
+    content: '';
+    position: absolute;
+    top: 1px;
+    left: 1px;
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: white;
+    box-shadow: 0 3px 5px rgba(0, 0, 0, .3);
+    transition: .15s;
 }
+
 .checkbox-ios input[type=checkbox] {
-	display: block;	
-	width: 0;
-	height: 0;	
-	position: absolute;
-	z-index: -1;
-	opacity: 0;
+    display: block;
+    width: 0;
+    height: 0;
+    position: absolute;
+    z-index: -1;
+    opacity: 0;
 }
-.checkbox-ios input[type=checkbox]:not(:disabled):active + .checkbox-ios-switch:before {
-	box-shadow: inset 0 0 2px rgba(0, 0, 0, .3);
+
+.checkbox-ios input[type=checkbox]:not(:disabled):active+.checkbox-ios-switch:before {
+    box-shadow: inset 0 0 2px rgba(0, 0, 0, .3);
 }
-.checkbox-ios input[type=checkbox]:checked + .checkbox-ios-switch, .checkbox-ios.active .checkbox-ios-switch  {
-	background: #ff5623;
+
+.checkbox-ios input[type=checkbox]:checked+.checkbox-ios-switch,
+.checkbox-ios.active .checkbox-ios-switch {
+    background: #ff5623;
 }
-.checkbox-ios input[type=checkbox]:checked + .checkbox-ios-switch:before, .checkbox-ios.active .checkbox-ios-switch:before {
-	transform:translateX(18px);
+
+.checkbox-ios input[type=checkbox]:checked+.checkbox-ios-switch:before,
+.checkbox-ios.active .checkbox-ios-switch:before {
+    transform: translateX(18px);
 }
 
 .subscriptionGGP {
@@ -178,7 +185,7 @@ h2.text {
     margin-left: -9px;
     width: 20px;
     height: 20px;
-  }
+}
 
 .tooltip-toggle {
     border: none;
@@ -186,22 +193,22 @@ h2.text {
     width: 10px;
     height: 10px;
     border-radius: 50%;
-  }
+}
 
-  .tooltip-icon {
+.tooltip-icon {
     background-color: #d5e6f1;
     display: block;
     font-size: 12px;
     width: 12px;
     height: 12px;
     border-radius: 50%;
-  }
-  
-  .tooltip-toggle:hover .tooltip-icon {
-    color:#68a2ca;
-  }
+}
 
-  .tooltip-text {
+.tooltip-toggle:hover .tooltip-icon {
+    color: #68a2ca;
+}
+
+.tooltip-text {
     font-family: "PT Sans", sans-serif;
     background-color: #ff5623;
     color: #FFFFFF;
@@ -218,11 +225,11 @@ h2.text {
     z-index: 1;
     transform: translateX(-50%);
     display: none;
-  }
+}
 
-  .tooltip-toggle:hover + .tooltip-text,
-.tooltip-toggle:focus + .tooltip-text {
-  display: block;
+.tooltip-toggle:hover+.tooltip-text,
+.tooltip-toggle:focus+.tooltip-text {
+    display: block;
 }
 
 .subscriptionPercent {
@@ -464,6 +471,29 @@ h2.text {
     background: #d62c2c;
 }
 
+.patch-button-delete {
+    font-weight: 350;
+    font-size: 20px;
+    color: white;
+    border-radius: 5px;
+    background: #ff5623;
+    cursor: pointer;
+    padding: 5px;
+    margin: 10px;
+    width: 100%;
+}
+
+.patch-button-delete:hover {
+    background: #833b25;
+}
+
+@media (max-width: 520px) {
+    .patch-button-delete {
+        font-size: 14px;
+    }
+}
+
+
 .modal-overlay {
     position: fixed;
     left: 0;
@@ -493,18 +523,21 @@ h2.text {
 .yes-no-btns {
     display: flex;
     flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+
 }
 
 .modal-visible {
     flex-direction: column;
-    background-color: #ffffffe3;
+    background-color: #636161e3;
     display: flex;
     align-items: center;
     justify-content: center;
     border-radius: 5%;
-    width: 20%;
+    width: 170px;
     height: 10%;
-    margin-top: -50%;
+    margin-top: -20%;
 }
 
 @media (max-width: 520px) {
@@ -512,5 +545,4 @@ h2.text {
     .modal-visible {
         width: 40%;
     }
-
 }
