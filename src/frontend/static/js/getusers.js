@@ -55,16 +55,9 @@ var rmg = rmg || {};
       method: 'DELETE'
     }).then(response => response.json())
       .then(json => console.log(json));
-  }
 
-
-  function onModalDelete(onClick) {
-
-    onClick.preventDefault();
-    console.log('click');
-
-
-  }
+      window.location = "login";
+    }
 
   // Свернуть/Развернуть классы спортсменов.
   function onCollapse(event) {
