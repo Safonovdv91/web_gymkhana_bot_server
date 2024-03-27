@@ -120,15 +120,15 @@
             <div class="regDate">Дата регистрации: {{user.registered_at.strftime("%d.%m.%Y|%H:%M:%S")}}</div>
             <div class="role">Роль: {{user.role_id}}</div>
 
-            <button class="button btn" type="submit" data-path="exit" id="btn">Удалить
+            <button class="button btn" type="submit" data-path="exit" id="btn" data-userid="{{user.id}}">Удалить
             </button>
             <div class="modals">
                 <div class="modal-overlay">
                     <div class="modal" data-target="exit">
-                        Are U sure, bitch?
+                        <p class="question-text">Вы уверены что хотите удалить аккаунт?</p>
                         <div class="yes-no-btns">
-                            <input type="submit" name="submit" value="Yes" class="patch-button-delete delete-button-submit" data-userid="{{user.id}}">
-                            <input type="submit" name="submit" value="No" class="patch-button-delete">
+                            <input type="submit" name="submit" value="ДА!" class="patch-button-delete delete-button-submit" data-userid="{{user.id}}">
+                            <input type="submit" name="submit" value="Нет" class="patch-button-delete">
                         </div>
                     </div>
                 </div>
