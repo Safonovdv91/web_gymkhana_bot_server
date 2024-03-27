@@ -11,8 +11,6 @@ jobs:
     
     steps:
     - name: install ssh keys
-      # check this thread to understand why its needed:
-      # https://stackoverflow.com/a/70447517
       run: |
         install -m 600 -D /dev/null ~/.ssh/id_rsa
         echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
@@ -22,12 +20,16 @@ jobs:
     - name: Set Branch name as an environment variable
       run: echo "BRANCH_NAME=${{ github.head_ref }}" >> $GITHUB_ENV
     - name: connect and pull
-      run: ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "cd ${{ secrets.TEST_DIR }} &&
-        git fetch origin pull/${{ github.event.pull_request.number }}/head:pr-${{ github.event.pull_request.number }} &&
-        git checkout pr-${{ github.event.pull_request.number }} &&
-        PR_NUMBER=${PR_NUMBER}
-        BRANCH_NAME=${BRANCH_NAME}
-        ./rebuild_server.sh &&
-        exit"
+      run: |
+          ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "
+          cd ${{ secrets.TEST_DIR }} &&
+          git checkout -b temp-pr-${{ github.event.pull_request.number }} &&
+          git fetch origin pull/${{ github.event.pull_request.number }}/head &&
+          git checkout temp-pr-${{ github.event.pull_request.number }} &&
+          git merge FETCH_HEAD &&
+          PR_NUMBER=${PR_NUMBER}
+          BRANCH_NAME=${BRANCH_NAME}
+          ./rebuild_server.sh &&
+          exit"
     - name: cleanup
       run: rm -rf ~/.ssh
