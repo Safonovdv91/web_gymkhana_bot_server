@@ -40,6 +40,6 @@ jobs:
           PR_NUMBER=${PR_NUMBER}
           BRANCH_NAME=${BRANCH_NAME}
           ./rebuild_server.sh &&
-          exit" #testing
+          exit"
     - name: cleanup
       run: rm -rf ~/.ssh
