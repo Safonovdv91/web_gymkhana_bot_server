@@ -14,21 +14,29 @@
         <form class="user" data-userid="{{user.id}}">
             <div class="user-email">
                 <h2>{{user.email}}</h2>
-                <button class="button delete-button-submit" type="submit" data-userid="{{user.id}}">Удалить
-                </button>
+
             </div>
             <div class="tg-id">
                 <div>{{user.telegram_id}}</div>
             </div>
             <div class="subscriptionGGP">
                 <div class="title">Подписаться на GGP</div>
+                <div class="tooltip-wrapper">
+                    <span class="tooltip">
+                        <button class="tooltip-toggle" type="button">
+                            <div class="tooltip-icon">?</div>
+                        </button>
+                        <span class="tooltip-text">Какие-то очень важные пояснения для неочень сообразительных
+                            посетителей сайта</span>
+                    </span>
+                </div>
                 <label class="check-box">
 
-                    <label class="checkbox-ios" >
-                        <input id="checkbox-ios" type="checkbox" data-userid="{{user.id}}" class="checkbox">
+                    <label class="checkbox-ios">
+                        <input id="checkbox-iosGGP" type="checkbox" data-userid="{{user.id}}" class="checkbox">
                         <span class="checkbox-ios-switch"></span>
                     </label>
-                    
+
                     <!-- блок кода, который отправляет запрос на подписку
                         {% if user.sub_ggp %}
                         <input type="checkbox" checked>
@@ -43,7 +51,7 @@
                 <label class="check-box">
 
                     <label class="checkbox-ios">
-                        <input type="checkbox">
+                        <input type="checkbox" id="checkbox-iosPercent" data-userid="{{user.id}}">
                         <span class="checkbox-ios-switch"></span>
                     </label>
                     <!-- блок кода, который отправляет запрос на подписку
@@ -78,20 +86,21 @@
                     {% endfor %}
                 </div>
             </div>
-            <div class="subscrStartEnd">
+            <!-- <div class="subscrStartEnd">
                 {% if user.sub_ggp_percent %}
-                <input type="checkbox" checked>
+                
                 {% else %}
                 <div class="subscriptionStart">От: <input value="{{user.ggp_percent_begin}}" disabled></div>
                 <div class="subscriptionEnd">До: <input value="{{user.ggp_percent_end}}" disabled></div>
                 {% endif%}
-            </div>
+            </div>-->
+
             <div class="subscriptionOffline">
                 <div class="title">Подписаться на офлайн</div>
                 <label class="check-box">
-                    
+
                     <label class="checkbox-ios">
-                        <input type="checkbox">
+                        <input type="checkbox" id="checkbox-iosOffline" data-userid="{{user.id}}">
                         <span class="checkbox-ios-switch"></span>
                     </label>
 
@@ -111,13 +120,30 @@
             <div class="regDate">Дата регистрации: {{user.registered_at.strftime("%d.%m.%Y|%H:%M:%S")}}</div>
             <div class="role">Роль: {{user.role_id}}</div>
 
+            <button class="button btn" type="submit" data-path="exit" id="btn" data-userid="{{user.id}}">Удалить
+            </button>
+            <div class="modals">
+                <div class="modal-overlay">
+                    <div class="modal" data-target="exit">
+                        <p class="question-text">Вы уверены что хотите удалить аккаунт?</p>
+                        <div class="yes-no-btns">
+                            <input type="submit" name="submit" value="ДА!" class="patch-button-delete delete-button-submit" data-userid="{{user.id}}">
+                            <input type="submit" name="submit" value="Нет" class="patch-button-delete">
+                        </div>
+                    </div>
+                </div>
+            </div>
             <!-- кнопка сохранить изменения
                 <button class="button patch-button-submit" type="submit" data-userid="{{user.id}}">Сохранить
                     изменения</button>  -->
         </form>
-        {% endfor %}
+    {% endfor %}
+
 
     </div>
+    <!--<button class="btn" data-path="exit">exit</button>-->
+
+
 </div>
 {% endblock %}
 

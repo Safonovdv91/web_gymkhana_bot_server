@@ -52,17 +52,19 @@ h2.text {
 }
 
 .user {
-    display: grid;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     background: rgba(20, 20, 20, 0.80);
     border-radius: 10px;
     color: #dddada;
     font-size: 20px;
     font-weight: 400;
-    text-align: center;
     padding: 10px;
-    gap: 8px;
-    grid-template-rows: repeat(10, auto);
-    max-width: 550px;
+    gap: 10px;
+    max-width: 490px;
+    margin: 10px;
 }
 
 @media (max-width: 520px) {
@@ -102,88 +104,72 @@ h2.text {
     }
 }
 
-.delete-button-submit {
-    font-weight: 350;
-    font-size: 14px;
-    color: white;
-    border-radius: 5px;
-    background: #808080;
-    cursor: pointer;
-    padding: 5px;
-    align-self: end;
-}
-
-.delete-button-submit:hover {
-    background: #d62c2c;
-}
-
-@media (max-width: 520px) {
-    .delete-button-submit {
-        font-size: 12px;
-        padding: 5px;
-    }
-}
-
 .check-box {
     display: flex;
     align-items: center;
 }
 
 .checkbox-ios {
-	display: inline-block;    
-	height: 28px;    
-	line-height: 28px;  
-	margin-right: 10px;      
-	position: relative;
-	vertical-align: middle;
-	font-size: 14px;
-	user-select: none;	
+    display: inline-block;
+    height: 28px;
+    line-height: 28px;
+    margin-right: 10px;
+    position: relative;
+    vertical-align: middle;
+    font-size: 14px;
+    user-select: none;
     padding-top: 5px;
 }
 
 .checkbox-ios .checkbox-ios-switch {
-	position: relative;	
-	display: inline-block;
-	box-sizing: border-box;			
-	width: 36px;	
-	height: 18px;
-	border: 1px solid rgba(0, 0, 0, .1);
-	border-radius: 25%/50%;	
-	vertical-align: top;
-	background: #eee;
-	transition: .2s;
+    position: relative;
+    display: inline-block;
+    box-sizing: border-box;
+    width: 36px;
+    height: 18px;
+    border: 1px solid rgba(0, 0, 0, .1);
+    border-radius: 25%/50%;
+    vertical-align: top;
+    background: #eee;
+    transition: .2s;
 }
+
 .checkbox-ios .checkbox-ios-switch:before {
-	content: '';
-	position: absolute;
-	top: 1px;
-	left: 1px;	
-	display: inline-block;
-	width: 14px;	
-	height: 14px;
-	border-radius: 50%;
-	background: white;
-	box-shadow: 0 3px 5px rgba(0, 0, 0, .3);
-	transition: .15s;
+    content: '';
+    position: absolute;
+    top: 1px;
+    left: 1px;
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: white;
+    box-shadow: 0 3px 5px rgba(0, 0, 0, .3);
+    transition: .15s;
 }
+
 .checkbox-ios input[type=checkbox] {
-	display: block;	
-	width: 0;
-	height: 0;	
-	position: absolute;
-	z-index: -1;
-	opacity: 0;
+    display: block;
+    width: 0;
+    height: 0;
+    position: absolute;
+    z-index: -1;
+    opacity: 0;
 }
-.checkbox-ios input[type=checkbox]:not(:disabled):active + .checkbox-ios-switch:before {
-	box-shadow: inset 0 0 2px rgba(0, 0, 0, .3);
+
+.checkbox-ios input[type=checkbox]:not(:disabled):active+.checkbox-ios-switch:before {
+    box-shadow: inset 0 0 2px rgba(0, 0, 0, .3);
 }
-.checkbox-ios input[type=checkbox]:checked + .checkbox-ios-switch, .checkbox-ios.active .checkbox-ios-switch  {
-	background: #ff5623;
+
+.checkbox-ios input[type=checkbox]:checked+.checkbox-ios-switch,
+.checkbox-ios.active .checkbox-ios-switch {
+    background: #ff5623;
 }
-.checkbox-ios input[type=checkbox]:checked + .checkbox-ios-switch:before, .checkbox-ios.active .checkbox-ios-switch:before {
-	transform:translateX(18px);
+
+.checkbox-ios input[type=checkbox]:checked+.checkbox-ios-switch:before,
+.checkbox-ios.active .checkbox-ios-switch:before {
+    transform: translateX(18px);
 }
- 
 
 .subscriptionGGP {
     display: flex;
@@ -192,6 +178,59 @@ h2.text {
     align-items: center;
     justify-content: center;
 
+}
+
+.tooltip {
+    position: absolute;
+    margin-top: -19px;
+    margin-left: -9px;
+    width: 20px;
+    height: 20px;
+}
+
+.tooltip-toggle {
+    border: none;
+    display: block;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+}
+
+.tooltip-icon {
+    background-color: #d5e6f1;
+    display: block;
+    font-size: 12px;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+}
+
+.tooltip-toggle:hover .tooltip-icon {
+    color: #68a2ca;
+}
+
+.tooltip-text {
+    font-family: "PT Sans", sans-serif;
+    background-color: #ff5623;
+    color: #FFFFFF;
+    font-size: 16px;
+    line-height: 20px;
+    font-weight: 400;
+    text-transform: none;
+    padding: 20px 18px 18px 22px;
+    border-radius: 10px;
+    width: 256px;
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    z-index: 1;
+    transform: translateX(-50%);
+    display: none;
+}
+
+.tooltip-toggle:hover+.tooltip-text,
+.tooltip-toggle:focus+.tooltip-text {
+    display: block;
 }
 
 .subscriptionPercent {
@@ -216,7 +255,7 @@ h2.text {
     overflow: hidden;
     transition: max-height 0.2s ease-out;
     max-width: 50%;
-flex-wrap: wrap;
+    flex-wrap: wrap;
 }
 
 @media (max-width: 520px) {
@@ -374,6 +413,29 @@ flex-wrap: wrap;
     justify-self: start;
 }
 
+.delete-button-submit {
+    align-self: center;
+    font-weight: 350;
+    font-size: 14px;
+    color: white;
+    border-radius: 5px;
+    background: #808080;
+    cursor: pointer;
+    padding: 5px;
+    width: 20%;
+}
+
+.delete-button-submit:hover {
+    background: #d62c2c;
+}
+
+@media (max-width: 520px) {
+    .delete-button-submit {
+        font-size: 12px;
+        padding: 5px;
+    }
+}
+
 /* стили кнопки сохранить изменения
 .patch-button-submit {
     margin: 0px auto;
@@ -393,3 +455,113 @@ flex-wrap: wrap;
         font-size: 12px;
     }
 }*/
+
+.modal-overlay {
+    position: fixed;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #252323c2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
+    opacity: 0;
+    visibility: hidden;
+}
+
+.modal-overlay-visible {
+    opacity: 1;
+    visibility: visible;
+    transition: all 0.3s ease-in-out;
+}
+
+.modal {
+    display: none;
+}
+
+.modal-visible {
+    flex-direction: column;
+    background-color: #d4d3d3e3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 2px 2px 10px rgba(230, 235, 226, 0.5);
+    border-radius: 5px;
+    width: 270px;
+    padding: 10px;
+    margin-top: -20%;
+}
+
+@media (max-width: 520px) {
+
+    .modal-visible {
+        width: 220px;
+    }
+}
+
+.question-text {
+    color: #000000;
+    font-size: 20px;
+    font-weight: 400;
+    font-size: 20px;
+    font-weight: 400;
+    text-align: center;
+    margin: 10px;
+}
+
+@media (max-width: 520px) {
+    .question-text {
+        font-size: 14px;
+    }
+}
+
+.yes-no-btns {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+    gap: 10px;
+    width: 80%;
+}
+
+.btn {
+    align-self: end;
+    font-weight: 350;
+    font-size: 14px;
+    color: white;
+    border-radius: 5px;
+    background: #808080;
+    cursor: pointer;
+    padding: 5px;
+    width: 20%;
+}
+
+.btn:hover {
+    background: #d62c2c;
+}
+
+.patch-button-delete {
+    font-weight: 350;
+    font-size: 20px;
+    color: white;
+    border-radius: 1px;
+    background: #ff5623;
+    padding: 5px;
+    width: 100px;
+    height: 35px;
+    cursor: pointer;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+}
+
+.patch-button-delete:hover {
+    background: #833b25;
+}
+
+@media (max-width: 520px) {
+    .patch-button-delete {
+        font-size: 14px;
+    }
+}
