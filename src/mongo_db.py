@@ -28,21 +28,21 @@ student_collection = db.get_collection("users")
 PyObjectId = Annotated[str, BeforeValidator(str)]
 
 
-class StudentModel(BaseModel):
+class UserModel(BaseModel):
     """
     Container for a single student record.
     """
 
-    # The primary key for the StudentModel, stored as a `str` on the instance.
+    # The primary key for the UserModel, stored as a `str` on the instance.
     # This will be aliased to `_id` when sent to MongoDB,
     # but provided as `id` in the API requests and responses.
     # Common information about user
     id: Optional[PyObjectId] = Field(alias="_id", default=None)
     email: Optional[EmailStr] = Field(alias="email", default=None)
-    username2: Optional[str] = Field(alias="username", default=None)
+    login: Optional[str] = Field(alias="username", default=None)
     first_name: Optional[str] = Field(alias="first_name", default=None)
     full_name: Optional[str] = Field(alias="full_name", default=None)
-    language_code: Optional[str] = Field(alias="language_code", default=None)
+    country: Optional[str] = Field(alias="language_code", default=None)
     mention: Optional[str] = Field(alias="mention", default=None)
 
     # Service information
@@ -52,14 +52,14 @@ class StudentModel(BaseModel):
     ggp_percent_begin: int = 100
     ggp_percent_end: int = 150
     sub_ggp_percent: bool = True
+    #
+    # model_config = ConfigDict(
+    #     populate_by_name=True,
+    #     arbitrary_types_allowed=True,
+    # )
 
-    model_config = ConfigDict(
-        populate_by_name=True,
-        arbitrary_types_allowed=True,
-    )
 
-
-class UpdateStudentModel(BaseModel):
+class UpdateUserModel(BaseModel):
     """
     A set of optional updates to be made to a document in the database.
     """
@@ -82,24 +82,24 @@ class UpdateStudentModel(BaseModel):
     )
 
 
-class StudentCollection(BaseModel):
+class UserCollection(BaseModel):
     """
-    A container holding a list of `StudentModel` instances.
+    A container holding a list of `UserModel` instances.
 
     This exists because providing a top-level array in a JSON response can be a [vulnerability](https://haacked.com/archive/2009/06/25/json-hijacking.aspx/)
     """
 
-    students: List[StudentModel]
+    students: List[UserModel]
 
 
 @app.post(
     "/students/",
     response_description="Add new student",
-    response_model=StudentModel,
+    response_model=UserModel,
     status_code=status.HTTP_201_CREATED,
     response_model_by_alias=False,
 )
-async def create_student(student: StudentModel = Body(...)):
+async def create_student(student: UserModel = Body(...)):
     """
     Insert a new student record.
 
@@ -116,32 +116,14 @@ async def create_student(student: StudentModel = Body(...)):
 
 @app.get(
     "/users/",
-    response_description="List all students",
-    response_model=StudentCollection,
+    response_description="List all users",
+    response_model=UserCollection,
     response_model_by_alias=False,
 )
 async def list_students():
     """
     List all of the student data in the database.
     The response is unpaginated and limited to 1000 results.
-    {
-        "_id": 1120145735,
-        "sub_stage": false,
-        "sub_stage_cat": ["B"]
-    }
-
-    {
-        "_id": 1116470376,
-        "sub_stage": false,
-        "sub_stage_cat": [
-         "D4"
-        ],
-        "username": "Сабина",
-        "first_name": "Сабина",
-        "full_name": "Сабина",
-        "language_code": "ru",
-        "mention": "Сабина"
-    }
     """
     print(await student_collection.find().to_list(1000))
     users = await student_collection.find().to_list(1000)
@@ -150,13 +132,13 @@ async def list_students():
     #     "data": users,
     #     "details": {"count_users": len(users)},
     # }
-    return StudentCollection(students=await student_collection.find().to_list(1000))
+    return UserCollection(students=await student_collection.find().to_list(1000))
 
 
 @app.get(
     "/users/{id}",
     response_description="Get a single student",
-    response_model=StudentModel,
+    response_model=UserModel,
     response_model_by_alias=False,
 )
 async def show_student(id: str):
@@ -174,10 +156,10 @@ async def show_student(id: str):
 @app.put(
     "/students/{id}",
     response_description="Update a student",
-    response_model=StudentModel,
+    response_model=UserModel,
     response_model_by_alias=False,
 )
-async def update_student(id: str, student: UpdateStudentModel = Body(...)):
+async def update_student(id: str, student: UpdateUserModel = Body(...)):
     """
     Update individual fields of an existing student record.
 
