@@ -42,5 +42,6 @@ BRANCH_NAME = os.environ.get("BRANCH_NAME")
 PULL_REQUEST = os.environ.get("PR_NUMBER")
 
 # Передача переменной окружения в JavaScript
+# with open("src/frontend/static/js/app-const.js", "w") as f:
 with open("src/frontend/static/js/app-const.js", "w") as f:
     f.write(f"const AppConsts = {{\n'BaseUrl': '{BASE_URL}'\n}}\n")
