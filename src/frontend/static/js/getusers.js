@@ -161,6 +161,62 @@ var rmg = rmg || {};
     } else console.log('Что-то пошло нетак, обратитесь в поддержку');
   };
 
+  // функция инициирующая запрос
+  function onToggleSub_percent(event) {
+    event.target.classList.toggle('active');
+
+    if (event.target.getAttribute('class').includes('active')) {
+      patchSub_percent(event, 'true');
+    } else {
+      patchSub_percent(event, 'false');
+    }
+  }
+
+  // патч запрос на сервер для вкл/выкл подписки на проценты
+  function patchSub_percent(event, percent_on) {
+    let button = event.target;
+    const userid = button.dataset.userid;
+
+    fetch(`${AppConsts.BaseUrl}/api/v1/users/id=${userid}/patch`, {
+      method: 'PATCH',
+      body: JSON.stringify({
+        sub_ggp_percent: percent_on,
+      }),
+      headers: {
+        'Content-Type': 'application/json; charset=UTF-8'
+      }
+    }).then(response => response.json())
+      .then(json => console.log(json.data));
+  }
+
+  // функция инициирующая запрос
+  function onToggleSub_offline(event) {
+    event.target.classList.toggle('active');
+
+    if (event.target.getAttribute('class').includes('active')) {
+      patchSub_offline(event, 'true');
+    } else {
+      patchSub_offline(event, 'false');
+    }
+  }
+
+  // патч запрос на сервер для вкл/выкл подписки на проценты
+  function patchSub_offline(event, offline_on) {
+    let button = event.target;
+    const userid = button.dataset.userid;
+
+    fetch(`${AppConsts.BaseUrl}/api/v1/users/id=${userid}/patch`, {
+      method: 'PATCH',
+      body: JSON.stringify({
+        sub_offline: offline_on,
+      }),
+      headers: {
+        'Content-Type': 'application/json; charset=UTF-8'
+      }
+    }).then(response => response.json())
+      .then(json => console.log(json.data));
+  }
+
   // Добавляем обработчики событий.
   function addEventListeners() {
     // Сворачивание кнопок классов
@@ -222,6 +278,21 @@ var rmg = rmg || {};
 
     const exitButton = document.getElementById('patch-button-exit');
     exitButton.addEventListener('click', onExit);
+
+    // блок патч-запроса подписки на проценты
+
+    // слушатель нажатия на чекбокс
+    const toggleButtons_percent = document.getElementsByClassName('checkbox-iosPercent')
+    for (let toggleButton_percent of toggleButtons_percent) {
+      toggleButton_percent.addEventListener('click', onToggleSub_percent);
+    }
+
+    // блок патч-запроса подписки на оффлайн
+    // слушатель нажатия на чекбокс
+    const toggleButtons_offline = document.getElementsByClassName('checkbox-iosOffline');
+    for (let toggleButton_offline of toggleButtons_offline) {
+      toggleButton_offline.addEventListener('click', onToggleSub_offline);
+    }
   }
 
   function init() {
@@ -232,77 +303,4 @@ var rmg = rmg || {};
   // Инициализируем rmg.users.
   init();
 })();
-
-// блок патч-запроса подписки на проценты
-
-// слушатель нажатия на чекбокс
-const toggleButtons_percent = document.getElementsByClassName('checkbox-iosPercent')
-for (let toggleButton_percent of toggleButtons_percent) {
-  toggleButton_percent.addEventListener('click', onToggleSub_percent);
-}
-
-// функция инициирующая запрос
-function onToggleSub_percent(event) {
-  event.target.classList.toggle('active');
-
-  if (event.target.getAttribute('class').includes('active')) {
-    patchSub_percent(event, 'true');
-  } else {
-    patchSub_percent(event, 'false');
-  }
-}
-
-// патч запрос на сервер для вкл/выкл подписки на проценты
-function patchSub_percent(event, percent_on) {
-  let button = event.target;
-  const userid = button.dataset.userid;
-
-  fetch(`${AppConsts.BaseUrl}/api/v1/users/id=${userid}/patch`, {
-    method: 'PATCH',
-    body: JSON.stringify({
-      sub_ggp_percent: percent_on,
-    }),
-    headers: {
-      'Content-Type': 'application/json; charset=UTF-8'
-    }
-  }).then(response => response.json())
-    .then(json => console.log(json.data));
-}
-
-// блок патч-запроса подписки на оффлайн
-// слушатель нажатия на чекбокс
-const toggleButtons_offline = document.getElementsByClassName('checkbox-iosOffline');
-for (let toggleButton_offline of toggleButtons_offline) {
-  toggleButton_offline.addEventListener('click', onToggleSub_offline);
-}
-
-
-// функция инициирующая запрос
-function onToggleSub_offline(event) {
-  event.target.classList.toggle('active');
-
-  if (event.target.getAttribute('class').includes('active')) {
-    patchSub_offline(event, 'true');
-  } else {
-    patchSub_offline(event, 'false');
-  }
-}
-
-// патч запрос на сервер для вкл/выкл подписки на проценты
-function patchSub_offline(event, offline_on) {
-  let button = event.target;
-  const userid = button.dataset.userid;
-
-  fetch(`${AppConsts.BaseUrl}/api/v1/users/id=${userid}/patch`, {
-    method: 'PATCH',
-    body: JSON.stringify({
-      sub_offline: offline_on,
-    }),
-    headers: {
-      'Content-Type': 'application/json; charset=UTF-8'
-    }
-  }).then(response => response.json())
-    .then(json => console.log(json.data));
-}
-
 
