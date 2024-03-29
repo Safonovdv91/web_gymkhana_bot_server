@@ -219,12 +219,6 @@ var rmg = rmg || {};
 
   // Добавляем обработчики событий.
   function addEventListeners() {
-    // Сворачивание кнопок классов
-    let collapseButtons = document.getElementsByClassName('collapse');
-    for (let collapseButton of collapseButtons) {
-      collapseButton.addEventListener('click', onCollapse);
-    }
-
     /*let modalDeleteButtons = document.getElementsByClassName('btn');
     for (let modalDeleteButton of modalDeleteButtons) {
       modalDeleteButton.addEventListener('click', onModalDelete);
@@ -268,7 +262,8 @@ var rmg = rmg || {};
       "ggp-classes-sub": onToggleSubGGpClasses,
       "checkbox-iosGGP": onToggleSub_GGP,
       "checkbox-iosPercent": onToggleSub_percent,
-      "checkbox-iosOffline": onToggleSub_offline
+      "checkbox-iosOffline": onToggleSub_offline,
+      "collapse": onCollapse
     };
 
     for (let className in dict) {
