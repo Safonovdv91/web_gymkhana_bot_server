@@ -10,6 +10,7 @@ var rmg = rmg || {};
     for (let formUser of formUsers) {
       let formId = formUser.getAttribute('data-userid');
       if (userId == formId) {
+        // Подсвечиваем кнопки класса.
         let ggpClasses = formUser.getElementsByClassName('ggp-classes-sub');
         for (let ggpClass of ggpClasses) {
           console.log(ggpClass.textContent);
@@ -19,6 +20,32 @@ var rmg = rmg || {};
               ggpClass.classList.add('active');
             }
           })
+        }
+
+        // Устанавливаем положения радио баттанов.
+        let checkboxesIosGGP = formUser.getElementsByClassName('checkbox-iosGGP');
+        for (let checkboxIosGGP of checkboxesIosGGP) {
+          if(user.sub_ggp)
+          {
+            checkboxIosGGP.classList.add('active');
+            checkboxIosGGP.checked = true;
+          }
+        }
+        let checkboxesIosPercent = formUser.getElementsByClassName('checkbox-iosPercent');
+        for (let checkboxIosPercent of checkboxesIosPercent) {
+          if(user.sub_ggp_percent)
+          {
+            checkboxIosPercent.classList.add('active');
+            checkboxIosPercent.checked = true;
+          }
+        }
+        let checkboxesIosOffline = formUser.getElementsByClassName('checkbox-iosOffline');
+        for (let checkboxIosOffline of checkboxesIosOffline) {
+          if(user.sub_offline)
+          {
+            checkboxIosOffline.classList.add('active');
+            checkboxIosOffline.checked = true;
+          }
         }
       }
     }
@@ -56,8 +83,8 @@ var rmg = rmg || {};
     }).then(response => response.json())
       .then(json => console.log(json));
 
-      window.location = "login";
-    }
+    window.location = "login";
+  }
 
   // Свернуть/Развернуть классы спортсменов.
   function onCollapse(event) {
@@ -65,12 +92,14 @@ var rmg = rmg || {};
     console.log('click');
 
     this.classList.toggle('active');
-    let content = document.getElementById('class-buttons')
+    let contents = document.getElementsByClassName('class-buttons')
 
-    if (content.style.maxHeight) {
-      content.style.maxHeight = null;
-    } else {
-      content.style.maxHeight = content.scrollHeight + 'px';
+    for (let content of contents) {
+      if (content.style.maxHeight) {
+        content.style.maxHeight = null;
+      } else {
+        content.style.maxHeight = content.scrollHeight + 'px';
+      }
     }
   }
 
@@ -159,14 +188,64 @@ var rmg = rmg || {};
     } else console.log('Что-то пошло нетак, обратитесь в поддержку');
   };
 
+  // функция инициирующая запрос
+  function onToggleSub_percent(event) {
+    event.target.classList.toggle('active');
+
+    if (event.target.getAttribute('class').includes('active')) {
+      patchSub_percent(event, 'true');
+    } else {
+      patchSub_percent(event, 'false');
+    }
+  }
+
+  // патч запрос на сервер для вкл/выкл подписки на проценты
+  function patchSub_percent(event, percent_on) {
+    let button = event.target;
+    const userid = button.dataset.userid;
+
+    fetch(`${AppConsts.BaseUrl}/api/v1/users/id=${userid}/patch`, {
+      method: 'PATCH',
+      body: JSON.stringify({
+        sub_ggp_percent: percent_on,
+      }),
+      headers: {
+        'Content-Type': 'application/json; charset=UTF-8'
+      }
+    }).then(response => response.json())
+      .then(json => console.log(json.data));
+  }
+
+  // функция инициирующая запрос
+  function onToggleSub_offline(event) {
+    event.target.classList.toggle('active');
+
+    if (event.target.getAttribute('class').includes('active')) {
+      patchSub_offline(event, 'true');
+    } else {
+      patchSub_offline(event, 'false');
+    }
+  }
+
+  // патч запрос на сервер для вкл/выкл подписки на проценты
+  function patchSub_offline(event, offline_on) {
+    let button = event.target;
+    const userid = button.dataset.userid;
+
+    fetch(`${AppConsts.BaseUrl}/api/v1/users/id=${userid}/patch`, {
+      method: 'PATCH',
+      body: JSON.stringify({
+        sub_offline: offline_on,
+      }),
+      headers: {
+        'Content-Type': 'application/json; charset=UTF-8'
+      }
+    }).then(response => response.json())
+      .then(json => console.log(json.data));
+  }
+
   // Добавляем обработчики событий.
   function addEventListeners() {
-    // Сворачивание кнопок классов
-    let collapseButtons = document.getElementsByClassName('collapse');
-    for (let collapseButton of collapseButtons) {
-      collapseButton.addEventListener('click', onCollapse);
-    }
-
     /*let modalDeleteButtons = document.getElementsByClassName('btn');
     for (let modalDeleteButton of modalDeleteButtons) {
       modalDeleteButton.addEventListener('click', onModalDelete);
@@ -202,22 +281,26 @@ var rmg = rmg || {};
       }
     });
 
-
-    let deleteButtons = document.getElementsByClassName('delete-button-submit');
-    for (let deleteButton of deleteButtons) {
-      deleteButton.addEventListener('click', onDelete);
-    }
-
-    const toggleButtons = document.getElementsByClassName('ggp-classes-sub')
-    for (let toggleButton of toggleButtons) {
-      toggleButton.addEventListener('click', onToggleSubGGpClasses);
-    }
-
-    const toggleButton_GGP = document.getElementById('checkbox-iosGGP')
-    toggleButton_GGP.addEventListener('click', onToggleSub_GGP);
-
     const exitButton = document.getElementById('patch-button-exit');
     exitButton.addEventListener('click', onExit);
+
+    let dict = {
+      "delete-button-submit": onDelete,
+      "ggp-classes-sub": onToggleSubGGpClasses,
+      "checkbox-iosGGP": onToggleSub_GGP,
+      "checkbox-iosPercent": onToggleSub_percent,
+      "checkbox-iosOffline": onToggleSub_offline,
+      "collapse": onCollapse
+    };
+
+    for (let className in dict) {
+      let elementsByClassNamme = document.getElementsByClassName(className);
+
+      for (let elementByClassNamme of elementsByClassNamme) {
+        let onAction = dict[className];
+        elementByClassNamme.addEventListener('click', onAction);
+      }
+    }
   }
 
   function init() {
@@ -228,72 +311,4 @@ var rmg = rmg || {};
   // Инициализируем rmg.users.
   init();
 })();
-
-// блок патч-запроса подписки на проценты
-
-// слушатель нажатия на чекбокс
-const toggleButton_percent = document.getElementById('checkbox-iosPercent')
-toggleButton_percent.addEventListener('click', onToggleSub_percent);
-
-// функция инициирующая запрос
-function onToggleSub_percent(event) {
-  event.target.classList.toggle('active');
-
-  if (event.target.getAttribute('class').includes('active')) {
-    patchSub_percent(event, 'true');
-  } else {
-    patchSub_percent(event, 'false');
-  }
-}
-
-// патч запрос на сервер для вкл/выкл подписки на проценты
-function patchSub_percent(event, percent_on) {
-  let button = event.target;
-  const userid = button.dataset.userid;
-
-  fetch(`${AppConsts.BaseUrl}/api/v1/users/id=${userid}/patch`, {
-    method: 'PATCH',
-    body: JSON.stringify({
-      sub_ggp_percent: percent_on,
-    }),
-    headers: {
-      'Content-Type': 'application/json; charset=UTF-8'
-    }
-  }).then(response => response.json())
-    .then(json => console.log(json.data));
-}
-
-// блок патч-запроса подписки на оффлайн
-// слушатель нажатия на чекбокс
-const toggleButton_offline = document.getElementById('checkbox-iosOffline')
-toggleButton_offline.addEventListener('click', onToggleSub_offline);
-
-// функция инициирующая запрос
-function onToggleSub_offline(event) {
-  event.target.classList.toggle('active');
-
-  if (event.target.getAttribute('class').includes('active')) {
-    patchSub_offline(event, 'true');
-  } else {
-    patchSub_offline(event, 'false');
-  }
-}
-
-// патч запрос на сервер для вкл/выкл подписки на проценты
-function patchSub_offline(event, offline_on) {
-  let button = event.target;
-  const userid = button.dataset.userid;
-
-  fetch(`${AppConsts.BaseUrl}/api/v1/users/id=${userid}/patch`, {
-    method: 'PATCH',
-    body: JSON.stringify({
-      sub_offline: offline_on,
-    }),
-    headers: {
-      'Content-Type': 'application/json; charset=UTF-8'
-    }
-  }).then(response => response.json())
-    .then(json => console.log(json.data));
-}
-
 
