@@ -28,6 +28,7 @@ var rmg = rmg || {};
           if(user.sub_ggp)
           {
             checkboxIosGGP.classList.add('active');
+            checkboxIosGGP.checked = true;
           }
         }
       }
