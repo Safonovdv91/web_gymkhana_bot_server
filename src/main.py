@@ -10,7 +10,7 @@ from starlette.staticfiles import StaticFiles
 from logger.logger import init_logger
 from src.admin_panel.views import RoleAdmin, SportClassAdmin, UserAdmin
 from src.auth.auth_config import auth_backend, fastapi_users
-from src.config import SITE_PORT, SITE_URL
+from src.config import PATH_STATIC, SITE_PORT, SITE_URL
 from src.database import engine
 from src.pages.routers import router as page_router
 from src.pages.routers import templates
@@ -23,7 +23,7 @@ from src.users.schemas import UserCreate, UserRead
 logger = init_logger("main")
 app = FastAPI(title="RabbitMG")
 
-app.mount("/static", StaticFiles(directory="src/frontend/static"), "static")
+app.mount("/static", StaticFiles(directory=PATH_STATIC), "static")
 
 origins = [
     f"http://localhost.{SITE_URL}:{SITE_PORT}",
