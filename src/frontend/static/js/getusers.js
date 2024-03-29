@@ -263,34 +263,21 @@ var rmg = rmg || {};
     const exitButton = document.getElementById('patch-button-exit');
     exitButton.addEventListener('click', onExit);
 
-    let deleteButtons = document.getElementsByClassName('delete-button-submit');
-    for (let deleteButton of deleteButtons) {
-      deleteButton.addEventListener('click', onDelete);
-    }
+    let dict = {
+      "delete-button-submit": onDelete,
+      "ggp-classes-sub": onToggleSubGGpClasses,
+      "checkbox-iosGGP": onToggleSub_GGP,
+      "checkbox-iosPercent": onToggleSub_percent,
+      "checkbox-iosOffline": onToggleSub_offline
+    };
 
-    const toggleButtons = document.getElementsByClassName('ggp-classes-sub');
-    for (let toggleButton of toggleButtons) {
-      toggleButton.addEventListener('click', onToggleSubGGpClasses);
-    }
+    for (let className in dict) {
+      let elementsByClassNamme = document.getElementsByClassName(className);
 
-    const toggleButtons_GGP = document.getElementsByClassName('checkbox-iosGGP');
-    for (let toggleButton_GGP of toggleButtons_GGP) {
-      toggleButton_GGP.addEventListener('click', onToggleSub_GGP);
-    }
-
-    // блок патч-запроса подписки на проценты
-
-    // слушатель нажатия на чекбокс
-    const toggleButtons_percent = document.getElementsByClassName('checkbox-iosPercent')
-    for (let toggleButton_percent of toggleButtons_percent) {
-      toggleButton_percent.addEventListener('click', onToggleSub_percent);
-    }
-
-    // блок патч-запроса подписки на оффлайн
-    // слушатель нажатия на чекбокс
-    const toggleButtons_offline = document.getElementsByClassName('checkbox-iosOffline');
-    for (let toggleButton_offline of toggleButtons_offline) {
-      toggleButton_offline.addEventListener('click', onToggleSub_offline);
+      for (let elementByClassNamme of elementsByClassNamme) {
+        let onAction = dict[className];
+        elementByClassNamme.addEventListener('click', onAction);
+      }
     }
   }
 
