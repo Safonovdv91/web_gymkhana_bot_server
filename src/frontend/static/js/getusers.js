@@ -260,6 +260,8 @@ var rmg = rmg || {};
       }
     });
 
+    const exitButton = document.getElementById('patch-button-exit');
+    exitButton.addEventListener('click', onExit);
 
     let deleteButtons = document.getElementsByClassName('delete-button-submit');
     for (let deleteButton of deleteButtons) {
@@ -275,9 +277,6 @@ var rmg = rmg || {};
     for (let toggleButton_GGP of toggleButtons_GGP) {
       toggleButton_GGP.addEventListener('click', onToggleSub_GGP);
     }
-
-    const exitButton = document.getElementById('patch-button-exit');
-    exitButton.addEventListener('click', onExit);
 
     // блок патч-запроса подписки на проценты
 
