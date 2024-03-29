@@ -33,7 +33,7 @@
                 <label class="check-box">
 
                     <label class="checkbox-ios">
-                        <input id="checkbox-iosGGP" type="checkbox" data-userid="{{user.id}}" class="checkbox">
+                        <input class="checkbox-iosGGP" type="checkbox" data-userid="{{user.id}}" class="checkbox">
                         <span class="checkbox-ios-switch"></span>
                     </label>
 
@@ -51,7 +51,7 @@
                 <label class="check-box">
 
                     <label class="checkbox-ios">
-                        <input type="checkbox" id="checkbox-iosPercent" data-userid="{{user.id}}">
+                        <input type="checkbox" class="checkbox-iosPercent" data-userid="{{user.id}}">
                         <span class="checkbox-ios-switch"></span>
                     </label>
                     <!-- блок кода, который отправляет запрос на подписку
@@ -79,7 +79,7 @@
                     {% endfor %}
                 </div>-->
 
-                <div class="class-buttons" id="class-buttons">
+                <div class="class-buttons">
                     {% for each in ["A", "B", "C1", "C2", "C3", "D1", "D2", "D3", "D4","N"] %}
                     <button id="{{user.id}}ggp{{each}}" class="button ggp-classes-sub {{each}}-class-button-submit"
                         type="button" data-userid="{{user.id}}">{{each}}</button>
@@ -100,7 +100,7 @@
                 <label class="check-box">
 
                     <label class="checkbox-ios">
-                        <input type="checkbox" id="checkbox-iosOffline" data-userid="{{user.id}}">
+                        <input type="checkbox" class="checkbox-iosOffline" data-userid="{{user.id}}">
                         <span class="checkbox-ios-switch"></span>
                     </label>
 
@@ -120,7 +120,7 @@
             <div class="regDate">Дата регистрации: {{user.registered_at.strftime("%d.%m.%Y|%H:%M:%S")}}</div>
             <div class="role">Роль: {{user.role_id}}</div>
 
-            <button class="button btn" type="submit" data-path="exit" id="btn" data-userid="{{user.id}}">Удалить
+            <button class="button btn" type="submit" data-path="exit" data-userid="{{user.id}}">Удалить
             </button>
             <div class="modals">
                 <div class="modal-overlay">

@@ -56,8 +56,8 @@ var rmg = rmg || {};
     }).then(response => response.json())
       .then(json => console.log(json));
 
-      window.location = "login";
-    }
+    window.location = "login";
+  }
 
   // Свернуть/Развернуть классы спортсменов.
   function onCollapse(event) {
@@ -65,12 +65,14 @@ var rmg = rmg || {};
     console.log('click');
 
     this.classList.toggle('active');
-    let content = document.getElementById('class-buttons')
+    let contents = document.getElementsByClassName('class-buttons')
 
-    if (content.style.maxHeight) {
-      content.style.maxHeight = null;
-    } else {
-      content.style.maxHeight = content.scrollHeight + 'px';
+    for (let content of contents) {
+      if (content.style.maxHeight) {
+        content.style.maxHeight = null;
+      } else {
+        content.style.maxHeight = content.scrollHeight + 'px';
+      }
     }
   }
 
@@ -208,13 +210,15 @@ var rmg = rmg || {};
       deleteButton.addEventListener('click', onDelete);
     }
 
-    const toggleButtons = document.getElementsByClassName('ggp-classes-sub')
+    const toggleButtons = document.getElementsByClassName('ggp-classes-sub');
     for (let toggleButton of toggleButtons) {
       toggleButton.addEventListener('click', onToggleSubGGpClasses);
     }
 
-    const toggleButton_GGP = document.getElementById('checkbox-iosGGP')
-    toggleButton_GGP.addEventListener('click', onToggleSub_GGP);
+    const toggleButtons_GGP = document.getElementsByClassName('checkbox-iosGGP');
+    for (let toggleButton_GGP of toggleButtons_GGP) {
+      toggleButton_GGP.addEventListener('click', onToggleSub_GGP);
+    }
 
     const exitButton = document.getElementById('patch-button-exit');
     exitButton.addEventListener('click', onExit);
@@ -232,8 +236,10 @@ var rmg = rmg || {};
 // блок патч-запроса подписки на проценты
 
 // слушатель нажатия на чекбокс
-const toggleButton_percent = document.getElementById('checkbox-iosPercent')
-toggleButton_percent.addEventListener('click', onToggleSub_percent);
+const toggleButtons_percent = document.getElementsByClassName('checkbox-iosPercent')
+for (let toggleButton_percent of toggleButtons_percent) {
+  toggleButton_percent.addEventListener('click', onToggleSub_percent);
+}
 
 // функция инициирующая запрос
 function onToggleSub_percent(event) {
@@ -265,8 +271,11 @@ function patchSub_percent(event, percent_on) {
 
 // блок патч-запроса подписки на оффлайн
 // слушатель нажатия на чекбокс
-const toggleButton_offline = document.getElementById('checkbox-iosOffline')
-toggleButton_offline.addEventListener('click', onToggleSub_offline);
+const toggleButtons_offline = document.getElementsByClassName('checkbox-iosOffline');
+for (let toggleButton_offline of toggleButtons_offline) {
+  toggleButton_offline.addEventListener('click', onToggleSub_offline);
+}
+
 
 // функция инициирующая запрос
 function onToggleSub_offline(event) {
