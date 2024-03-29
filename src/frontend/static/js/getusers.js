@@ -31,6 +31,22 @@ var rmg = rmg || {};
             checkboxIosGGP.checked = true;
           }
         }
+        let checkboxesIosPercent = formUser.getElementsByClassName('checkbox-iosPercent');
+        for (let checkboxIosPercent of checkboxesIosPercent) {
+          if(user.sub_ggp_percent)
+          {
+            checkboxIosPercent.classList.add('active');
+            checkboxIosPercent.checked = true;
+          }
+        }
+        let checkboxesIosOffline = formUser.getElementsByClassName('checkbox-iosOffline');
+        for (let checkboxIosOffline of checkboxesIosOffline) {
+          if(user.sub_offline)
+          {
+            checkboxIosOffline.classList.add('active');
+            checkboxIosOffline.checked = true;
+          }
+        }
       }
     }
   }
