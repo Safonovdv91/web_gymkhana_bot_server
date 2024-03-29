@@ -10,6 +10,7 @@ var rmg = rmg || {};
     for (let formUser of formUsers) {
       let formId = formUser.getAttribute('data-userid');
       if (userId == formId) {
+        // Подсвечиваем кнопки класса.
         let ggpClasses = formUser.getElementsByClassName('ggp-classes-sub');
         for (let ggpClass of ggpClasses) {
           console.log(ggpClass.textContent);
@@ -19,6 +20,15 @@ var rmg = rmg || {};
               ggpClass.classList.add('active');
             }
           })
+        }
+
+        // Устанавливаем положения радио баттанов.
+        let checkboxesIosGGP = formUser.getElementsByClassName('checkbox-iosGGP');
+        for (let checkboxIosGGP of checkboxesIosGGP) {
+          if(user.sub_ggp)
+          {
+            checkboxIosGGP.classList.add('active');
+          }
         }
       }
     }
