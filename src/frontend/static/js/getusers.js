@@ -2,7 +2,7 @@ var rmg = rmg || {};
 
 (function () {
 
-  // Метод обновления свечения буковки подписки класса.
+  // Метод обновления свечения буковки подписки класса + обновление состояние радиобатонов.
   function updateSubGGPClasses(user) {
     let userId = user.id;
     let formUsers = document.getElementsByClassName('user');
@@ -13,36 +13,30 @@ var rmg = rmg || {};
         // Подсвечиваем кнопки класса.
         let ggpClasses = formUser.getElementsByClassName('ggp-classes-sub');
         for (let ggpClass of ggpClasses) {
-          console.log(ggpClass.textContent);
           user.ggp_sub_classes.forEach(classLetter => {
-            //console.log(classLetter.sport_class);
             if (ggpClass.textContent == classLetter.sport_class) {
               ggpClass.classList.add('active');
             }
           })
         }
-
         // Устанавливаем положения радио баттанов.
         let checkboxesIosGGP = formUser.getElementsByClassName('checkbox-iosGGP');
         for (let checkboxIosGGP of checkboxesIosGGP) {
-          if(user.sub_ggp)
-          {
+          if (user.sub_ggp) {
             checkboxIosGGP.classList.add('active');
             checkboxIosGGP.checked = true;
           }
         }
         let checkboxesIosPercent = formUser.getElementsByClassName('checkbox-iosPercent');
         for (let checkboxIosPercent of checkboxesIosPercent) {
-          if(user.sub_ggp_percent)
-          {
+          if (user.sub_ggp_percent) {
             checkboxIosPercent.classList.add('active');
             checkboxIosPercent.checked = true;
           }
         }
         let checkboxesIosOffline = formUser.getElementsByClassName('checkbox-iosOffline');
         for (let checkboxIosOffline of checkboxesIosOffline) {
-          if(user.sub_offline)
-          {
+          if (user.sub_offline) {
             checkboxIosOffline.classList.add('active');
             checkboxIosOffline.checked = true;
           }
@@ -51,9 +45,7 @@ var rmg = rmg || {};
     }
   }
 
-  // функция получения статуса чекбокса при загрузке страницы
-
-  // Получить пользователей.
+  // Получить настройки пользователей.
   function getUsers() {
     console.log('Обновляем данные о GGP');
     fetch(`${AppConsts.BaseUrl}/api/v1/users`, {
@@ -89,16 +81,21 @@ var rmg = rmg || {};
   // Свернуть/Развернуть классы спортсменов.
   function onCollapse(event) {
     event.preventDefault();
-    console.log('click');
+
+    const userId = this.dataset.userid;
+    console.log(userId);
 
     this.classList.toggle('active');
     let contents = document.getElementsByClassName('class-buttons')
 
     for (let content of contents) {
-      if (content.style.maxHeight) {
-        content.style.maxHeight = null;
-      } else {
-        content.style.maxHeight = content.scrollHeight + 'px';
+      let contentId = content.dataset.userid;
+      if (contentId == userId) {
+        if (content.style.maxHeight) {
+          content.style.maxHeight = null;
+        } else {
+          content.style.maxHeight = content.scrollHeight + 'px';
+        }
       }
     }
   }
@@ -122,8 +119,7 @@ var rmg = rmg || {};
       .then(json => console.log(json.details));
   }
 
-  // функции патч-запроса при нажатии на чек-бокс
-  // на GGP
+  // функции патч-запроса при нажатии на радиобатон.
   function patchSub_GGP(event, sub_ggp_on) {
     let button = event.target;
     const userid = button.dataset.userid;
@@ -246,10 +242,12 @@ var rmg = rmg || {};
 
   // Добавляем обработчики событий.
   function addEventListeners() {
-    /*let modalDeleteButtons = document.getElementsByClassName('btn');
-    for (let modalDeleteButton of modalDeleteButtons) {
-      modalDeleteButton.addEventListener('click', onModalDelete);
-    }*/
+
+    // слушатель скрытия/раскрытия блока с кнопками классов.
+    let collapseButtons = document.getElementsByClassName('collapse');
+      for (let collapseButton of collapseButtons) {
+      collapseButton.addEventListener('click', onCollapse);
+    }
 
     // блок модального окна
     const btns = document.querySelectorAll('.btn');
@@ -284,21 +282,23 @@ var rmg = rmg || {};
     const exitButton = document.getElementById('patch-button-exit');
     exitButton.addEventListener('click', onExit);
 
+    // объект словарик с ключами, которые являются фунциями активирующими методы
     let dict = {
       "delete-button-submit": onDelete,
       "ggp-classes-sub": onToggleSubGGpClasses,
       "checkbox-iosGGP": onToggleSub_GGP,
       "checkbox-iosPercent": onToggleSub_percent,
       "checkbox-iosOffline": onToggleSub_offline,
-      "collapse": onCollapse
+      /*"collapse": onCollapse*/
     };
 
+    // метод перебора объекта для активации того или иного значения ключа
     for (let className in dict) {
-      let elementsByClassNamme = document.getElementsByClassName(className);
+      let elementsByClassName = document.getElementsByClassName(className);
 
-      for (let elementByClassNamme of elementsByClassNamme) {
+      for (let elementByClassName of elementsByClassName) {
         let onAction = dict[className];
-        elementByClassNamme.addEventListener('click', onAction);
+        elementByClassName.addEventListener('click', onAction);
       }
     }
   }
