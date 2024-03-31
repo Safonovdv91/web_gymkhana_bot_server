@@ -171,15 +171,6 @@ h2.text {
     transform: translateX(18px);
 }
 
-.subscriptionGGP {
-    display: flex;
-    gap: 10px;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-
-}
-
 .tooltip {
     position: absolute;
     margin-top: -19px;
@@ -392,9 +383,12 @@ h2.text {
 }
 
 .subscriptionWR {
-    display: grid;
-    grid-template-columns: repeat(2, auto);
+    display: flex;
+    gap: 10px;
+    flex-direction: row;
     align-items: center;
+    justify-content: center;
+
 }
 
 .regDate {
