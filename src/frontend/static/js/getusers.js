@@ -20,11 +20,11 @@ var rmg = rmg || {};
           })
         }
         // Устанавливаем положения радио баттанов.
-        let checkboxesIosGGP = formUser.getElementsByClassName('checkbox-iosGGP');
-        for (let checkboxIosGGP of checkboxesIosGGP) {
-          if (user.sub_ggp) {
-            checkboxIosGGP.classList.add('active');
-            checkboxIosGGP.checked = true;
+        let checkboxesIosWR = formUser.getElementsByClassName('checkbox-iosWR');
+        for (let checkboxIosWR of checkboxesIosWR) {
+          if (user.sub_world_record) {
+            checkboxIosWR.classList.add('active');
+            checkboxIosWR.checked = true;
           }
         }
         let checkboxesIosPercent = formUser.getElementsByClassName('checkbox-iosPercent');
@@ -100,65 +100,6 @@ var rmg = rmg || {};
     }
   }
 
-  // Функция подписки на классы в соответствии с логикой.
-  function patchSubGGPClasses(event, operation, literal) {
-    let button = event.target;
-    const userid = button.dataset.userid;
-
-    //медот PATCH запроса
-    fetch(`${AppConsts.BaseUrl}/api/v1/users/id=${userid}/subscribe`, {
-      method: 'PATCH',
-      body: JSON.stringify({
-        op: operation,
-        sport_class: literal,
-      }),
-      headers: {
-        'Content-Type': 'application/json; charset=UTF-8'
-      }
-    }).then(response => response.json())
-      .then(json => console.log(json.details));
-  }
-
-  // функции патч-запроса при нажатии на радиобатон.
-  function patchSub_GGP(event, sub_ggp_on) {
-    let button = event.target;
-    const userid = button.dataset.userid;
-    console.log(userid);
-
-    fetch(`${AppConsts.BaseUrl}/api/v1/users/id=${userid}/patch`, {
-      method: 'PATCH',
-      body: JSON.stringify({
-        sub_ggp: sub_ggp_on,
-      }),
-      headers: {
-        'Content-Type': 'application/json; charset=UTF-8'
-      }
-    }).then(response => response.json())
-      .then(json => console.log(json.data));
-  }
-
-  // Переключатель свечения кнопки и выбора метода.
-  function onToggleSubGGpClasses(event) {
-    event.target.classList.toggle('active');
-
-    if (event.target.getAttribute('class').includes('active')) {
-      patchSubGGPClasses(event, 'add', event.target.innerText);
-    } else {
-      patchSubGGPClasses(event, 'remove', event.target.innerText);
-    }
-  }
-
-  // переключатели чекбоксов
-  function onToggleSub_GGP(event) {
-    event.target.classList.toggle('active');
-
-    if (event.target.getAttribute('class').includes('active')) {
-      patchSub_GGP(event, 'true');
-    } else {
-      patchSub_GGP(event, 'false');
-    }
-  }
-
   // Кнопка разлогиниться
   async function onExit(event) {
 
@@ -183,6 +124,65 @@ var rmg = rmg || {};
 
     } else console.log('Что-то пошло нетак, обратитесь в поддержку');
   };
+
+  // Функция подписки на классы в соответствии с логикой.
+  function patchSubGGPClasses(event, operation, literal) {
+    let button = event.target;
+    const userid = button.dataset.userid;
+
+    //медот PATCH запроса
+    fetch(`${AppConsts.BaseUrl}/api/v1/users/id=${userid}/subscribe`, {
+      method: 'PATCH',
+      body: JSON.stringify({
+        op: operation,
+        sport_class: literal,
+      }),
+      headers: {
+        'Content-Type': 'application/json; charset=UTF-8'
+      }
+    }).then(response => response.json())
+      .then(json => console.log(json.details));
+  };
+
+  // Переключатель свечения кнопки и выбора метода.
+  function onToggleSubGGpClasses(event) {
+    event.target.classList.toggle('active');
+
+    if (event.target.getAttribute('class').includes('active')) {
+      patchSubGGPClasses(event, 'add', event.target.innerText);
+    } else {
+      patchSubGGPClasses(event, 'remove', event.target.innerText);
+    }
+  };
+
+  // переключатели чекбоксов
+  function onToggleSub_WR(event) {
+    event.target.classList.toggle('active');
+
+    if (event.target.getAttribute('class').includes('active')) {
+      patchSub_WR(event, 'true');
+    } else {
+      patchSub_WR(event, 'false');
+    }
+  };
+
+  // функции патч-запроса при нажатии на радиобатон.
+  function patchSub_WR(event, sub_WR_on) {
+    let button = event.target;
+    const userid = button.dataset.userid;
+    console.log(userid);
+
+    fetch(`${AppConsts.BaseUrl}/api/v1/users/id=${userid}/patch`, {
+      method: 'PATCH',
+      body: JSON.stringify({
+        sub_world_record: sub_WR_on,
+      }),
+      headers: {
+        'Content-Type': 'application/json; charset=UTF-8'
+      }
+    }).then(response => response.json())
+      .then(json => console.log(json.data));
+  }
 
   // функция инициирующая запрос
   function onToggleSub_percent(event) {
@@ -245,7 +245,7 @@ var rmg = rmg || {};
 
     // слушатель скрытия/раскрытия блока с кнопками классов.
     let collapseButtons = document.getElementsByClassName('collapse');
-      for (let collapseButton of collapseButtons) {
+    for (let collapseButton of collapseButtons) {
       collapseButton.addEventListener('click', onCollapse);
     }
 
@@ -286,7 +286,7 @@ var rmg = rmg || {};
     let dict = {
       "delete-button-submit": onDelete,
       "ggp-classes-sub": onToggleSubGGpClasses,
-      "checkbox-iosGGP": onToggleSub_GGP,
+      "checkbox-iosWR": onToggleSub_WR,
       "checkbox-iosPercent": onToggleSub_percent,
       "checkbox-iosOffline": onToggleSub_offline,
       /*"collapse": onCollapse*/

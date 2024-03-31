@@ -19,33 +19,6 @@
             <div class="tg-id">
                 <div>{{user.telegram_id}}</div>
             </div>
-            <div class="subscriptionGGP">
-                <div class="title">Подписаться на GGP</div>
-                <div class="tooltip-wrapper">
-                    <span class="tooltip">
-                        <button class="tooltip-toggle" type="button">
-                            <div class="tooltip-icon">?</div>
-                        </button>
-                        <span class="tooltip-text">Какие-то очень важные пояснения для неочень сообразительных
-                            посетителей сайта</span>
-                    </span>
-                </div>
-                <label class="check-box">
-
-                    <label class="checkbox-ios">
-                        <input class="checkbox-iosGGP" type="checkbox" data-userid="{{user.id}}">
-                        <span class="checkbox-ios-switch"></span>
-                    </label>
-
-                    <!-- блок кода, который отправляет запрос на подписку
-                        {% if user.sub_ggp %}
-                        <input type="checkbox" checked>
-                        {% else %}
-                        <input type="checkbox">
-                        {% endif %}
-                        {{user.sub_ggp}}-->
-                </label>
-            </div>
             <div class="subscriptionPercent">
                 <div class="title">Подписаться на проценты</div>
                 <label class="check-box">
@@ -105,6 +78,33 @@
                     </label>
 
                     <!--{{user.sub_offline}}-->
+                </label>
+            </div>
+            <div class="subscriptionWR">
+                <div class="title">Подписаться на WR</div>
+                <div class="tooltip-wrapper">
+                    <span class="tooltip">
+                        <button class="tooltip-toggle" type="button">
+                            <div class="tooltip-icon">?</div>
+                        </button>
+                        <span class="tooltip-text">Какие-то очень важные пояснения для неочень сообразительных
+                            посетителей сайта</span>
+                    </span>
+                </div>
+                <label class="check-box">
+
+                    <label class="checkbox-ios">
+                        <input class="checkbox-iosWR" type="checkbox" data-userid="{{user.id}}">
+                        <span class="checkbox-ios-switch"></span>
+                    </label>
+
+                    <!-- блок кода, который отправляет запрос на подписку
+                        {% if user.sub_ggp %}
+                        <input type="checkbox" checked>
+                        {% else %}
+                        <input type="checkbox">
+                        {% endif %}
+                        {{user.sub_ggp}}-->
                 </label>
             </div>
             <div class="subscrStartEnd">
