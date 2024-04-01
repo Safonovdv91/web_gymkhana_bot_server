@@ -2,7 +2,7 @@ var rmg = rmg || {};
 
 (function () {
 
-  // Метод обновления свечения буковки подписки класса.
+  // Метод обновления свечения буковки подписки класса + обновление состояние радиобатонов.
   function updateSubGGPClasses(user) {
     let userId = user.id;
     let formUsers = document.getElementsByClassName('user');
@@ -10,23 +10,42 @@ var rmg = rmg || {};
     for (let formUser of formUsers) {
       let formId = formUser.getAttribute('data-userid');
       if (userId == formId) {
+        // Подсвечиваем кнопки класса.
         let ggpClasses = formUser.getElementsByClassName('ggp-classes-sub');
         for (let ggpClass of ggpClasses) {
-          console.log(ggpClass.textContent);
           user.ggp_sub_classes.forEach(classLetter => {
-            //console.log(classLetter.sport_class);
             if (ggpClass.textContent == classLetter.sport_class) {
               ggpClass.classList.add('active');
             }
           })
         }
+        // Устанавливаем положения радио баттанов.
+        let checkboxesIosWR = formUser.getElementsByClassName('checkbox-iosWR');
+        for (let checkboxIosWR of checkboxesIosWR) {
+          if (user.sub_world_record) {
+            checkboxIosWR.classList.add('active');
+            checkboxIosWR.checked = true;
+          }
+        }
+        let checkboxesIosPercent = formUser.getElementsByClassName('checkbox-iosPercent');
+        for (let checkboxIosPercent of checkboxesIosPercent) {
+          if (user.sub_ggp_percent) {
+            checkboxIosPercent.classList.add('active');
+            checkboxIosPercent.checked = true;
+          }
+        }
+        let checkboxesIosOffline = formUser.getElementsByClassName('checkbox-iosOffline');
+        for (let checkboxIosOffline of checkboxesIosOffline) {
+          if (user.sub_offline) {
+            checkboxIosOffline.classList.add('active');
+            checkboxIosOffline.checked = true;
+          }
+        }
       }
     }
   }
 
-  // функция получения статуса чекбокса при загрузке страницы
-
-  // Получить пользователей.
+  // Получить настройки пользователей.
   function getUsers() {
     console.log('Обновляем данные о GGP');
     fetch(`${AppConsts.BaseUrl}/api/v1/users`, {
@@ -56,81 +75,28 @@ var rmg = rmg || {};
     }).then(response => response.json())
       .then(json => console.log(json));
 
-      window.location = "login";
-    }
+    window.location = "login";
+  }
 
   // Свернуть/Развернуть классы спортсменов.
   function onCollapse(event) {
     event.preventDefault();
-    console.log('click');
+
+    const userId = this.dataset.userid;
+    console.log(userId);
 
     this.classList.toggle('active');
-    let content = document.getElementById('class-buttons')
+    let contents = document.getElementsByClassName('class-buttons')
 
-    if (content.style.maxHeight) {
-      content.style.maxHeight = null;
-    } else {
-      content.style.maxHeight = content.scrollHeight + 'px';
-    }
-  }
-
-  // Функция подписки на классы в соответствии с логикой.
-  function patchSubGGPClasses(event, operation, literal) {
-    let button = event.target;
-    const userid = button.dataset.userid;
-
-    //медот PATCH запроса
-    fetch(`${AppConsts.BaseUrl}/api/v1/users/id=${userid}/subscribe`, {
-      method: 'PATCH',
-      body: JSON.stringify({
-        op: operation,
-        sport_class: literal,
-      }),
-      headers: {
-        'Content-Type': 'application/json; charset=UTF-8'
+    for (let content of contents) {
+      let contentId = content.dataset.userid;
+      if (contentId == userId) {
+        if (content.style.maxHeight) {
+          content.style.maxHeight = null;
+        } else {
+          content.style.maxHeight = content.scrollHeight + 'px';
+        }
       }
-    }).then(response => response.json())
-      .then(json => console.log(json.details));
-  }
-
-  // функции патч-запроса при нажатии на чек-бокс
-  // на GGP
-  function patchSub_GGP(event, sub_ggp_on) {
-    let button = event.target;
-    const userid = button.dataset.userid;
-    console.log(userid);
-
-    fetch(`${AppConsts.BaseUrl}/api/v1/users/id=${userid}/patch`, {
-      method: 'PATCH',
-      body: JSON.stringify({
-        sub_ggp: sub_ggp_on,
-      }),
-      headers: {
-        'Content-Type': 'application/json; charset=UTF-8'
-      }
-    }).then(response => response.json())
-      .then(json => console.log(json.data));
-  }
-
-  // Переключатель свечения кнопки и выбора метода.
-  function onToggleSubGGpClasses(event) {
-    event.target.classList.toggle('active');
-
-    if (event.target.getAttribute('class').includes('active')) {
-      patchSubGGPClasses(event, 'add', event.target.innerText);
-    } else {
-      patchSubGGPClasses(event, 'remove', event.target.innerText);
-    }
-  }
-
-  // переключатели чекбоксов
-  function onToggleSub_GGP(event) {
-    event.target.classList.toggle('active');
-
-    if (event.target.getAttribute('class').includes('active')) {
-      patchSub_GGP(event, 'true');
-    } else {
-      patchSub_GGP(event, 'false');
     }
   }
 
@@ -159,18 +125,129 @@ var rmg = rmg || {};
     } else console.log('Что-то пошло нетак, обратитесь в поддержку');
   };
 
+  // Функция подписки на классы в соответствии с логикой.
+  function patchSubGGPClasses(event, operation, literal) {
+    let button = event.target;
+    const userid = button.dataset.userid;
+
+    //медот PATCH запроса
+    fetch(`${AppConsts.BaseUrl}/api/v1/users/id=${userid}/subscribe`, {
+      method: 'PATCH',
+      body: JSON.stringify({
+        op: operation,
+        sport_class: literal,
+      }),
+      headers: {
+        'Content-Type': 'application/json; charset=UTF-8'
+      }
+    }).then(response => response.json())
+      .then(json => console.log(json.details));
+  };
+
+  // Переключатель свечения кнопки и выбора метода.
+  function onToggleSubGGpClasses(event) {
+    event.target.classList.toggle('active');
+
+    if (event.target.getAttribute('class').includes('active')) {
+      patchSubGGPClasses(event, 'add', event.target.innerText);
+    } else {
+      patchSubGGPClasses(event, 'remove', event.target.innerText);
+    }
+  };
+
+  // переключатели чекбоксов
+  function onToggleSub_WR(event) {
+    event.target.classList.toggle('active');
+
+    if (event.target.getAttribute('class').includes('active')) {
+      patchSub_WR(event, 'true');
+    } else {
+      patchSub_WR(event, 'false');
+    }
+  };
+
+  // функции патч-запроса при нажатии на радиобатон.
+  function patchSub_WR(event, sub_WR_on) {
+    let button = event.target;
+    const userid = button.dataset.userid;
+    console.log(userid);
+
+    fetch(`${AppConsts.BaseUrl}/api/v1/users/id=${userid}/patch`, {
+      method: 'PATCH',
+      body: JSON.stringify({
+        sub_world_record: sub_WR_on,
+      }),
+      headers: {
+        'Content-Type': 'application/json; charset=UTF-8'
+      }
+    }).then(response => response.json())
+      .then(json => console.log(json.data));
+  }
+
+  // функция инициирующая запрос
+  function onToggleSub_percent(event) {
+    event.target.classList.toggle('active');
+
+    if (event.target.getAttribute('class').includes('active')) {
+      patchSub_percent(event, 'true');
+    } else {
+      patchSub_percent(event, 'false');
+    }
+  }
+
+  // патч запрос на сервер для вкл/выкл подписки на проценты
+  function patchSub_percent(event, percent_on) {
+    let button = event.target;
+    const userid = button.dataset.userid;
+
+    fetch(`${AppConsts.BaseUrl}/api/v1/users/id=${userid}/patch`, {
+      method: 'PATCH',
+      body: JSON.stringify({
+        sub_ggp_percent: percent_on,
+      }),
+      headers: {
+        'Content-Type': 'application/json; charset=UTF-8'
+      }
+    }).then(response => response.json())
+      .then(json => console.log(json.data));
+  }
+
+  // функция инициирующая запрос
+  function onToggleSub_offline(event) {
+    event.target.classList.toggle('active');
+
+    if (event.target.getAttribute('class').includes('active')) {
+      patchSub_offline(event, 'true');
+    } else {
+      patchSub_offline(event, 'false');
+    }
+  }
+
+  // патч запрос на сервер для вкл/выкл подписки на проценты
+  function patchSub_offline(event, offline_on) {
+    let button = event.target;
+    const userid = button.dataset.userid;
+
+    fetch(`${AppConsts.BaseUrl}/api/v1/users/id=${userid}/patch`, {
+      method: 'PATCH',
+      body: JSON.stringify({
+        sub_offline: offline_on,
+      }),
+      headers: {
+        'Content-Type': 'application/json; charset=UTF-8'
+      }
+    }).then(response => response.json())
+      .then(json => console.log(json.data));
+  }
+
   // Добавляем обработчики событий.
   function addEventListeners() {
-    // Сворачивание кнопок классов
+
+    // слушатель скрытия/раскрытия блока с кнопками классов.
     let collapseButtons = document.getElementsByClassName('collapse');
     for (let collapseButton of collapseButtons) {
       collapseButton.addEventListener('click', onCollapse);
     }
-
-    /*let modalDeleteButtons = document.getElementsByClassName('btn');
-    for (let modalDeleteButton of modalDeleteButtons) {
-      modalDeleteButton.addEventListener('click', onModalDelete);
-    }*/
 
     // блок модального окна
     const btns = document.querySelectorAll('.btn');
@@ -202,22 +279,28 @@ var rmg = rmg || {};
       }
     });
 
-
-    let deleteButtons = document.getElementsByClassName('delete-button-submit');
-    for (let deleteButton of deleteButtons) {
-      deleteButton.addEventListener('click', onDelete);
-    }
-
-    const toggleButtons = document.getElementsByClassName('ggp-classes-sub')
-    for (let toggleButton of toggleButtons) {
-      toggleButton.addEventListener('click', onToggleSubGGpClasses);
-    }
-
-    const toggleButton_GGP = document.getElementById('checkbox-iosGGP')
-    toggleButton_GGP.addEventListener('click', onToggleSub_GGP);
-
     const exitButton = document.getElementById('patch-button-exit');
     exitButton.addEventListener('click', onExit);
+
+    // объект словарик с ключами, которые являются фунциями активирующими методы
+    let dict = {
+      "delete-button-submit": onDelete,
+      "ggp-classes-sub": onToggleSubGGpClasses,
+      "checkbox-iosWR": onToggleSub_WR,
+      "checkbox-iosPercent": onToggleSub_percent,
+      "checkbox-iosOffline": onToggleSub_offline,
+      /*"collapse": onCollapse*/
+    };
+
+    // метод перебора объекта для активации того или иного значения ключа
+    for (let className in dict) {
+      let elementsByClassName = document.getElementsByClassName(className);
+
+      for (let elementByClassName of elementsByClassName) {
+        let onAction = dict[className];
+        elementByClassName.addEventListener('click', onAction);
+      }
+    }
   }
 
   function init() {
@@ -228,72 +311,4 @@ var rmg = rmg || {};
   // Инициализируем rmg.users.
   init();
 })();
-
-// блок патч-запроса подписки на проценты
-
-// слушатель нажатия на чекбокс
-const toggleButton_percent = document.getElementById('checkbox-iosPercent')
-toggleButton_percent.addEventListener('click', onToggleSub_percent);
-
-// функция инициирующая запрос
-function onToggleSub_percent(event) {
-  event.target.classList.toggle('active');
-
-  if (event.target.getAttribute('class').includes('active')) {
-    patchSub_percent(event, 'true');
-  } else {
-    patchSub_percent(event, 'false');
-  }
-}
-
-// патч запрос на сервер для вкл/выкл подписки на проценты
-function patchSub_percent(event, percent_on) {
-  let button = event.target;
-  const userid = button.dataset.userid;
-
-  fetch(`${AppConsts.BaseUrl}/api/v1/users/id=${userid}/patch`, {
-    method: 'PATCH',
-    body: JSON.stringify({
-      sub_ggp_percent: percent_on,
-    }),
-    headers: {
-      'Content-Type': 'application/json; charset=UTF-8'
-    }
-  }).then(response => response.json())
-    .then(json => console.log(json.data));
-}
-
-// блок патч-запроса подписки на оффлайн
-// слушатель нажатия на чекбокс
-const toggleButton_offline = document.getElementById('checkbox-iosOffline')
-toggleButton_offline.addEventListener('click', onToggleSub_offline);
-
-// функция инициирующая запрос
-function onToggleSub_offline(event) {
-  event.target.classList.toggle('active');
-
-  if (event.target.getAttribute('class').includes('active')) {
-    patchSub_offline(event, 'true');
-  } else {
-    patchSub_offline(event, 'false');
-  }
-}
-
-// патч запрос на сервер для вкл/выкл подписки на проценты
-function patchSub_offline(event, offline_on) {
-  let button = event.target;
-  const userid = button.dataset.userid;
-
-  fetch(`${AppConsts.BaseUrl}/api/v1/users/id=${userid}/patch`, {
-    method: 'PATCH',
-    body: JSON.stringify({
-      sub_offline: offline_on,
-    }),
-    headers: {
-      'Content-Type': 'application/json; charset=UTF-8'
-    }
-  }).then(response => response.json())
-    .then(json => console.log(json.data));
-}
-
 
