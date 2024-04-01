@@ -1,25 +1,27 @@
+from datetime import datetime
+from typing import List, Optional
 
-from typing import Optional, List
-
+import motor.motor_asyncio
 import uvicorn
-from fastapi import FastAPI, Body, HTTPException, status
+from bson import ObjectId
+from fastapi import Body, FastAPI, HTTPException, status
 from fastapi.responses import Response
-from pydantic import ConfigDict, BaseModel, Field, EmailStr
+from pydantic import BaseModel, ConfigDict, EmailStr, Field
 from pydantic.functional_validators import BeforeValidator
-
+from pymongo import ReturnDocument
 from typing_extensions import Annotated
 
-from bson import ObjectId
-import motor.motor_asyncio
-from pymongo import ReturnDocument
-
 from src.config import DB_HOST_MONGO, DB_PORT_MONGO
+from src.roles.schemas import RoleBase
+
 
 app = FastAPI(
     title="Student Course API",
     summary="A sample application showing how to use FastAPI to add a ReST API to a MongoDB collection.",
 )
-client = motor.motor_asyncio.AsyncIOMotorClient(f"{DB_HOST_MONGO}:{DB_PORT_MONGO}")
+client = motor.motor_asyncio.AsyncIOMotorClient(
+    f"{DB_HOST_MONGO}:{DB_PORT_MONGO}"
+)
 db = client.users_bot
 student_collection = db.get_collection("users")
 
@@ -44,14 +46,27 @@ class UserModel(BaseModel):
     full_name: Optional[str] = Field(alias="full_name", default=None)
     country: Optional[str] = Field(alias="language_code", default=None)
     mention: Optional[str] = Field(alias="mention", default=None)
+    role: Optional[RoleBase] = Field(
+        alias="role", default={"id": 1, "name": "Just user"}
+    )
 
     # Service information
     sub_stage: Optional[bool] = Field(alias="sub_stage", default=False)
     sub_ggp: Optional[bool] = Field(alias="sub_ggp", default=True)
     ggp_sub_classes: Optional[List] = Field(alias="sub_stage_cat", default=[])
-    ggp_percent_begin: int = 100
-    ggp_percent_end: int = 150
-    sub_ggp_percent: bool = True
+
+    # GGP PERCENTS block
+    sub_ggp_percent: Optional[bool] = Field(
+        alias="sub_ggp_percent", default=False
+    )
+    ggp_percent_begin: Optional[int] = Field(
+        alias="ggp_percent_begin", default=100
+    )
+    ggp_percent_end: Optional[int] = Field(
+        alias="ggp_percent_end", default=150
+    )
+
+    # role: RoleBase
     #
     # model_config = ConfigDict(
     #     populate_by_name=True,
@@ -82,14 +97,14 @@ class UpdateUserModel(BaseModel):
     )
 
 
-class UserCollection(BaseModel):
+class UsersCollection(BaseModel):
     """
     A container holding a list of `UserModel` instances.
 
     This exists because providing a top-level array in a JSON response can be a [vulnerability](https://haacked.com/archive/2009/06/25/json-hijacking.aspx/)
     """
 
-    students: List[UserModel]
+    users: List[UserModel]
 
 
 @app.post(
@@ -117,7 +132,7 @@ async def create_student(student: UserModel = Body(...)):
 @app.get(
     "/users/",
     response_description="List all users",
-    response_model=UserCollection,
+    response_model=UsersCollection,
     response_model_by_alias=False,
 )
 async def list_students():
@@ -125,14 +140,14 @@ async def list_students():
     List all of the student data in the database.
     The response is unpaginated and limited to 1000 results.
     """
-    print(await student_collection.find().to_list(1000))
+    # print(await student_collection.find().to_list(1000))
     users = await student_collection.find().to_list(1000)
     # return {
     #     "status": "Success",
     #     "data": users,
     #     "details": {"count_users": len(users)},
     # }
-    return UserCollection(students=await student_collection.find().to_list(1000))
+    return UsersCollection(users=await student_collection.find().to_list(1000))
 
 
 @app.get(
@@ -167,7 +182,9 @@ async def update_student(id: str, student: UpdateUserModel = Body(...)):
     Any missing or `null` fields will be ignored.
     """
     student = {
-        k: v for k, v in student.model_dump(by_alias=True).items() if v is not None
+        k: v
+        for k, v in student.model_dump(by_alias=True).items()
+        if v is not None
     }
 
     if len(student) >= 1:
@@ -179,10 +196,14 @@ async def update_student(id: str, student: UpdateUserModel = Body(...)):
         if update_result is not None:
             return update_result
         else:
-            raise HTTPException(status_code=404, detail=f"Student {id} not found")
+            raise HTTPException(
+                status_code=404, detail=f"Student {id} not found"
+            )
 
     # The update is empty, but we should still return the matching document:
-    if (existing_student := await student_collection.find_one({"_id": id})) is not None:
+    if (
+        existing_student := await student_collection.find_one({"_id": id})
+    ) is not None:
         return existing_student
 
     raise HTTPException(status_code=404, detail=f"Student {id} not found")
