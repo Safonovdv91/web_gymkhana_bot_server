@@ -1,3 +1,5 @@
+from copy import copy
+
 from fastapi import APIRouter, Depends
 from sqlalchemy.ext.asyncio import AsyncSession
 from starlette import status
@@ -5,10 +7,12 @@ from starlette import status
 from logger.logger import init_logger
 from src.auth.auth_config import current_user
 from src.database import get_async_session
+from .mongo.schemas import UsersCollection, UsersCollectionOut
 
 from ..sport_classes.schemas import SportClassSchemaInput
 from .dependencies import user_by_email, user_by_id
 from .models import User
+from .mongo.service import UserService as MongoUserService
 from .schemas import (
     SUserResponseOne,
     SUserSearchArgs,
@@ -21,6 +25,28 @@ from .service import UserService
 main_logger = init_logger("src.users.router")
 
 router = APIRouter(prefix="/api/v1/users", tags=["user"])
+
+
+@router.get(
+    "/mongo",
+    response_description="List all users",
+    response_model=UsersCollectionOut,
+    response_model_by_alias=False,
+)
+async def get_users_mongo(
+    # curr_user: User = Depends(current_user),
+):
+    """
+    List all the users data in the database.
+    The response is unpaginated and limited to 1000 results.
+    """
+    # main_logger.info(f"[USER][GET] user: {curr_user.email} get users")
+    users = await MongoUserService.get_users()
+    return {
+        "status": "Success",
+        "details": len(users),
+        "data": users,
+    }
 
 
 @router.get(
