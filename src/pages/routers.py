@@ -5,8 +5,8 @@ from src.config import BRANCH_NAME, PULL_REQUEST, SERVER_STATE, PATH_STATIC
 from src.users.router import get_current_user, get_user_by_id, get_users, get_users_mongo
 
 router = APIRouter(tags=["Frontend"])
-templates = Jinja2Templates(directory="src/frontend/templates")
-# templates = Jinja2Templates(directory=f"{PATH_STATIC}/templates")
+templates = Jinja2Templates(directory=f"{PATH_STATIC}/../templates")
+
 
 @router.get("/base")
 def get_base_page(request: Request):
