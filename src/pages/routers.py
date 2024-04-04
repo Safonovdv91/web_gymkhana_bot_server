@@ -1,12 +1,12 @@
 from fastapi import APIRouter, Depends, HTTPException, Request
 from starlette.templating import Jinja2Templates
 
-from src.config import SERVER_STATE, PULL_REQUEST, BRANCH_NAME
+from src.config import BRANCH_NAME, PATH_STATIC, PULL_REQUEST, SERVER_STATE
 from src.users.router import get_current_user, get_user_by_id, get_users
 
 
 router = APIRouter(tags=["Frontend"])
-templates = Jinja2Templates(directory="src/frontend/templates")
+templates = Jinja2Templates(directory=f"{PATH_STATIC}/../templates")
 
 
 @router.get("/base")

@@ -356,12 +356,12 @@ class TestUserPatchUserById:
         response = await ac.get(url=url_get, cookies=jwt_token)
         assert response.status_code == 200, "user not exist"
         assert response.json()["data"]["email"] == user.email, "Email not patched"
-        assert response.json()["data"]["ggp_percent_begin"] == user.ggp_percent_begin, f"begin % not valid"
-        assert response.json()["data"]["ggp_percent_end"] == user.ggp_percent_end, f"end % not valid"
-        assert response.json()["data"]["sub_ggp_percent"] == user.sub_ggp_percent, f"sub % not valid"
-        assert response.json()["data"]["sub_offline"] == user.sub_offline, f"sub OFFLINE not valid"
-        assert response.json()["data"]["sub_ggp"] == user.sub_ggp, f"sub GGP not valid"
-        assert response.json()["data"]["sub_world_record"] == user.sub_world_record, f"sub WORLD  not valid"
+        assert response.json()["data"]["ggp_percent_begin"] == user.ggp_percent_begin, "begin % not valid"
+        assert response.json()["data"]["ggp_percent_end"] == user.ggp_percent_end, "end % not valid"
+        assert response.json()["data"]["sub_ggp_percent"] == user.sub_ggp_percent, "sub % not valid"
+        assert response.json()["data"]["sub_offline"] == user.sub_offline, "sub OFFLINE not valid"
+        assert response.json()["data"]["sub_ggp"] == user.sub_ggp, "sub GGP not valid"
+        assert response.json()["data"]["sub_world_record"] == user.sub_world_record, "sub WORLD  not valid"
 
     @pytest.mark.parametrize(
         "user, status_code", USER_PATCH
@@ -408,5 +408,3 @@ class TestUserPatchUserById:
             response = await ac.get(url=f"{self.URL}/id=5", cookies=jwt_token)
             print(response.json()["data"])
             print()
-
-
