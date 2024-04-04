@@ -10,21 +10,6 @@ services:
 #      - ./src/conf.d:/etc/nginx/conf.d
 #    networks:
 #      - custom2
-  mongodb:
-    container_name: "rabbit_mg_mongo_DB"
-    image: mongo
-    restart: always
-    volumes:
-      - /work/database/data/db:/data/db
-    environment:
-      - MONGO_USER=${DB_USER}
-      - MONGO_PASSWORD=${DB_PASS}
-      - MONGO_DB=${DB_NAME}
-      - MONGO_PORT=${DB_PORT}
-    ports:
-      - "27017:27017"
-    networks:
-      - rmg-net
   db:
     container_name: "rabbit_mg_DB"
     image: postgres:15.4-alpine
