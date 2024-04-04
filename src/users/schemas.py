@@ -47,7 +47,7 @@ class UserOut(BaseModel):
     sub_offline: bool = False
     sub_ggp: bool = True
     sub_world_record: bool = False
-    telegram_id: str | None = "239123941"
+    telegram_id: str | int | None = "239123941"
     registered_at: datetime
     role: RoleBase
     ggp_sub_classes: list[SportClassResponseOne]

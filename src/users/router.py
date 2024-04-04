@@ -1,5 +1,3 @@
-from copy import copy
-
 from fastapi import APIRouter, Depends
 from sqlalchemy.ext.asyncio import AsyncSession
 from starlette import status
@@ -19,9 +17,11 @@ from .schemas import (
 )
 from .service import UserService
 
+
 main_logger = init_logger("src.users.router")
 
 router = APIRouter(prefix="/api/v1/users", tags=["user"])
+
 
 @router.get(
     "",

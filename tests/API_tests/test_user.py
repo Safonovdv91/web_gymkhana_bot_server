@@ -408,5 +408,3 @@ class TestUserPatchUserById:
             response = await ac.get(url=f"{self.URL}/id=5", cookies=jwt_token)
             print(response.json()["data"])
             print()
-
-

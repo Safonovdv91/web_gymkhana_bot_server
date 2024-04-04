@@ -18,12 +18,6 @@ DB_NAME = os.environ.get("DB_NAME")
 DB_USER = os.environ.get("DB_USER")
 DB_PASS = os.environ.get("DB_PASS")
 
-DB_HOST_MONGO = os.environ.get("DB_HOST_MONGO")
-DB_PORT_MONGO = os.environ.get("DB_PORT_MONGO")
-DB_NAME_MONGO = os.environ.get("DB_NAME_MONGO")
-DB_USER_MONGO = os.environ.get("DB_USER_MONGO")
-DB_PASS_MONGO = os.environ.get("DB_PASS_MONGO")
-
 DB_HOST_TEST = os.environ.get("DB_HOST_TEST")
 DB_PORT_TEST = os.environ.get("DB_PORT_TEST")
 DB_NAME_TEST = os.environ.get("DB_NAME_TEST")
