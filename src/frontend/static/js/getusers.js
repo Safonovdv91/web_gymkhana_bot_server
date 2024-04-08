@@ -19,7 +19,7 @@ var rmg = rmg || {};
             }
           })
         }
-        // Устанавливаем положения радио баттанов.
+        // Устанавливаем положения радио баттанов при загрузке страницы как на сервере.
         let checkboxesIosWR = formUser.getElementsByClassName('checkbox-iosWR');
         for (let checkboxIosWR of checkboxesIosWR) {
           if (user.sub_world_record) {
@@ -39,6 +39,13 @@ var rmg = rmg || {};
           if (user.sub_offline) {
             checkboxIosOffline.classList.add('active');
             checkboxIosOffline.checked = true;
+          }
+        }
+        let checkboxesIosGGP = formUser.getElementsByClassName('collapse');
+        for (let checkboxIosGGP of checkboxesIosGGP) {
+          if (user.sub_offline) {
+            checkboxIosGGP.classList.add('active');
+            checkboxIosGGP.checked = true;
           }
         }
       }
@@ -81,6 +88,14 @@ var rmg = rmg || {};
   // Свернуть/Развернуть классы спортсменов.
   function onCollapse(event) {
     event.preventDefault();
+
+    event.target.classList.toggle('active');
+
+    if (event.target.getAttribute('class').includes('active')) {
+      patchSub_GGP(event, 'true');
+    } else {
+      patchSub_GGP(event, 'false');
+    }
 
     const userId = this.dataset.userid;
     console.log(userId);
@@ -240,6 +255,32 @@ var rmg = rmg || {};
       .then(json => console.log(json.data));
   }
 
+  /*function onCollapse (event) {
+    event.target.classList.toggle('active');
+
+    if (event.target.getAttribute('class').includes('active')) {
+      patchSub_GGP(event, 'true');
+    } else {
+      patchSub_GGP(event, 'false');
+    }
+  }*/
+
+  function patchSub_GGP(event, GGP_on) {
+    let button = event.target;
+    const userid = button.dataset.userid;
+
+    fetch(`${AppConsts.BaseUrl}/api/v1/users/id=${userid}/patch`, {
+      method: 'PATCH',
+      body: JSON.stringify({
+        sub_ggp: GGP_on,
+      }),
+      headers: {
+        'Content-Type': 'application/json; charset=UTF-8'
+      }
+    }).then(response => response.json())
+      .then(json => console.log(json.data));
+  }
+
   // Добавляем обработчики событий.
   function addEventListeners() {
 
@@ -289,7 +330,7 @@ var rmg = rmg || {};
       "checkbox-iosWR": onToggleSub_WR,
       "checkbox-iosPercent": onToggleSub_percent,
       "checkbox-iosOffline": onToggleSub_offline,
-      /*"collapse": onCollapse*/
+      "collapse": onCollapse
     };
 
     // метод перебора объекта для активации того или иного значения ключа
