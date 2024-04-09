@@ -43,7 +43,7 @@ var rmg = rmg || {};
         }
         let checkboxesIosGGP = formUser.getElementsByClassName('collapse');
         for (let checkboxIosGGP of checkboxesIosGGP) {
-          if (user.sub_offline) {
+          if (user.sub_ggp) {
             checkboxIosGGP.classList.add('active');
             checkboxIosGGP.checked = true;
           }
