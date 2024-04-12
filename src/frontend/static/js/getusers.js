@@ -43,7 +43,6 @@ var rmg = rmg || {};
         }
         let checkboxesIosGGP = formUser.getElementsByClassName('collapse');
         for (let checkboxIosGGP of checkboxesIosGGP) {
-          console.log(user.sub_ggp)
           if (user.sub_ggp) {
             checkboxIosGGP.classList.add('active');
             checkboxIosGGP.checked = true;
