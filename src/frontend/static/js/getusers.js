@@ -43,9 +43,32 @@ var rmg = rmg || {};
         }
         let checkboxesIosGGP = formUser.getElementsByClassName('collapse');
         for (let checkboxIosGGP of checkboxesIosGGP) {
-          if (user.sub_offline) {
+          console.log(user.sub_ggp)
+          if (user.sub_ggp) {
             checkboxIosGGP.classList.add('active');
             checkboxIosGGP.checked = true;
+
+            let contentLabels = document.getElementsByClassName('checkbox-ios-switch')
+
+            for (let content of contentLabels) {
+              let contentId = content.dataset.userid;
+              if (contentId == userId) {
+                content.classList.toggle('active');
+              }
+            }
+
+            let contents = document.getElementsByClassName('class-buttons')
+
+            for (let content of contents) {
+              let contentId = content.dataset.userid;
+              if (contentId == userId) {
+                if (content.style.maxHeight) {
+                  content.style.maxHeight = null;
+                } else {
+                  content.style.maxHeight = content.scrollHeight + 'px';
+                }
+              }
+            }
           }
         }
       }
@@ -101,6 +124,7 @@ var rmg = rmg || {};
     console.log(userId);
 
     this.classList.toggle('active');
+
     let contents = document.getElementsByClassName('class-buttons')
 
     for (let content of contents) {
