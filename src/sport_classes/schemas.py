@@ -10,8 +10,11 @@ class SportClassSchemaInput(BaseModel):
     ]
 
 
-class SportClassSchema(SportClassSchemaInput):
+class SportClassSchema(BaseModel):
     description: str | None
+    sport_class: Literal[
+        "A", "B", "C1", "C2", "C3", "D1", "D2", "D3", "D4", "N"
+    ]
 
 
 class SportClassResponseOne(BaseModel):
@@ -23,4 +26,4 @@ class SportClassResponseOne(BaseModel):
 class SportClassResponseMany(BaseModel):
     status: str
     data: list[SportClassSchema]
-    details: str | dict | None
+    #details: str | dict | None

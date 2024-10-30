@@ -22,7 +22,11 @@ async def add_sport_class(
     return {"status": "Success", "data": sport_class, "details": None}
 
 
-@router.get("/", response_model=SportClassResponseMany)
+@router.get("/",
+            response_model=SportClassResponseMany,
+            description="Возвращает все существующие классы из базы данных",
+    summary="Возвращает все существующие классы"
+            )
 async def router_get_sport_classes2(
     # curr_user: Depends(current_user),
     session: AsyncSession = Depends(get_async_session),

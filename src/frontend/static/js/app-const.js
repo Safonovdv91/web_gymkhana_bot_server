@@ -1,0 +1,3 @@
+const AppConsts = {
+'BaseUrl': 'None'
+}
